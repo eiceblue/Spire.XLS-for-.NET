@@ -1,0 +1,42 @@
+private void btnRun_Click(object sender, System.EventArgs e)
+		{
+			Workbook workbook = new Workbook();
+			Worksheet sheet = workbook.Worksheets[0];
+
+			sheet.Range["B1"].Text = "Text Align";
+            sheet.Range["B1"].Style.Font.IsBold = true;
+
+			sheet.Range["B3"].Text = "Top";
+			sheet.Range["B3"].Style.VerticalAlignment = VerticalAlignType.Top;
+
+			sheet.Range["B4"].Text = "Center";
+			sheet.Range["B4"].Style.VerticalAlignment = VerticalAlignType.Center;
+
+			sheet.Range["B5"].Text = "Bottom";
+			sheet.Range["B5"].Style.VerticalAlignment = VerticalAlignType.Bottom;
+
+			sheet.Range["B6"].Text = "General";
+			sheet.Range["B6"].Style.HorizontalAlignment = HorizontalAlignType.General;
+
+			sheet.Range["B7"].Text = "Left";
+			sheet.Range["B7"].Style.HorizontalAlignment = HorizontalAlignType.Left;
+
+			sheet.Range["B8"].Text = "Center";
+			sheet.Range["B8"].Style.HorizontalAlignment = HorizontalAlignType.Center;
+
+			sheet.Range["B9"].Text = "Right";
+			sheet.Range["B9"].Style.HorizontalAlignment = HorizontalAlignType.Right;
+
+			sheet.Range["B10"].Text = "Rotation 90 degree";
+			sheet.Range["B10"].Style.Rotation = 90;
+
+			sheet.Range["B11"].Text = "Rotation 45 degree";
+			sheet.Range["B11"].Style.Rotation = 45;
+
+
+			sheet.AllocatedRange.AutoFitColumns();
+			sheet.Range["B3:B5"].RowHeight = 20;
+		
+			workbook.SaveToFile("Sample.xls");
+			ExcelDocViewer(workbook.FileName);
+		}
