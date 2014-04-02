@@ -1,0 +1,20 @@
+private void btnRun_Click(object sender, System.EventArgs e)
+		{
+			Workbook workbook = new Workbook();
+			workbook.LoadFromFile(@"..\..\..\..\..\..\Data\ImageSample.xls");
+			Worksheet sheet = workbook.Worksheets[0];
+
+			ExcelPicture pic = sheet.Pictures[0];
+			
+			using( Form frm1 = new Form())
+			{
+				PictureBox pic1 = new PictureBox();
+				pic1.Image = pic.Picture;
+				frm1.Width = pic.Picture.Width;
+				frm1.Height = pic.Picture.Height;
+				frm1.StartPosition = FormStartPosition.CenterParent;
+				pic1.Dock = DockStyle.Fill;
+				frm1.Controls.Add(pic1);
+				frm1.ShowDialog();
+			}
+		}
