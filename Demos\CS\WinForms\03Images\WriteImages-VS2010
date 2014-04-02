@@ -1,0 +1,11 @@
+private void btnRun_Click(object sender, System.EventArgs e)
+		{
+			Workbook workbook = new Workbook();
+			Worksheet sheet = workbook.Worksheets[0];
+
+			sheet.Pictures.Add(1,1,@"..\..\..\..\..\..\Data\day.jpg");
+
+			workbook.SaveToFile("sample.xls");
+			ExcelDocViewer(workbook.FileName);
+			
+		}
