@@ -9,21 +9,26 @@ Namespace HideTab
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample2.xlsx")
+            ' Load an Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample2.xlsx")
 
-			'Hide worksheet tab
-			workbook.ShowTabs = False
+            ' Set the ShowTabs property of the workbook to False, hiding the worksheet tabs
+            workbook.ShowTabs = False
 
-			'Save the document
-			Dim output As String = "HideTab.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Specify the output file path
+            Dim output As String = "HideTab.xlsx"
 
-			'Launch the file
-			ExcelDocViewer(output)
+            ' Save the modified workbook to a file in Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

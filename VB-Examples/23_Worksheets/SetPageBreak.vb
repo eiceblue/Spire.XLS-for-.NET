@@ -9,32 +9,39 @@ Namespace SetPageBreak
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample1.xlsx")
+            ' Load an existing Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample1.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Set Excel Page Break Horizontally
-			sheet.HPageBreaks.Add(sheet.Range("A8"))
-			sheet.HPageBreaks.Add(sheet.Range("A14"))
+            ' Add a horizontal page break at cell A8 on the worksheet
+            sheet.HPageBreaks.Add(sheet.Range("A8"))
 
-			'Set Excel Page Break Vertically
-			'sheet.VPageBreaks.Add(sheet.Range["B1"]);
-			'sheet.VPageBreaks.Add(sheet.Range["C1"]);
+            ' Add another horizontal page break at cell A14 on the worksheet
+            sheet.HPageBreaks.Add(sheet.Range("A14"))
 
-			'Set view mode to Preview mode
-			workbook.Worksheets(0).ViewMode = ViewMode.Preview
+            ' Add vertical page breaks
+            ' sheet.VPageBreaks.Add(sheet.Range("B1"))
+            ' sheet.VPageBreaks.Add(sheet.Range("C1"))
 
-			'Save the document
-			Dim output As String = "SetPageBreak.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Set the view mode of the first worksheet to Page Break Preview
+            workbook.Worksheets(0).ViewMode = ViewMode.Preview
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Specify the output filename for the modified workbook
+            Dim output As String = "SetPageBreak.xlsx"
+
+            ' Save the workbook to a file in Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

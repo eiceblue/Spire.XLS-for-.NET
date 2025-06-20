@@ -9,27 +9,25 @@ Namespace UnhideRowsAndColumns
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Create a new instance of the Workbook class.
+            Dim workbook As New Workbook()
+            'Load the Excel document from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\HideRowsAndColumns.xls")
+            'Retrieve the first worksheet from the workbook.
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
+            'Hide the second column of the worksheet.
+            worksheet.HideColumn(2)
+            'Hide the fourth row of the worksheet.
+            worksheet.HideRow(4)
+            ' Specify the file name
+            Dim output As String = "HideRowsAndColumns.xlsx"
+            'Save the modified workbook to a file with the specified name and Excel version.
+            workbook.SaveToFile(output, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CommonTemplate1.xlsx")
-
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-
-			'Unhide the row
-			sheet.ShowRow(15)
-
-			'Unhide the column
-			sheet.ShowColumn(4)
-
-			'Save the document
-			Dim output As String = "UnhideRowsAndColumns.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
-
-			'Launch the file
-			ExcelDocViewer(output)
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

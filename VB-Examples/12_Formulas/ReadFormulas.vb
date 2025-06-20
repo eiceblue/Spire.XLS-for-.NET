@@ -10,12 +10,19 @@ Namespace ReadFormulas
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ReadFormulas.xlsx")
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			textBox1.Text = sheet.Range("C14").Formula
-			textBox2.Text = sheet.Range("C14").FormulaNumberValue.ToString()
+            ' Load the workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ReadFormulas.xlsx")
+
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+
+            ' Assign the formula of cell C14 to the text property of textBox1
+            textBox1.Text = sheet.Range("C14").Formula
+            ' Convert the numeric value of the formula in cell C14 to a string and assign it to the text property of textBox2
+            textBox2.Text = sheet.Range("C14").FormulaNumberValue.ToString()
 		End Sub
 		Private Sub button1_Click(ByVal sender As Object, ByVal e As EventArgs) Handles button1.Click
 			Me.ExcelDocViewer("..\..\..\..\..\..\Data\ReadFormulas.xlsx")

@@ -9,26 +9,29 @@ Namespace SetSummaryRowDirection
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Create a new Workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample1.xlsx")
+            'Loads the Excel document from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample2.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Get the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Group rows
-			sheet.GroupByRows(1, 4, True)
-			'Set summary rows details
-			sheet.PageSetup.IsSummaryRowBelow = False
+            ' Group columns 1 to 4 in the worksheet, with expanded state set to True
+            sheet.GroupByColumns(1, 4, True)
 
-			'Save the document
-			Dim output As String = "SetSummaryRowDirection.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Set the option to display summary columns on the right side of the detail columns.
+            sheet.PageSetup.IsSummaryColumnRight = True
 
-			'Launch the file
-			ExcelDocViewer(output)
+            'Specify the name for the resulting file.
+            Dim output As String = "SetSummaryColumnDirection.xlsx"
+            'Save the workbook to a file with the specified name and Excel version (in this case, Excel 2013).
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

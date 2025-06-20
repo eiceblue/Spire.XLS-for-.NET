@@ -10,30 +10,32 @@ Namespace ChangeSeriesColor
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a Workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChangeSeriesColor.xlsx")
+            ' Load the Excel file "ChangeSeriesColor.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChangeSeriesColor.xlsx")
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get the first chart
-			Dim chart As Chart = sheet.Charts(0)
+            ' Get the first chart from the worksheet
+            Dim chart As Chart = sheet.Charts(0)
 
-			'Get the second series
-			Dim cs As ChartSerie = chart.Series(1)
+            ' Get the second series from the chart
+            Dim cs As ChartSerie = chart.Series(1)
 
-			'Set the fill type
-			cs.Format.Fill.FillType = ShapeFillType.SolidColor
+            ' Set the fill type of the series to solid color
+            cs.Format.Fill.FillType = ShapeFillType.SolidColor
 
-			'Change the fill color
-			cs.Format.Fill.ForeColor = Color.Orange
+            ' Set the foreground color of the series to orange
+            cs.Format.Fill.ForeColor = Color.Orange
 
-			'Save and Launch
-			workbook.SaveToFile("Output.xlsx", ExcelVersion.Version2010)
-			ExcelDocViewer("Output.xlsx")
+            ' Save the modified workbook to the specified file path as "Output.xlsx", using the Excel 2010 format
+            workbook.SaveToFile("Output.xlsx", ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer("Output.xlsx")
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

@@ -13,31 +13,37 @@ Namespace RemoveBorderlineOfTextbox
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
-			workbook.Version = ExcelVersion.Version2013
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
+            workbook.Version = ExcelVersion.Version2013
 
-			'Create a new worksheet named "Remove Borderline" and add a chart to the worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			sheet.Name = "Remove Borderline"
-			Dim chart As Chart = sheet.Charts.Add()
+            ' Get the first worksheet from the workbook and set its name
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+            sheet.Name = "Remove Borderline"
 
-			'Create textbox1 in the chart and input text information.
-			Dim textbox1 As XlsTextBoxShape = TryCast(chart.TextBoxes.AddTextBox(50, 50, 100, 600), XlsTextBoxShape)
-			textbox1.Text = "The solution with borderline"
+            ' Add a chart to the worksheet
+            Dim chart As Chart = sheet.Charts.Add()
 
-			'Create textbox2 in the chart, input text information and remove borderline.
-			Dim textbox2 As XlsTextBoxShape = TryCast(chart.TextBoxes.AddTextBox(1000, 50, 100, 600), XlsTextBoxShape)
-			textbox2.Text = "The solution without borderline"
-			textbox2.Line.Weight = 0
+            ' Add a text box to the chart at position (50, 50) with dimensions (100, 600)
+            Dim textbox1 As XlsTextBoxShape = TryCast(chart.TextBoxes.AddTextBox(50, 50, 100, 600), XlsTextBoxShape)
+            textbox1.Text = "The solution with borderline"
 
-			Dim result As String = "Result-RemoveBorderlineOfTextbox.xlsx"
+            ' Add another text box to the chart at position (1000, 50) with dimensions (100, 600)
+            Dim textbox2 As XlsTextBoxShape = TryCast(chart.TextBoxes.AddTextBox(1000, 50, 100, 600), XlsTextBoxShape)
+            textbox2.Text = "The solution without borderline"
+            textbox2.Line.Weight = 0 ' Set the line weight of the text box to 0 to remove the border
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Specify the file name for the resulting Excel file
+            Dim result As String = "Result-RemoveBorderlineOfTextbox.xlsx"
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Save the workbook to the specified file in Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

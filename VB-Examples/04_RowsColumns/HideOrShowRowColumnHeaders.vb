@@ -12,28 +12,30 @@ Namespace HideOrShowRowColumnHeaders
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
+            'Loads the Excel document from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
+            'Retrieves the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Hides the headers of rows and columns.
+            sheet.RowColumnHeadersVisible = False
 
-			'Hide the headers of rows and columns
-			sheet.RowColumnHeadersVisible = False
+            'Shows the headers of rows and columns.
+            'sheet.RowColumnHeadersVisible = true;
 
-			'Show the headers of rows and columns
-			'sheet.RowColumnHeadersVisible = true;
+            'Specifies the name of the resulting Excel file.
+            Dim result As String = "Result-HideOrShowRowColumnHeaders.xlsx"
 
-			Dim result As String = "Result-HideOrShowRowColumnHeaders.xlsx"
+            'Saves the modified workbook to a file with the specified name and Excel version.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
-
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

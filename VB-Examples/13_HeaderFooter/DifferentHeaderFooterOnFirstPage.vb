@@ -12,33 +12,47 @@ Namespace DifferentHeaderFooterOnFirstPage
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			sheet.Range("A1").Text="Hello World"
-			sheet.Range("F30").Text = "Hello World"
-			sheet.Range("G150").Text = "Hello World"
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Set the value to show the headers/footers for first page are different from the other pages.
-			sheet.PageSetup.DifferentFirst = 1
+            ' Set the text in cell A1 to "Hello World"
+            sheet.Range("A1").Text = "Hello World"
 
-			'Set the header and footer for the first page.
-			sheet.PageSetup.FirstHeaderString = "Different First page"
-			sheet.PageSetup.FirstFooterString = "Different First footer"
+            ' Set the text in cell F30 to "Hello World"
+            sheet.Range("F30").Text = "Hello World"
 
-			'Set the other pages' header and footer. 
-			sheet.PageSetup.LeftHeader = "Demo of Spire.XLS"
-			sheet.PageSetup.CenterFooter = "Footer by Spire.XLS"
+            ' Set the text in cell G150 to "Hello World"
+            sheet.Range("G150").Text = "Hello World"
 
-			Dim result As String = "Result-AddDifferentHeaderFooterForTheFirstPage.xlsx"
+            ' Enable different header and footer for the first page only
+            sheet.PageSetup.DifferentFirst = 1
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Set the header text for the first page
+            sheet.PageSetup.FirstHeaderString = "Different First page"
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Set the footer text for the first page
+            sheet.PageSetup.FirstFooterString = "Different First footer"
+
+            ' Set the left header text for all pages
+            sheet.PageSetup.LeftHeader = "Demo of Spire.XLS"
+
+            ' Set the center footer text for all pages
+            sheet.PageSetup.CenterFooter = "Footer by Spire.XLS"
+
+            ' Specify the file name for the resulting workbook
+            Dim result As String = "Result-AddDifferentHeaderFooterForTheFirstPage.xlsx"
+
+            ' Save the workbook to a file with the specified name, in Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

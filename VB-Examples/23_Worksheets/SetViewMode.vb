@@ -12,16 +12,22 @@ Namespace SetViewMode
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook and load a file
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SetViewMode.xlsx")
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Set the view mode 
-			workbook.Worksheets(0).ViewMode=ViewMode.Preview
+            ' Load an existing Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SetViewMode.xlsx")
 
-			'Save the document and launch it
-			workbook.SaveToFile("SetViewMode_result.xlsx",ExcelVersion.Version2010)
-			ExcelDocViewer("SetViewMode_result.xlsx")
+            ' Set the view mode of the first worksheet to Page Break Preview
+            workbook.Worksheets(0).ViewMode = ViewMode.Preview
+
+            ' Save the modified workbook to a file in Excel 2010 format
+            workbook.SaveToFile("SetViewMode_result.xlsx", ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer("SetViewMode_result.xlsx")
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

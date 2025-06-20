@@ -11,62 +11,74 @@ Namespace FindDataInSpecificRange
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Instantiate a new workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\FindCellsSample.xlsx")
+            ' Load the Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\FindCellsSample.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Access the first worksheet in the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Specify a range
-			Dim range As CellRange = sheet.Range(1, 1, 12, 8)
+            ' Define a range of cells from row 1, column 1 to row 12, column 8.
+            Dim range As CellRange = sheet.Range(1, 1, 12, 8)
 
-			'Create a string builder
-			Dim builder As New StringBuilder()
+            ' Instantiate a new StringBuilder object to store the found data.
+            Dim builder As New StringBuilder()
 
-			'Find text from this range
-			FindTextFromRange(range, builder)
+            ' Search for text data within the specified range and append the results to the string builder.
+            FindTextFromRange(range, builder)
 
-			'Find number from this range
-			FindNumberFromRange(range, builder)
+            ' Search for numerical data within the specified range and append the results to the string builder.
+            FindNumberFromRange(range, builder)
 
-			'Save to txt file
-			Dim result As String = "FindDataInSpecificRange_out.txt"
-			File.WriteAllText(result, builder.ToString())
+            ' Specify the file name for the output text file.
+            Dim result As String = "FindDataInSpecificRange_out.txt"
 
-			'Launch the file
-			OutputViewer(result)
+            ' Write the contents of the string builder to a text file with the specified name.
+            File.WriteAllText(result, builder.ToString())
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the file
+            OutputViewer(result)
 		End Sub
 		Private Sub FindTextFromRange(ByVal range As CellRange, ByVal builder As StringBuilder)
-			'Find string from this range
-			Dim textRanges() As CellRange = range.FindAllString("E-iceblue", False, False)
+            ' Find all occurrences of the string "E-iceblue" within the specified range, ignoring case sensitivity and exact match.
+            Dim textRanges() As CellRange = range.FindAllString("E-iceblue", False, False)
 
-			'Append the address of found cells in builder
-			If textRanges.Length <> 0 Then
-				For Each r As CellRange In textRanges
-					Dim address As String = r.RangeAddress
-					builder.AppendLine("The address of found text cell is: " & address)
-				Next r
-			Else
-				builder.AppendLine("No cell contain the text")
-			End If
-		End Sub
+            ' Check if any text ranges were found.
+            If textRanges.Length <> 0 Then
+                ' Iterate through each found text range.
+                For Each r As CellRange In textRanges
+                    ' Get the address of the current text cell range.
+                    Dim address As String = r.RangeAddress
+                    ' Append the address of the found text cell to the string builder.
+                    builder.AppendLine("The address of found text cell is: " & address)
+                Next r
+            Else
+                ' If no text ranges were found, append a message to the string builder indicating that no cell contains the specified text.
+                builder.AppendLine("No cell contains the text")
+            End If
+        End Sub
 		Private Sub FindNumberFromRange(ByVal range As CellRange, ByVal builder As StringBuilder)
-			'Find number from this range
-			Dim numberRanges() As CellRange = range.FindAllNumber(100, True)
+            ' Find all numbers greater than or equal to 100 within the specified range.
+            Dim numberRanges() As CellRange = range.FindAllNumber(100, True)
 
-			'Append the address of found cells in builder
-			If numberRanges.Length <> 0 Then
-				For Each r As CellRange In numberRanges
-					Dim address As String = r.RangeAddress
-					builder.AppendLine("The address of found number cell is: " & address)
-				Next r
-			Else
-				builder.AppendLine("No cell contain the number")
-			End If
-		End Sub
+            ' Check if any number ranges were found.
+            If numberRanges.Length <> 0 Then
+                ' Iterate through each found number range.
+                For Each r As CellRange In numberRanges
+                    ' Get the address of the current number cell range.
+                    Dim address As String = r.RangeAddress
+                    ' Append the address of the found number cell to the string builder.
+                    builder.AppendLine("The address of found number cell is: " & address)
+                Next r
+            Else
+                ' If no number ranges were found, append a message to the string builder indicating that no cell contains a number.
+                builder.AppendLine("No cell contains the number")
+            End If
+        End Sub
 		Private Sub OutputViewer(ByVal fileName As String)
 			Try
 				Process.Start(fileName)

@@ -8,27 +8,33 @@ Namespace CompressPictures
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Create a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CompressPictures.xlsx")
+            'Load an Excel document from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CompressPictures.xlsx")
 
-			'Get the first worksheet
-			Dim sheet1 As Worksheet = workbook.Worksheets(0)
+            'Assign the first worksheet to the "sheet1" variable.
+            Dim sheet1 As Worksheet = workbook.Worksheets(0)
 
-			For Each sheet As Worksheet In workbook.Worksheets
-				For Each picture As ExcelPicture In sheet.Pictures
-					picture.Compress(50)
-				Next picture
-			Next sheet
+            'Iterate through each worksheet in the workbook.
+            For Each sheet As Worksheet In workbook.Worksheets
+                'Iterate through each picture in the worksheet.
+                For Each picture As ExcelPicture In sheet.Pictures
+                    'Compresse the picture with a compression level of 50%.
+                    picture.Compress(50)
+                Next picture
+            Next sheet
 
-			'Save to file
-			Dim result As String = "CompressPictures_result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            'Specifie the file name for the resulting workbook.
+            Dim result As String = "CompressPictures_result.xlsx"
+            'Save the workbook to a file with the specified name and version.
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'View the document
-			FileViewer(result)
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

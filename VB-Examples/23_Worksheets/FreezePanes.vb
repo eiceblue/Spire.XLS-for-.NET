@@ -12,19 +12,23 @@ Namespace FreezePanes
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Load a Workbook from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\FreezePanes.xlsx")
+            ' Create a new instance of Workbook class
+            Dim workbook As New Workbook()
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\FreezePanes.xlsx")
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Freeze Top Row
-			sheet.FreezePanes(2,1)
+            ' Freeze the panes at row 2 and column 1
+            sheet.FreezePanes(2, 1)
 
-			'Save and Launch
-			workbook.SaveToFile("Output.xlsx",ExcelVersion.Version2010)
-			ExcelDocViewer("Output.xlsx")
+            ' Save the modified workbook to a new file named "Output.xlsx" in Excel 2010 format
+            workbook.SaveToFile("Output.xlsx", ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer("Output.xlsx")
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

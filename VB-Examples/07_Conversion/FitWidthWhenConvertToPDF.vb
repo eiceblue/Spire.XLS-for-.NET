@@ -13,21 +13,30 @@ Namespace FitWidthWhenConvertToPDF
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Load the document from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SampleB_2.xlsx")
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			For Each sheet As Worksheet In workbook.Worksheets
-				'Auto fit page height
-				sheet.PageSetup.FitToPagesTall = 0
-				'Fit one page width
-				sheet.PageSetup.FitToPagesWide = 1
-			Next sheet
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SampleB_2.xlsx")
 
-			'Save and launch result file
-			Dim result As String = "result.pdf"
-			workbook.SaveToFile(result, FileFormat.PDF)
-			ExcelDocViewer(result)
+            ' Iterate through each worksheet in the workbook
+            For Each sheet As Worksheet In workbook.Worksheets
+                ' Set the number of pages tall to 0 for automatic scaling
+                sheet.PageSetup.FitToPagesTall = 0
+
+                ' Set the number of pages wide to 1 for fitting the content within one page width
+                sheet.PageSetup.FitToPagesWide = 1
+            Next sheet
+
+            ' Specify the output file name for saving as PDF
+            Dim result As String = "result.pdf"
+
+            ' Save the workbook to a PDF file
+            workbook.SaveToFile(result, FileFormat.PDF)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

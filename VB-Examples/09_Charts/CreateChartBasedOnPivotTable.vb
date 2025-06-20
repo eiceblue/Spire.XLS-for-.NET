@@ -11,25 +11,31 @@ Namespace CreateChartBasedOnPivotTable
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load an excel file including pivot table
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTable.xlsx")
+            ' Load the Excel file "PivotTable.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTable.xlsx")
 
-			'Get the sheet in which the pivot table is located
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
+            ' Retrieve the first PivotTable from the worksheet and cast it to XlsPivotTable type
+            Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
 
-			workbook.Worksheets(1).Charts.Add(ExcelChartType.BarClustered, pt)
+            ' Add a clustered bar chart to the second worksheet, based on the PivotTable data
+            workbook.Worksheets(1).Charts.Add(ExcelChartType.BarClustered, pt)
 
-			'Save the document
-			Dim output As String = "CreateChartBasedOnPivotTable.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Specify the output file name as "CreateChartBasedOnPivotTable.xlsx"
+            Dim output As String = "CreateChartBasedOnPivotTable.xlsx"
 
-			'View the document
-			FileViewer(output)
+            ' Save the modified workbook to the specified file path, using Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(output)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

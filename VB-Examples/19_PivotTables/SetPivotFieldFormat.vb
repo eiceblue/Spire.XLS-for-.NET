@@ -11,37 +11,42 @@ Namespace SetPivotFieldFormat
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load an excel file including pivot table
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTableExample.xlsx")
+            ' Load the workbook from a file
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTableExample.xlsx")
 
-			'Get the sheet in which the pivot table is located
-			Dim sheet As Worksheet = workbook.Worksheets("PivotTable")
+            ' Get the worksheet named "PivotTable"
+            Dim sheet As Worksheet = workbook.Worksheets("PivotTable")
 
-			Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
-			Dim pf As PivotField = TryCast(pt.PivotFields(0), PivotField)
+            ' Access the first PivotTable in the worksheet
+            Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
 
-			'Setting the field auto sort ascend.
-			pf.SortType = PivotFieldSortType.Ascending
+            ' Access the first PivotField in the PivotTable
+            Dim pf As PivotField = TryCast(pt.PivotFields(0), PivotField)
 
-			'Setting Subtotal auto show.
-			pf.SubtotalTop = True
+            ' Set the sort type of the PivotField to Ascending
+            pf.SortType = PivotFieldSortType.Ascending
 
-			'Setting Subtotal as Count type
-			pf.Subtotals = SubtotalTypes.Count
+            ' Enable displaying the top subtotal for the PivotField
+            pf.SubtotalTop = True
 
-			'Setting the field auto show.
-			pf.IsAutoShow = True
+            ' Set the subtotal type for the PivotField to Count
+            pf.Subtotals = SubtotalTypes.Count
 
-			Dim result As String = "SetPivotFieldFormat_result.xlsx"
+            ' Enable automatic display of the PivotField
+            pf.IsAutoShow = True
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Save the modified workbook to a new file named "SetPivotFieldFormat_result.xlsx"
+            Dim result As String = "SetPivotFieldFormat_result.xlsx"
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
 
-			'View the document
-			FileViewer(result)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

@@ -11,12 +11,21 @@ Namespace SheetToImage
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SheetToImage.xlsx")
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			sheet.ToImage(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn).Save("SheetToImage.png")
-			ExcelDocViewer("SheetToImage.png")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SheetToImage.xlsx")
+
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+
+            ' Convert the specified range of the worksheet to an image and save it as PNG
+            sheet.ToImage(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn).Save("SheetToImage.png")
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer("SheetToImage.png")
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

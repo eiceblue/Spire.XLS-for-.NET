@@ -13,30 +13,37 @@ Namespace LinkToExternalFile
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			Dim range As CellRange = sheet.Range(1, 1)
+            ' Define a range of cells with row 1 and column 1
+            Dim range As CellRange = sheet.Range(1, 1)
 
-			'Add hyperlink in the range
-			Dim hyperlink As HyperLink = sheet.HyperLinks.Add(range)
+            ' Create a hyperlink object and associate it with the defined range
+            Dim hyperlink As HyperLink = sheet.HyperLinks.Add(range)
 
-			'Set the link type
-			hyperlink.Type = HyperLinkType.File
+            ' Set the type of the hyperlink to a file
+            hyperlink.Type = HyperLinkType.File
 
-			'Set the display text
-			hyperlink.TextToDisplay = "Link To External File"
+            ' Set the display text for the hyperlink
+            hyperlink.TextToDisplay = "Link To External File"
 
-			'Set file address
-			hyperlink.Address = "..\..\..\..\..\..\Data\SampeB_4.xlsx"
+            ' Set the address of the hyperlink to the specified external file path
+            hyperlink.Address = "..\..\..\..\..\..\Data\SampeB_4.xlsx"
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Define the output file name as "result.xlsx"
+            Dim result As String = "result.xlsx"
+
+            ' Save the workbook to the specified file path using Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

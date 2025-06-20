@@ -11,28 +11,35 @@ Namespace LinkToContentProperty
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\AccessDocumentProperties.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\AccessDocumentProperties.xlsx")
 
-			'Add a custom document property
-			workbook.CustomDocumentProperties.Add("Test", "MyNamedRange")
+            ' Add a custom document property named "Test" with the value "MyNamedRange"
+            workbook.CustomDocumentProperties.Add("Test", "MyNamedRange")
 
-			'Get the added document property
-			Dim properties As ICustomDocumentProperties = workbook.CustomDocumentProperties
-			Dim [property] As DocumentProperty = CType(properties("Test"), DocumentProperty)
+            ' Get the collection of custom document properties
+            Dim properties As ICustomDocumentProperties = workbook.CustomDocumentProperties
 
-			'Link to content 
-			[property].LinkToContent = True
+            ' Retrieve the specific custom document property named "Test"
+            Dim [property] As DocumentProperty = CType(properties("Test"), DocumentProperty)
 
-			'Save the document
-			Dim result As String = "LinkToContentProperty_out.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Set the LinkToContent property of the custom document property to True
+            [property].LinkToContent = True
 
-			'Launch the Excel file
-			ExcelDocViewer(result)
+            ' Specify the output file name as "LinkToContentProperty_out.xlsx"
+            Dim result As String = "LinkToContentProperty_out.xlsx"
+
+            ' Save the modified workbook to a file in Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

@@ -9,19 +9,31 @@ Namespace CustomPaperSizeForPrinting
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
-			'Load an excel file
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CustomPaperSizeForPrinting.xlsx")
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
-			'Set the paper size to the printer's custom paper size
-			worksheet.PageSetup.CustomPaperSizeName = "customPaper"
+            ' Load the Excel file "CustomPaperSizeForPrinting.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CustomPaperSizeForPrinting.xlsx")
 
-			'Use the default printer to print
-			workbook.PrintDocument.Print()
+            ' Get the first worksheet from the workbook
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-		End Sub
+            ' Set the custom paper size name for the page setup of the worksheet
+            worksheet.PageSetup.CustomPaperSizeName = "customPaper"
+
+	    'Custom the paper size directly
+	    'sheet.PageSetup.SetCustomPaperSize(224, CSng(50))
+
+	    'Set the page orientation
+	    'sheet.PageSetup.Orientation = PageOrientationType.Portrait
+
+            ' Print the workbook using the default printer and settings
+            workbook.PrintDocument.Print()
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+        End Sub
 
 		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
 			Close()

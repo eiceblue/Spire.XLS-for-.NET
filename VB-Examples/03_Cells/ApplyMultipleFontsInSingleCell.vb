@@ -12,42 +12,55 @@ Namespace ApplyMultipleFontsInSingleCell
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
+            'Loads an Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Gets the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Create a font object in workbook, setting the font color, size and type.
-			Dim font1 As ExcelFont = workbook.CreateFont()
-			font1.KnownColor = ExcelColors.LightBlue
-			font1.IsBold = True
-			font1.Size = 10
+            'Creates a new font object.
+            Dim font1 As ExcelFont = workbook.CreateFont()
+            'Sets the font color to light blue.
+            font1.KnownColor = ExcelColors.LightBlue
+            'Sets the font to bold.
+            font1.IsBold = True
+            'Sets the font size to 10.
+            font1.Size = 10
 
-			'Create another font object specifying its properties.
-			Dim font2 As ExcelFont = workbook.CreateFont()
-			font2.KnownColor = ExcelColors.Red
-			font2.IsBold = True
-			font2.IsItalic = True
-			font2.FontName = "Times New Roman"
-			font2.Size = 11
+            'Creates a new font object.
+            Dim font2 As ExcelFont = workbook.CreateFont()
+            'Sets the font color to red.
+            font2.KnownColor = ExcelColors.Red
+            'Sets the font to bold.
+            font2.IsBold = True
+            'Sets the font to italic.
+            font2.IsItalic = True
+            'Sets the font name to Times New Roman.
+            font2.FontName = "Times New Roman"
+            'Sets the font size to 11.
+            font2.Size = 11
 
-			'Write a RichText string to the cell 'A1', and set the font for it.
-			Dim richText As RichText = sheet.Range("H5").RichText
-			richText.Text = "This document was created with Spire.XLS for .NET."
-			richText.SetFont(0, 29, font1)
-			richText.SetFont(31, 48, font2)
+            'Gets the rich text from cell H5.
+            Dim richText As RichText = sheet.Range("H5").RichText
+            'Sets the text content of the rich text.
+            richText.Text = "This document was created with Spire.XLS for .NET."
+            'Applies the font1 to characters 0 to 29.
+            richText.SetFont(0, 29, font1)
+            'Applies the font2 to characters 31 to 48.
+            richText.SetFont(31, 48, font2)
+            'Specifies the filename for the resulting Excel file.
+            Dim result As String = "Result-ApplyMultipleFontsInSingleCell.xlsx"
 
-			Dim result As String = "Result-ApplyMultipleFontsInSingleCell.xlsx"
+            'Saves the modified workbook to a file with the specified filename and Excel version.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
-
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

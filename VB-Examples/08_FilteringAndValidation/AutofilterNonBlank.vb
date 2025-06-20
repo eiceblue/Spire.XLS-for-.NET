@@ -10,27 +10,31 @@ Namespace AutofilterNonBlank
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object to represent an Excel workbook
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\AutofilterBlank.xlsx")
+            ' Load an existing Excel file named "AutofilterBlank.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\AutofilterBlank.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet (index 0) from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Match the non blank data
-			sheet.AutoFilters.MatchNonBlanks(0)
+            ' Enable the auto-filter feature and filter for non-blank cells in the first column (column index 0)
+            sheet.AutoFilters.MatchNonBlanks(0)
 
-			'Filter
-			sheet.AutoFilters.Filter()
+            ' Apply the filter based on the specified criteria
+            sheet.AutoFilters.Filter()
 
-			'Save the document
-			Dim output As String = "AutofilterNonBlank_out.xlsx"
-			workbook.SaveToFile(output,ExcelVersion.Version2013)
+            ' Specify the output filename for the filtered data
+            Dim output As String = "AutofilterNonBlank_out.xlsx"
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Save the filtered data to a new Excel file with Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

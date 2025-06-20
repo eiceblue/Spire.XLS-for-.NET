@@ -11,23 +11,29 @@ Namespace RemoveCustomProperties
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load a excel document
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\templateAz.xlsx")
+            ' Load the workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\templateAz.xlsx")
 
-			'Retrieve a list of all custom document properties of the Excel file
-			Dim customDocumentProperties As ICustomDocumentProperties = workbook.CustomDocumentProperties
+            ' Get the custom document properties of the workbook
+            Dim customDocumentProperties As ICustomDocumentProperties = workbook.CustomDocumentProperties
 
-			'Remove "Editor" custom document property
-			customDocumentProperties.Remove("Editor")
+            ' Remove the custom document property named "Editor"
+            customDocumentProperties.Remove("Editor")
 
-			Dim result As String = "RemoveCustomProperties_result.xlsx"
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			'View the document
-			ExcelDocViewer(result)
+            ' Specify the file name for the resulting workbook to be saved
+            Dim result As String = "RemoveCustomProperties_result.xlsx"
+
+            ' Save the modified workbook to a file with the specified name and Excel version (Version2010)
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

@@ -14,32 +14,44 @@ Namespace RetrieveExternalFileHyperlinks
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\RetrieveExternalFileHyperlinks.xlsx")
+            ' Load an existing workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\RetrieveExternalFileHyperlinks.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			Dim content As New StringBuilder()
+            ' Create a StringBuilder object to store the content
+            Dim content As New StringBuilder()
 
-			'Retrieve external file hyperlinks.
-			For Each item As HyperLink In sheet.HyperLinks
-				Dim address As String = item.Address
-				Dim sheetName As String = item.Range.WorksheetName
-				Dim range As CellRange = item.Range
-				content.AppendLine(String.Format("Cell[{0},{1}] in sheet """ & sheetName & """ contains File URL: {2}", range.Row, range.Column, address))
-			Next item
+            ' Iterate through each hyperlink in the worksheet
+            For Each item As HyperLink In sheet.HyperLinks
+                ' Retrieve the address of the hyperlink
+                Dim address As String = item.Address
 
-			Dim result As String = "Result-RetrieveExternalFileHyperlinks.txt"
+                ' Retrieve the name of the worksheet containing the hyperlink
+                Dim sheetName As String = item.Range.WorksheetName
 
-			'Save to file.
-			File.WriteAllText(result, content.ToString())
+                ' Retrieve the range of cells associated with the hyperlink
+                Dim range As CellRange = item.Range
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+                ' Add a formatted line to the content StringBuilder
+                content.AppendLine(String.Format("Cell[{0},{1}] in sheet """ & sheetName & """ contains File URL: {2}", range.Row, range.Column, address))
+            Next item
+
+            ' Define the output file name as "Result-RetrieveExternalFileHyperlinks.txt"
+            Dim result As String = "Result-RetrieveExternalFileHyperlinks.txt"
+
+            ' Write the content of the StringBuilder to a text file
+            File.WriteAllText(result, content.ToString())
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

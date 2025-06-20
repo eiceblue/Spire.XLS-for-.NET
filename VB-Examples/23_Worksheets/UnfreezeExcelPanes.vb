@@ -12,25 +12,29 @@ Namespace UnfreezeExcelPanes
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new instance of the Workbook class
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_2.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_2.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Unfreeze the panes.
-			sheet.RemovePanes()
+            ' Remove any frozen panes in the worksheet
+            sheet.RemovePanes()
 
-			Dim result As String = "Result-UnfreezeExcelPanes.xlsx"
+            ' Specify the name for the resulting Excel file
+            Dim result As String = "Result-UnfreezeExcelPanes.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Save the modified workbook to a file in Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

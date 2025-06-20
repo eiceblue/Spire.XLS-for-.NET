@@ -12,25 +12,28 @@ Namespace RemoveAutoFilters
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object to represent an Excel workbook
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\RemoveAutoFilters.xlsx")
+            ' Load an existing Excel file named "RemoveAutoFilters.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\RemoveAutoFilters.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet (index 0) from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Remove the auto filters.
-			sheet.AutoFilters.Clear()
+            ' Clear all auto-filters applied on the worksheet
+            sheet.AutoFilters.Clear()
 
-			Dim result As String = "Result-RemoveAutoFilters.xlsx"
+            ' Specify the output filename for the resulting workbook after removing auto-filters
+            Dim result As String = "Result-RemoveAutoFilters.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Save the modified workbook to a new Excel file with Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

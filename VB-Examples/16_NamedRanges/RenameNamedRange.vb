@@ -16,17 +16,24 @@ Namespace RenameNamedRange
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
 
-			'Create a workbook and load the document from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\AllNamedRanges.xlsx")
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Rename the named range
-			workbook.NameRanges(0).Name = "RenameRange"
+            ' Load the workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\AllNamedRanges.xlsx")
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Change the name of the first NameRange to "RenameRange"
+            workbook.NameRanges(0).Name = "RenameRange"
+
+            ' Specify the output file name
+            Dim result As String = "result.xlsx"
+
+            ' Save the workbook to the specified file path with Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

@@ -12,52 +12,63 @@ Namespace OpenFiles
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Pathes of files
-			Dim filepath As String = "..\..\..\..\..\..\Data\ExcelSample_N1.xlsx"
-			Dim filepath97 As String = "..\..\..\..\..\..\Data\ExcelSample97_N.xls"
-			Dim filepathXml As String = "..\..\..\..\..\..\Data\OfficeOpenXML_N.xml"
-			Dim filepathCsv As String = "..\..\..\..\..\..\Data\CSVSample_N.csv"
+            ' Declare file paths for different types of files
+            Dim filepath As String = "..\..\..\..\..\..\Data\ExcelSample_N1.xlsx" ' Path to Excel file
+            Dim filepath97 As String = "..\..\..\..\..\..\Data\ExcelSample97_N.xls" ' Path to Excel 97-2003 file
+            Dim filepathXml As String = "..\..\..\..\..\..\Data\OfficeOpenXML_N.xml" ' Path to XML file
+            Dim filepathCsv As String = "..\..\..\..\..\..\Data\CSVSample_N.csv" ' Path to CSV file
 
-			'Create string builder
-			Dim builder As New StringBuilder()
+            ' Create a StringBuilder object to store messages
+            Dim builder As New StringBuilder()
 
-			'1. Load file by file path
-			'Create a workbook
-			Dim workbook1 As New Workbook()
-			'Load the document from disk
-			workbook1.LoadFromFile(filepath)
-			builder.AppendLine("Workbook opened using file path successfully!")
+            ' Open and load workbook from the specified Excel file path
+            Dim workbook1 As New Workbook()
+            workbook1.LoadFromFile(filepath)
+            builder.AppendLine("Workbook opened using file path successfully!")
 
-			'2. Load file by file stream
-			Dim stream As New FileStream(filepath, FileMode.Open)
-			'Create a workbook
-			Dim workbook2 As New Workbook()
-			'Load the document from disk
-			workbook2.LoadFromStream(stream)
-			builder.AppendLine("Workbook opened using file stream successfully!")
-			stream.Dispose()
+            ' Open and load workbook from the specified file stream
+            Dim stream As New FileStream(filepath, FileMode.Open)
+            Dim workbook2 As New Workbook()
+            workbook2.LoadFromStream(stream)
+            builder.AppendLine("Workbook opened using file stream successfully!")
+            stream.Dispose()
 
-			'3. Open Microsoft Excel 97 - 2003 file
-			Dim wbExcel97 As New Workbook()
-			wbExcel97.LoadFromFile(filepath97, ExcelVersion.Version97to2003)
-			builder.AppendLine("Microsoft Excel 97 - 2003 workbook opened successfully!")
+            ' Open and load an Excel 97-2003 workbook
+            Dim wbExcel97 As New Workbook()
+            wbExcel97.LoadFromFile(filepath97, ExcelVersion.Version97to2003)
+            builder.AppendLine("Microsoft Excel 97 - 2003 workbook opened successfully!")
 
-			'4. Open xml file
-			Dim wbXML As New Workbook()
-			wbXML.LoadFromXml(filepathXml)
-			builder.AppendLine("XML file opened successfully!")
+            ' Open and load an XML file as a workbook
+            Dim wbXML As New Workbook()
+            wbXML.LoadFromXml(filepathXml)
+            builder.AppendLine("XML file opened successfully!")
 
-			'5. Open csv file
-			Dim wbCSV As New Workbook()
-			wbCSV.LoadFromFile(filepathCsv, ",", 1, 1)
-			builder.AppendLine("CSV file opened successfully!")
+            ' Open and load a CSV file as a workbook, specifying delimiter and start row/column
+            Dim wbCSV As New Workbook()
+            wbCSV.LoadFromFile(filepathCsv, ",", 1, 1)
+            builder.AppendLine("CSV file opened successfully!")
 
-			'Save to txt file
-			Dim output As String = "OpenFiles_out.txt"
-			File.WriteAllText(output, builder.ToString())
+            ' Write the contents of the StringBuilder to a text file
+            Dim output As String = "OpenFiles_out.txt"
+            File.WriteAllText(output, builder.ToString())
 
-			'Launch the file
-			ExcelDocViewer(output)
+            ' Release the resources used by the workbook1
+            workbook1.Dispose()
+
+            ' Release the resources used by the workbook2
+            workbook2.Dispose()
+
+            ' Release the resources used by the wbExcel97
+            wbExcel97.Dispose()
+
+            ' Release the resources used by the wbXML
+            wbXML.Dispose()
+
+            ' Release the resources used by the wbCSV
+            wbCSV.Dispose()
+
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

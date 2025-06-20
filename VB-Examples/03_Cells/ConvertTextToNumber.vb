@@ -14,26 +14,28 @@ Namespace ConvertTextToNumber
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Instantiate a new workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Sample.xlsx")
+            'Load an existing Excel document from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Sample.xlsx")
 
-			'Get the first worksheet
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
+            'Retrieve the first worksheet from the workbook.
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-			'Convert text string format to number format
-			worksheet.Range("D2:D8").ConvertToNumber()
+            'Convert the cells in range D2 to D8 from text string format to number format.
+            worksheet.Range("D2:D8").ConvertToNumber()
 
-			'String for output file 
-			Dim outputFile As String = "Output.xlsx"
+            'Specify the file name for the output file.
+            Dim outputFile As String = "Output.xlsx"
 
-			'Save the file
-			workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            'Save the workbook to the specified output file using Excel 2013 version.
+            workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launching the output file.
-			Viewer(outputFile)
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

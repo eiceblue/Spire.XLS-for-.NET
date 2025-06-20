@@ -12,34 +12,38 @@ Namespace LockSpecificRowInNewExcel
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Create an empty worksheet.
-			workbook.CreateEmptySheet()
+            ' Create a new empty sheet in the workbook
+            workbook.CreateEmptySheet()
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Loop through all the rows in the worksheet and unlock them.
-			For i As Integer = 0 To 254
-				sheet.Rows(i).Style.Locked = False
-			Next i
+            ' Loop through rows 0 to 254 and set the Locked property to False for each row
+            For i As Integer = 0 To 254
+                sheet.Rows(i).Style.Locked = False
+            Next i
 
-			'Lock the third row in the worksheet.
-			sheet.Rows(2).Text = "Locked"
-			sheet.Rows(2).Style.Locked = True
+            ' Set the text of Row 2 to "Locked" and set its Locked property to True
+            sheet.Rows(2).Text = "Locked"
+            sheet.Rows(2).Style.Locked = True
 
-			'Set the password.
-			sheet.Protect("123", SheetProtectionType.All)
+            ' Protect the worksheet with a password and specify SheetProtectionType.All (all elements are protected)
+            sheet.Protect("123", SheetProtectionType.All)
 
-			Dim result As String = "Result-LockSpecificRowInNewlyXlsFile.xlsx"
+            ' Specify the name of the resulting file
+            Dim result As String = "Result-LockSpecificRowInNewlyXlsFile.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Save the modified workbook to a new file with the specified name and Excel version (2013)
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

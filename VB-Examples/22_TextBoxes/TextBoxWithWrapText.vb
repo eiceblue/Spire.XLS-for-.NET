@@ -11,25 +11,32 @@ Namespace TextBoxWithWrapText
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of the Workbook class
+            Dim workbook As New Workbook()
 
-			'Load the document from disk          
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\TextBoxSampleB.xlsx")
+            ' Load an existing workbook from a file
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\TextBoxSampleB.xlsx")
 
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			'Get the text box
-			Dim shape As XlsTextBoxShape = TryCast(sheet.TextBoxes(0), XlsTextBoxShape)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Set wrap text
-			shape.IsWrapText = True
+            ' Try to cast the first TextBox shape on the worksheet to XlsTextBoxShape
+            Dim shape As XlsTextBoxShape = TryCast(sheet.TextBoxes(0), XlsTextBoxShape)
 
-			'Save the document
-			Dim output As String = "TextBoxWithWrapText.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Set the IsWrapText property of the TextBox shape to true
+            shape.IsWrapText = True
 
-			'View the document
-			FileViewer(output)
+            ' Specify the output file name
+            Dim output As String = "TextBoxWithWrapText.xlsx"
+
+            ' Save the modified workbook to a file in Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(output)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

@@ -10,36 +10,46 @@ Namespace SetCommentFillColor
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Get the default first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Gets the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Create Excel font
-			Dim font As ExcelFont = workbook.CreateFont()
-			font.FontName = "Arial"
-			font.Size = 11
-			font.KnownColor = ExcelColors.Orange
+            'Create a new Excel font.
+            Dim font As ExcelFont = workbook.CreateFont()
+            font.FontName = "Arial"
+            font.Size = 11
+            font.KnownColor = ExcelColors.Orange
 
-			'Add the comment
-			Dim range As CellRange = sheet.Range("A1")
-			range.Comment.Text = "This is a comment"
-			range.Comment.RichText.SetFont(0, (range.Comment.Text.Length - 1), font)
+            'Get the CellRange object for cell A1.
+            Dim range As CellRange = sheet.Range("A1")
 
-			'Set comment Color
-			range.Comment.Fill.FillType = ShapeFillType.SolidColor
-			range.Comment.Fill.ForeColor = Color.SkyBlue
+            'Set the comment text for the cell.
+            range.Comment.Text = "This is a comment"
 
-			range.Comment.Visible = True
+            'Set the font for the comment's rich text.
+            range.Comment.RichText.SetFont(0, (range.Comment.Text.Length - 1), font)
 
-			'String for output file 
-			Dim result As String = "SetCommentFillColor_out.xlsx"
+            'Set the fill type of the comment's shape fill to solid color.
+            range.Comment.Fill.FillType = ShapeFillType.SolidColor
 
-			'Save the file
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            'Set the foreground color (fill color) for the comment's shape.
+            range.Comment.Fill.ForeColor = Color.SkyBlue
 
-			'View the document
-			FileViewer(result)
+            'Set the visibility of the comment to true.
+            range.Comment.Visible = True
+
+            'Specify the filename to save the modified workbook.
+            Dim result As String = "SetCommentFillColor_out.xlsx"
+
+            'Save the workbook to the specified file using Excel 2013 format.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

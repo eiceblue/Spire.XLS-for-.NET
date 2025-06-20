@@ -9,21 +9,26 @@ Namespace ProtectWorkbook
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample1.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample1.xlsx")
 
-			'Protect Workbook
-			workbook.Protect("e-iceblue")
+            ' Protect the entire workbook with the specified password
+            workbook.Protect("e-iceblue")
 
-			'Save the document
-			Dim output As String = "ProtectWorkbook.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Specify the name of the resulting Excel file after protecting the workbook
+            Dim output As String = "ProtectWorkbook.xlsx"
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Save the Workbook to the specified path in Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

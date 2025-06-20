@@ -14,28 +14,39 @@ Namespace ChartAxisTitle
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Create a workbook
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SampeB_5.xlsx")
+            ' Load the Excel file "SampeB_5.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SampeB_5.xlsx")
 
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get the chart
-			Dim chart As Chart = sheet.Charts(0)
+            ' Get the first chart from the worksheet
+            Dim chart As Chart = sheet.Charts(0)
 
-			'Set axis title
-			chart.PrimaryCategoryAxis.Title = "Category Axis"
-			chart.PrimaryValueAxis.Title = "Value axis"
+            ' Set the title of the primary category axis to "Category Axis"
+            chart.PrimaryCategoryAxis.Title = "Category Axis"
 
-			'Set font size
-			chart.PrimaryCategoryAxis.Font.Size = 12
-			chart.PrimaryValueAxis.Font.Size = 12
+            ' Set the title of the primary value axis to "Value axis"
+            chart.PrimaryValueAxis.Title = "Value axis"
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Set the font size of the primary category axis to 12
+            chart.PrimaryCategoryAxis.Font.Size = 12
+
+            ' Set the font size of the primary value axis to 12
+            chart.PrimaryValueAxis.Font.Size = 12
+
+            ' Specify the output file name as "result.xlsx"
+            Dim result As String = "result.xlsx"
+
+            ' Save the modified workbook to the specified file path, using the Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)

@@ -13,17 +13,24 @@ Namespace GroupRowsAndColumns
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\GroupRowsAndColumns.xls")
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Create a new Workbook object.
+            Dim workbook As New Workbook()
+            ' Load an existing Excel file into the Workbook object.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\GroupRowsAndColumns.xls")
+            ' Get the first worksheet from the Workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Grouping rows
-			sheet.GroupByRows(1,5,False)
-			'Grouping columns
-			sheet.GroupByColumns(1,3,False)
+            ' Group rows from 1 to 5 without collapsing the group.
+            sheet.GroupByRows(1, 5, False)
 
-			workbook.SaveToFile("GroupRowsAndColumns.xlsx", ExcelVersion.Version2010)
-			ExcelDocViewer("GroupRowsAndColumns.xlsx")
+            ' Group columns from 1 to 3 without collapsing the group.
+            sheet.GroupByColumns(1, 3, False)
+            ' Save the modified Workbook to a new file.
+            workbook.SaveToFile("GroupRowsAndColumns.xlsx", ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer("GroupRowsAndColumns.xlsx")
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

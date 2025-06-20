@@ -12,36 +12,43 @@ Namespace DeleteBlankRowsAndColumns
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_2.xlsx")
+            'Loads the Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_2.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieves the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Delete blank rows from the worksheet.
-			For i As Integer = sheet.Rows.Length - 1 To 0 Step -1
-				If sheet.Rows(i).IsBlank Then
-					sheet.DeleteRow(i + 1)
-				End If
-			Next i
+            'Iterates over the rows of the worksheet in reverse order.
+            For i As Integer = sheet.Rows.Length - 1 To 0 Step -1
+                'Checks if the current row is blank.
+                If sheet.Rows(i).IsBlank Then
+                    'Deletes the current row from the worksheet.
+                    sheet.DeleteRow(i + 1)
+                End If
+            Next i
 
-			'Delete blank columns from the worksheet.
-			For j As Integer = sheet.Columns.Length - 1 To 0 Step -1
-				If sheet.Columns(j).IsBlank Then
-					sheet.DeleteColumn(j + 1)
-				End If
-			Next j
+            'Iterates over the columns of the worksheet in reverse order.
+            For j As Integer = sheet.Columns.Length - 1 To 0 Step -1
+                'Checks if the current column is blank.
+                If sheet.Columns(j).IsBlank Then
+                    'Deletes the current column from the worksheet.
+                    sheet.DeleteColumn(j + 1)
+                End If
+            Next j
 
-			Dim result As String = "Result-DeleteBlankRowsAndColumns.xlsx"
+            'Specifies the name of the resulting Excel file.
+            Dim result As String = "Result-DeleteBlankRowsAndColumns.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            'Saves the modified workbook to a file with the specified name and Excel version.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

@@ -9,27 +9,32 @@ Namespace HideFormulas
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\FormulasSample.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\FormulasSample.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the Workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Hide the formulas in the used range
-			sheet.AllocatedRange.IsFormulaHidden = True
+            ' Set the IsFormulaHidden property of the AllocatedRange in the worksheet to True
+            sheet.AllocatedRange.IsFormulaHidden = True
 
-			'Protect the worksheet with password
-			sheet.Protect("e-iceblue")
+            ' Protect the worksheet with the specified password
+            sheet.Protect("e-iceblue")
 
-			'Save the document
-			Dim output As String = "HideFormulas.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Specify the name of the resulting Excel file after hiding formulas
+            Dim output As String = "HideFormulas.xlsx"
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Save the Workbook to the specified path in Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

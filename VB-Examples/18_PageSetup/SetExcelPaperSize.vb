@@ -12,22 +12,26 @@ Namespace SetExcelPaperSize
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Set the paper size of the worksheet as A4 paper.
-			sheet.PageSetup.PaperSize = PaperSizeType.PaperA4
+            ' Set the paper size of the worksheet to A4
+            sheet.PageSetup.PaperSize = PaperSizeType.PaperA4
 
-			Dim result As String = "Result-SetExcelPaperSize.xlsx"
+            ' Specify the filename for the resulting Excel file
+            Dim result As String = "Result-SetExcelPaperSize.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Save the workbook to the specified filename in Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

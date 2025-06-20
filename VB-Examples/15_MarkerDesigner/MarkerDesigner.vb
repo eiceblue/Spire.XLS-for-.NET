@@ -12,26 +12,50 @@ Namespace MarkerDesigner
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
+            ' Create a new workbook object
+            Dim sourceData As New Workbook()
 
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\MarkerDesigner.xls")
-			Dim dt As DataTable = CType(dataGrid1.DataSource, DataTable)
+            ' Load an existing workbook from the specified file path
+            sourceData.LoadFromFile("..\..\..\..\..\..\Data\MarkerDesigner-DataSample.xls")
 
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			'Fill parameter
-			workbook.MarkerDesigner.AddParameter("Variable1",1234.5678)
-			'Fill DataTable
-			workbook.MarkerDesigner.AddDataTable("Country",dt)
-			workbook.MarkerDesigner.Apply()
-			'AutoFit
-			sheet.AllocatedRange.AutoFitRows()
-			sheet.AllocatedRange.AutoFitColumns()
+            ' Get the first worksheet in the workbook
+            Dim sourceSheet As Worksheet = sourceData.Worksheets(0)
+
+            ' Export sheet data to a data table
+            Dim dt As DataTable = sourceSheet.ExportDataTable()
+
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
+
+            ' Load an existing workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\MarkerDesigner.xls")
 
 
-			Dim result As String = "Output_MarkerDesigner.xlsx"
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Add a parameter named "Variable1" with the value 1234.5678 to the MarkerDesigner
+            workbook.MarkerDesigner.AddParameter("Variable1", 1234.5678)
+
+            ' Add the DataTable with the name "Country" to the MarkerDesigner
+            workbook.MarkerDesigner.AddDataTable("Country", dt)
+
+            ' Apply the marker designer to replace the markers with actual values
+            workbook.MarkerDesigner.Apply()
+
+            ' Autofit the rows and columns of the allocated range in the worksheet
+            sheet.AllocatedRange.AutoFitRows()
+            sheet.AllocatedRange.AutoFitColumns()
+
+            ' Define the output file name as "Output_MarkerDesigner.xlsx"
+            Dim result As String = "Output_MarkerDesigner.xlsx"
+
+            ' Save the modified workbook to the specified file path using Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

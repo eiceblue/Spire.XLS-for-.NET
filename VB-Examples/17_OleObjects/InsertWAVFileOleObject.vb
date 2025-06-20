@@ -1,10 +1,6 @@
-Imports System.Data.OleDb
-Imports System.Collections
-Imports System.ComponentModel
-
 Imports Spire.Xls
-Imports System.IO
 Imports Spire.Xls.Core
+Imports System.Drawing
 
 Namespace InsertWavFileOLEObject
 	Partial Public Class Form1
@@ -15,23 +11,31 @@ Namespace InsertWavFileOLEObject
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Add OLE object
-			Dim oleObject As IOleObject = sheet.OleObjects.Add("..\..\..\..\..\..\Data\WAVFileSample.wav", Image.FromFile("..\..\..\..\..\..\Data\SpireXls.png"), OleLinkType.Embed)
-			'Set the object location
-			oleObject.Location = sheet.Range("B4")
-			'Set the object type as package
-			oleObject.ObjectType = OleObjectType.Package
+            ' Add an OLE object to the worksheet, with the specified WAV file path and an image as an icon
+            Dim oleObject As IOleObject = sheet.OleObjects.Add("..\..\..\..\..\..\Data\WAVFileSample.wav", Image.FromFile("..\..\..\..\..\..\Data\SpireXls.png"), OleLinkType.Embed)
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Set the location of the OLE object on the worksheet
+            oleObject.Location = sheet.Range("B4")
+
+            ' Set the type of the OLE object as Package
+            oleObject.ObjectType = OleObjectType.Package
+
+            ' Specify the filename for the resulting Excel file
+            Dim result As String = "result.xlsx"
+
+            ' Save the workbook to the specified filename in Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)

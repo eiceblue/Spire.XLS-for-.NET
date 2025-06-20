@@ -11,25 +11,32 @@ Namespace DisablePivotTableRibbon
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load an excel file including pivot table
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTableExample.xlsx")
-			'Get the sheet in which the pivot table is located
-			Dim sheet As Worksheet = workbook.Worksheets("PivotTable")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTableExample.xlsx")
 
-			Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
-			'Disable ribbon for this pivot table
-			pt.EnableWizard = False
+            ' Get the worksheet named "PivotTable"
+            Dim sheet As Worksheet = workbook.Worksheets("PivotTable")
 
-			Dim result As String = "DisablePivotTableRibbon_result.xlsx"
+            ' Get the first PivotTable in the worksheet and cast it to XlsPivotTable type
+            Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Disable the PivotTable wizard
+            pt.EnableWizard = False
 
-			'View the document
-			FileViewer(result)
+            ' Specify the output file name
+            Dim result As String = "DisablePivotTableRibbon_result.xlsx"
+
+            ' Save the modified workbook to a new file with Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

@@ -12,25 +12,29 @@ Namespace UnlockSimpleSheet
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
+            ' Load an existing workbook file
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Unlock the worksheet in a unlocked Excel file with null string.
-			sheet.Unprotect()
+            ' Remove protection from the worksheet
+            sheet.Unprotect()
 
-			Dim result As String = "Result-UnlockSimpleSheet.xlsx"
+            ' Specify the filename for the resulting unlocked workbook
+            Dim result As String = "Result-UnlockSimpleSheet.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Save the modified workbook to the specified file in Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

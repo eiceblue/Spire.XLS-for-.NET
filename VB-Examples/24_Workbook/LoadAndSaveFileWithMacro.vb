@@ -9,22 +9,29 @@ Namespace LoadAndSaveFileWithMacro
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\MacroSample.xls")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\MacroSample.xls")
 
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			sheet.Range("A5").Text = "This is a simple test!"
+            ' Set the text of cell A5 to "This is a simple test!"
+            sheet.Range("A5").Text = "This is a simple test!"
 
-			'Save the document
-			Dim output As String = "LoadAndSaveFileWithMacro.xls"
-			workbook.SaveToFile(output, ExcelVersion.Version97to2003)
+            ' Specify the output file name
+            Dim output As String = "LoadAndSaveFileWithMacro.xls"
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Save the workbook to the specified file path with Excel version compatibility set to Version97to2003
+            workbook.SaveToFile(output, ExcelVersion.Version97to2003)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

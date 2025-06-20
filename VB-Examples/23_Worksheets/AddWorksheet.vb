@@ -11,18 +11,24 @@ Namespace AddWorksheet
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Load a Workbook from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\AddWorksheet.xlsx")
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Add a new worksheet named AddedSheet
-			Dim sheet As Worksheet = workbook.Worksheets.Add("AddedSheet")
-			sheet.Range("C5").Text = "This is a new sheet."
+            ' Load an existing Excel file from a specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\AddWorksheet.xlsx")
 
+            ' Add a new worksheet with the name "AddedSheet" to the workbook
+            Dim sheet As Worksheet = workbook.Worksheets.Add("AddedSheet")
 
-			'Save and Launch
-			workbook.SaveToFile("Output.xlsx",ExcelVersion.Version2010)
-			ExcelDocViewer("Output.xlsx")
+            ' Set the text of cell C5 in the added worksheet
+            sheet.Range("C5").Text = "This is a new sheet."
+
+            ' Save the modified workbook to a new file named "Output.xlsx" with Excel 2010 format
+            workbook.SaveToFile("Output.xlsx", ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer("Output.xlsx")
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

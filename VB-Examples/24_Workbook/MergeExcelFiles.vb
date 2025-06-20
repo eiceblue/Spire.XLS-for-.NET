@@ -10,31 +10,49 @@ Namespace MergeExcelFiles
 		End Sub
 
 		Private Sub button1_Click(ByVal sender As Object, ByVal e As EventArgs) Handles button1.Click
-			Dim files As New List(Of String)()
-			files.Add("..\..\..\..\..\..\Data\MergeExcelFiles-1.xlsx")
-			files.Add("..\..\..\..\..\..\Data\MergeExcelFiles-2.xls")
-			files.Add("..\..\..\..\..\..\Data\MergeExcelFiles-3.xlsx")
+            ' Create a new List to store file paths
+            Dim files As New List(Of String)()
 
-			Dim newbook As New Workbook()
-			newbook.Version = ExcelVersion.Version2013
-			'Clear all worksheets
-			newbook.Worksheets.Clear()
+            ' Add the first file path to the list
+            files.Add("..\..\..\..\..\..\Data\MergeExcelFiles-1.xlsx")
 
-			'Create a workbook
-			Dim tempbook As New Workbook()
+            ' Add the second file path to the list
+            files.Add("..\..\..\..\..\..\Data\MergeExcelFiles-2.xls")
 
-			For Each file As String In files
-				'Load the file
-				tempbook.LoadFromFile(file)
-				For Each sheet As Worksheet In tempbook.Worksheets
-					'Copy every sheet in a workbook
-					newbook.Worksheets.AddCopy(sheet,WorksheetCopyType.CopyAll)
-				Next sheet
-			Next file
+            ' Add the third file path to the list
+            files.Add("..\..\..\..\..\..\Data\MergeExcelFiles-3.xlsx")
 
-			'Save the file
-			newbook.SaveToFile("MergeExcelFiles.xlsx", ExcelVersion.Version2010)
-			ExcelDocViewer("MergeExcelFiles.xlsx")
+            ' Create a new Workbook object for the merged Excel files
+            Dim workbook As New Workbook()
+
+            ' Set the Excel version of the new workbook to Version2013
+            workbook.Version = ExcelVersion.Version2013
+
+            ' Clear any existing worksheets in the new workbook
+            workbook.Worksheets.Clear()
+
+            ' Create a temporary Workbook object
+            Dim tempbook As New Workbook()
+
+            ' Iterate over each file path in the list
+            For Each file As String In files
+                ' Load the current file into the temporary workbook
+                tempbook.LoadFromFile(file)
+
+                ' Iterate over each worksheet in the temporary workbook
+                For Each sheet As Worksheet In tempbook.Worksheets
+                    ' Copy each worksheet from the temporary workbook to the new workbook
+                    workbook.Worksheets.AddCopy(sheet, WorksheetCopyType.CopyAll)
+                Next sheet
+            Next file
+
+            ' Save the merged workbook to the specified file path with Excel version compatibility set to Version2010
+            workbook.SaveToFile("MergeExcelFiles.xlsx", ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer("MergeExcelFiles.xlsx")
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

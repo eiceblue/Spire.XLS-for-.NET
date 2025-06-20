@@ -15,22 +15,29 @@ Namespace HideMajorGridlines
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
 
-			'Create a workbook
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SampeB_4.xlsx")
+            ' Create a new Workbook object.
+            Dim workbook As New Workbook()
 
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Load the Excel file into the workbook.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SampeB_4.xlsx")
 
-			'Get the chart
-			Dim chart As Chart = sheet.Charts(0)
+            ' Get the first worksheet in the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Hide major gridlines
-			chart.PrimaryValueAxis.HasMajorGridLines = False
+            ' Get the first chart in the worksheet.
+            Dim chart As Chart = sheet.Charts(0)
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Disable major grid lines on the primary value axis of the chart.
+            chart.PrimaryValueAxis.HasMajorGridLines = False
+
+            ' Specify the result file name as "result.xlsx".
+            Dim result As String = "result.xlsx"
+
+            ' Save the modified workbook to the result file using Excel 2010 format.
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer(result)
 
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)

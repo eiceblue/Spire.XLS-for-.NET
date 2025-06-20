@@ -12,14 +12,27 @@ Namespace PrintExcel
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\PrintExcel.xlsx")
-			Dim settings As PrinterSettings = workbook.PrintDocument.PrinterSettings
-			settings.FromPage = 0
-			settings.ToPage = 1
-			'Use the default printer to print
-			workbook.PrintDocument.Print()
-		End Sub
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
+
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\PrintExcel.xlsx")
+
+            ' Get the PrinterSettings object from the workbook's PrintDocument
+            Dim settings As PrinterSettings = workbook.PrintDocument.PrinterSettings
+
+            ' Set the starting page number for printing to 0 (first page)
+            settings.FromPage = 0
+
+            ' Set the ending page number for printing to 1 (second page)
+            settings.ToPage = 1
+
+            ' Print the workbook's contents using the configured printer settings
+            workbook.PrintDocument.Print()
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+        End Sub
 
 		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
 			Close()

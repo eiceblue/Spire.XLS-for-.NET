@@ -12,42 +12,45 @@ Namespace CloneExcelFontStyle
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Excel workbook object.
+            Dim workbook As New Workbook()
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Add the text to the Excel sheet cell range A1.
-			sheet.Range("A1").Text = "Text1"
+            'Add the text to the Excel sheet cell range A1.
+            sheet.Range("A1").Text = "Text1"
 
-			'Set A1 cell range's CellStyle.
-			Dim style As CellStyle = workbook.Styles.Add("style")
-			style.Font.FontName = "Calibri"
-			style.Font.Color = Color.Red
-			style.Font.Size = 12
-			style.Font.IsBold = True
-			style.Font.IsItalic = True
-			sheet.Range("A1").CellStyleName = style.Name
+            'Set cell range A1's cell style.
+            Dim style As CellStyle = workbook.Styles.Add("style")
+            style.Font.FontName = "Calibri"
+            style.Font.Color = Color.Red
+            style.Font.Size = 12
+            style.Font.IsBold = True
+            style.Font.IsItalic = True
+            sheet.Range("A1").CellStyleName = style.Name
 
-			'Clone the same style for B2 cell range.
-			Dim csOrieign As CellStyle = style.clone()
-			sheet.Range("B2").Text = "Text2"
-			sheet.Range("B2").CellStyleName = csOrieign.Name
+            'Clone the same style for cell range B2.
+            Dim csOrieign As CellStyle = style.clone()
+            sheet.Range("B2").Text = "Text2"
+            sheet.Range("B2").CellStyleName = csOrieign.Name
 
-			'Clone the same style for C3 cell range and then reset the font color for the text.
-			Dim csGreen As CellStyle = style.clone()
-			csGreen.Font.Color = Color.Green
-			sheet.Range("C3").Text = "Text3"
-			sheet.Range("C3").CellStyleName = csGreen.Name
+            'Clone the same style for cell range C3 and then reset the font color for the text.
+            Dim csGreen As CellStyle = style.clone()
+            csGreen.Font.Color = Color.Green
+            sheet.Range("C3").Text = "Text3"
+            sheet.Range("C3").CellStyleName = csGreen.Name
 
-			Dim result As String = "Result-CloneExcelFontStyle.xlsx"
+            ' Specify the output file name.
+            Dim result As String = "Result-CloneExcelFontStyle.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Save the modified workbook to the specified file with Excel 2013 format.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

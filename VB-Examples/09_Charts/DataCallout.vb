@@ -12,27 +12,41 @@ Namespace DataCallout
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a Workbook
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\DataCallout.xlsx")
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Load an existing Excel file named "DataCallout.xlsx"
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\DataCallout.xlsx")
 
-			'Get the first chart
-			Dim chart As Chart = sheet.Charts(0)
+            ' Get the first worksheet from the loaded workbook and assign it to a variable named "sheet"
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			For Each cs As ChartSerie In chart.Series
-				cs.DataPoints.DefaultDataPoint.DataLabels.HasValue = True
-				cs.DataPoints.DefaultDataPoint.DataLabels.HasWedgeCallout = True
-				cs.DataPoints.DefaultDataPoint.DataLabels.HasCategoryName = True
-				cs.DataPoints.DefaultDataPoint.DataLabels.HasSeriesName = True
-				cs.DataPoints.DefaultDataPoint.DataLabels.HasLegendKey = True
-			Next cs
+            ' Get the first chart from the worksheet and assign it to a variable named "chart"
+            Dim chart As Chart = sheet.Charts(0)
 
-			'Save and Launch
-			workbook.SaveToFile("Output.xlsx", FileFormat.Version2010)
-			ExcelDocViewer(workbook.FileName)
+            ' Iterate through each series in the chart
+            For Each cs As ChartSerie In chart.Series
+                ' Enable data labels for the default data point of the series
+                cs.DataPoints.DefaultDataPoint.DataLabels.HasValue = True
+
+                ' Enable wedge callout for the data labels of the default data point
+                cs.DataPoints.DefaultDataPoint.DataLabels.HasWedgeCallout = True
+
+                ' Show category name in the data labels of the default data point
+                cs.DataPoints.DefaultDataPoint.DataLabels.HasCategoryName = True
+
+                ' Show series name in the data labels of the default data point
+                cs.DataPoints.DefaultDataPoint.DataLabels.HasSeriesName = True
+
+                ' Show legend key in the data labels of the default data point
+                cs.DataPoints.DefaultDataPoint.DataLabels.HasLegendKey = True
+            Next cs
+
+            ' Save the workbook to a file named "Output.xlsx" in Excel 2010 format
+            workbook.SaveToFile("Output.xlsx", FileFormat.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer(workbook.FileName)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

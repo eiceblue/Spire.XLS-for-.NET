@@ -11,18 +11,22 @@ Namespace HideRowsAndColumns
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\HideRowsAndColumns.xls")
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
+            'Loads the Excel document from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\HideRowsAndColumns.xls")
+            'Retrieves the first worksheet from the workbook.
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
+            'Hides the second column of the worksheet.
+            worksheet.HideColumn(2)
+            'Hiding the fourth row of the worksheet.
+            worksheet.HideRow(4)
+            'Saves the modified workbook to a file with the specified name and Excel version.
+            workbook.SaveToFile("HideRowsAndColumns.xlsx", ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
-			' Hiding the column of the worksheet
-			worksheet.HideColumn(2)
-			'Hiding the row of the worksheet
-			worksheet.HideRow(4)
-
-			workbook.SaveToFile("HideRowsAndColumns.xlsx", ExcelVersion.Version2010)
-
-			ExcelDocViewer("HideRowsAndColumns.xlsx")
+            ExcelDocViewer("HideRowsAndColumns.xlsx")
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

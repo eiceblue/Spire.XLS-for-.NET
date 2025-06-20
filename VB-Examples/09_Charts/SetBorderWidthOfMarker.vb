@@ -12,25 +12,29 @@ Namespace SetBorderWidthOfMarker
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SetBorderWidthOfMarker.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SetBorderWidthOfMarker.xlsx")
 
-			'Get the chart from the first worksheet
-			Dim chart As Chart = workbook.Worksheets(0).Charts(0)
+            ' Get the first chart in the first worksheet of the workbook
+            Dim chart As Chart = workbook.Worksheets(0).Charts(0)
 
-			chart.Series(0).DataFormat.MarkerBorderWidth = 1.5 'unit is pt
+            ' Set the marker border width of the first series of the chart to 1.5 points
+            chart.Series(0).DataFormat.MarkerBorderWidth = 1.5 'unit is pt
 
-			chart.Series(1).DataFormat.MarkerBorderWidth = 2.5 'unit is pt
+            ' Set the marker border width of the second series of the chart to 2.5 points
+            chart.Series(1).DataFormat.MarkerBorderWidth = 2.5 'unit is pt
 
+            ' Save the modified workbook to a new file
+            Dim output As String = "SetBorderWidthOfMarker_out.xlsx"
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			Dim output As String = "SetBorderWidthOfMarker_out.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
-
-			'Launch the file
-			ExcelDocViewer(output)
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

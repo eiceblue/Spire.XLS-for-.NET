@@ -11,25 +11,30 @@ Namespace AddLabelControl
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Excel workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ExcelSample_N1.xlsx")
+            ' Load an existing Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ExcelSample_N1.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Access the first worksheet of the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Add a label control
-			Dim label As ILabelShape = sheet.LabelShapes.AddLabel(10, 2, 30, 200)
-			label.Text = "This is a Label Control"
+            ' Create and add a label control to the worksheet at the specified position and size.
+            Dim label As ILabelShape = sheet.LabelShapes.AddLabel(10, 2, 30, 200)
+            'Set the text content of the label control.
+            label.Text = "This is a Label Control"
 
-			'Save the document
-			Dim output As String = "InsertLabelControl_out.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Specify the file name for the resulting Excel file.
+            Dim output As String = "InsertLabelControl_out.xlsx"
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            'Save the workbook to a file.
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

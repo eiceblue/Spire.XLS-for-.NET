@@ -18,45 +18,48 @@ Namespace SetConditionalFormatFormula
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook
+            Dim workbook As New Workbook()
 
-			'Get the default first  worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Add ConditionalFormat
-			Dim xcfs As XlsConditionalFormats = sheet.ConditionalFormats.Add()
+            ' Add conditional formats to the worksheet
+            Dim xcfs As XlsConditionalFormats = sheet.ConditionalFormats.Add()
 
-			'Define the range
-			xcfs.AddRange(sheet.Range("B5"))
+            ' Specify the range for conditional formatting
+            xcfs.AddRange(sheet.Range("B5"))
 
-			'Add condition
-			Dim format As IConditionalFormat = xcfs.AddCondition()
-			format.FormatType = ConditionalFormatType.CellValue
+            ' Add a new condition for cell value-based formatting
+            Dim format As IConditionalFormat = xcfs.AddCondition()
+            format.FormatType = ConditionalFormatType.CellValue
 
-			'If greater than 1000
-			format.FirstFormula = "1000"
-			format.Operator = ComparisonOperatorType.Greater
-			format.BackColor = Color.Orange
+            ' Set the condition formula, operator, and background color
+            format.FirstFormula = "1000"
+            format.Operator = ComparisonOperatorType.Greater
+            format.BackColor = Color.Orange
 
-       sheet.Range("B1").NumberValue=40
-       sheet.Range("B2").NumberValue=500
-       sheet.Range("B3").NumberValue=300
-       sheet.Range("B4").NumberValue=400
-			'Set a SUM formula for B5 
-			sheet.Range("B5").Formula = "=SUM(B1:B4)"
+            ' Set the numeric values for cells B1 to B4
+            sheet.Range("B1").NumberValue = 40
+            sheet.Range("B2").NumberValue = 500
+            sheet.Range("B3").NumberValue = 300
+            sheet.Range("B4").NumberValue = 400
 
-			'Add text
-			sheet.Range("C5").Text = "If Sum of B1:B4 is greater than 1000, B5 will have orange background."
+            ' Set the formula for cell B5 to calculate the sum of B1:B4
+            sheet.Range("B5").Formula = "=SUM(B1:B4)"
 
-			'String for output file 
-			Dim outputFile As String = "Output.xlsx"
+            ' Provide a description for the purpose of the conditional formatting
+            sheet.Range("C5").Text = "If Sum of B1:B4 is greater than 1000, B5 will have orange background."
 
-			'Save the file
-			workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            ' Save the workbook to an output file in Excel 2013 format
+            Dim outputFile As String = "Output.xlsx"
+            workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
 
-			'Launching the output file.
-			Viewer(outputFile)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

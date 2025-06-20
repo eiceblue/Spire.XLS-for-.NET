@@ -11,41 +11,43 @@ Namespace SetFormatOptions
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook class
+            Dim workbook As New Workbook()
 
-			'Load an excel file including pivot table
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTableExample.xlsx")
+            ' Load the Excel file into the Workbook object
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTableExample.xlsx")
 
+            ' Access the specific worksheet by name and assign it to a Worksheet object
+            Dim sheet As Worksheet = workbook.Worksheets("PivotTable")
 
+            ' Retrieve the first PivotTable on the worksheet and cast it to XlsPivotTable object
+            Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
 
-			'Get the sheet in which the pivot table is located
-			Dim sheet As Worksheet = workbook.Worksheets("PivotTable")
+            ' Enable automatic formatting for the PivotTable
+            pt.Options.IsAutoFormat = True
 
-			Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
-			'Set the PivotTable report is automatically formatted
-			pt.Options.IsAutoFormat = True
+            ' Show grand totals for rows in the PivotTable
+            pt.ShowRowGrand = True
 
-			'Setting the PivotTable report shows grand totals for rows.
-			pt.ShowRowGrand = True
+            ' Show grand totals for columns in the PivotTable
+            pt.ShowColumnGrand = True
 
-			'Setting the PivotTable report shows grand totals for columns.
-			pt.ShowColumnGrand = True
+            ' Set the option to display a specified string for null values in the PivotTable
+            pt.DisplayNullString = True
+            pt.NullString = "null"
 
-			'Setting the PivotTable report displays a custom string in cells that contain null values.
-			pt.DisplayNullString = True
-			pt.NullString = "null"
+            ' Set the page field order for multiple page fields in the PivotTable
+            pt.PageFieldOrder = PagesOrderType.DownThenOver
 
-			'Setting the PivotTable report's layout
-			pt.PageFieldOrder = PagesOrderType.DownThenOver
+            ' Specify the output file name after saving the modified Workbook
+            Dim result As String = "SetFormatOptions_result.xlsx"
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
 
-			Dim result As String = "SetFormatOptions_result.xlsx"
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-
-			'View the document
-			FileViewer(result)
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

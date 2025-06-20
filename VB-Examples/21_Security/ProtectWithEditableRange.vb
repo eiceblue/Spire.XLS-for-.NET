@@ -10,23 +10,31 @@ Namespace ProtectWithEditableRange
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook and load a file
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ProtectWithEditableRange.xlsx")
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ProtectWithEditableRange.xlsx")
 
-			'Define the specified ranges to allow users to edit while sheet is protected
-			sheet.AddAllowEditRange("EditableRanges", sheet.Range("B4:E12"))
+            ' Get the first worksheet from the Workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Protect worksheet with a password.
-			sheet.Protect("TestPassword", SheetProtectionType.All)
+            ' Add an editable range named "EditableRanges" for the specified range B4:E12 in the worksheet
+            sheet.AddAllowEditRange("EditableRanges", sheet.Range("B4:E12"))
 
-			Dim result As String = "ProtectWithEditableRange_result.xlsx"
-			'Save the document and launch it
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Protect the worksheet with the specified password and enable all protection options
+            sheet.Protect("TestPassword", SheetProtectionType.All)
+
+            ' Specify the name of the resulting Excel file after protecting with editable range
+            Dim result As String = "ProtectWithEditableRange_result.xlsx"
+
+            ' Save the Workbook to the specified path in Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

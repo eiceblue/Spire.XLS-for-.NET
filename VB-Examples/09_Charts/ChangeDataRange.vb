@@ -15,23 +15,30 @@ Namespace ChangeDataRange
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Create a workbook
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SampeB_4.xlsx")
+            ' Load the Excel file "SampeB_4.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SampeB_4.xlsx")
 
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get chart
-			Dim chart As Chart = sheet.Charts(0)
+            ' Get the first chart from the worksheet
+            Dim chart As Chart = sheet.Charts(0)
 
-			'Change data range
-			chart.DataRange = sheet.Range("A1:C4")
+            ' Set the data range of the chart to the range A1:C4 in the worksheet
+            chart.DataRange = sheet.Range("A1:C4")
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Specify the output file name as "result.xlsx"
+            Dim result As String = "result.xlsx"
+
+            ' Save the modified workbook to the specified file path, using the Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)

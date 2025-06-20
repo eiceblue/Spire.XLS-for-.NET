@@ -12,30 +12,34 @@ Namespace DetectMergedCells
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Instantiate a new workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
+            'Load an existing Excel file from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieve the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get the merged cell ranges in the first worksheet and put them into a CellRange array.
-			Dim range() As CellRange = sheet.MergedCells
+            'Retrieve an array of merged cell ranges in the worksheet.
+            Dim range() As CellRange = sheet.MergedCells
 
-			'Traverse through the array and unmerge the merged cells.
-			For Each cell As CellRange In range
-				cell.UnMerge()
-			Next cell
+            'Iterate through each merged cell range in the array.
+            For Each cell As CellRange In range
+                'Unmerge the current merged cell range.
+                cell.UnMerge()
+            Next cell
 
-			Dim result As String = "Result-DetectMergedCells.xlsx"
+            'Specify the file name for the output file.
+            Dim result As String = "Result-DetectMergedCells.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            'Save the modified workbook to the specified output file using Excel 2013 version.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

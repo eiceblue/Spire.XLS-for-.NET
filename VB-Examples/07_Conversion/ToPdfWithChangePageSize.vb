@@ -15,20 +15,28 @@ Namespace ToPdfWithChangePageSize
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Load the document from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SampleB_2.xlsx")
+            ' Create a new Workbook object to represent an Excel workbook
+            Dim workbook As New Workbook()
 
-			For Each sheet As Worksheet In workbook.Worksheets
-				'Change the page size
-				sheet.PageSetup.PaperSize = PaperSizeType.PaperA3
-			Next sheet
+            ' Load an existing Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SampleB_2.xlsx")
 
-			'Save and launch result file
-			Dim result As String = "result.pdf"
-			workbook.SaveToFile(result, FileFormat.PDF)
+            ' Iterate through each worksheet in the workbook
+            For Each sheet As Worksheet In workbook.Worksheets
 
-			ExcelDocViewer(result)
+                ' Set the paper size of the current worksheet to A3
+                sheet.PageSetup.PaperSize = PaperSizeType.PaperA3
+            Next sheet
+
+            ' Specify the filename for the resulting PDF file
+            Dim result As String = "result.pdf"
+
+            ' Save the workbook as a PDF file with the specified filename and format
+            workbook.SaveToFile(result, FileFormat.PDF)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

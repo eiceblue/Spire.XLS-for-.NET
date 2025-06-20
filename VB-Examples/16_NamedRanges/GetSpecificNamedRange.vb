@@ -16,25 +16,37 @@ Namespace GetSpecificNamedRange
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim sb As New StringBuilder()
+            ' Create a new StringBuilder object
+            Dim sb As New StringBuilder()
 
-			'Load the document from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\AllNamedRanges.xlsx")
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Get specific named range by index
-			Dim name1 As String = workbook.NameRanges(1).Name
-			sb.Append("Get the specific named range " & name1 & " by index" & vbCrLf)
+            ' Load an existing workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\AllNamedRanges.xlsx")
 
+            ' Get the name of the named range at index 1 in the workbook
+            Dim name1 As String = workbook.NameRanges(1).Name
 
-			'Get specific named range by name
-			Dim name2 As String = workbook.NameRanges("NameRange3").Name
-			sb.Append("Get the specific named range " & name2 & " by name" & vbCrLf)
+            ' Append information about accessing the specific named range by index to the StringBuilder
+            sb.Append("Get the specific named range " & name1 & " by index" & vbCrLf)
 
-			'Save and launch result file
-			Dim result As String = "result.txt"
-			File.WriteAllText(result, sb.ToString())
-			ExcelDocViewer(result)
+            ' Get the name of the named range with the name "NameRange3" in the workbook
+            Dim name2 As String = workbook.NameRanges("NameRange3").Name
+
+            ' Append information about accessing the specific named range by name to the StringBuilder
+            sb.Append("Get the specific named range " & name2 & " by name" & vbCrLf)
+
+            ' Define the output file name as "result.txt"
+            Dim result As String = "result.txt"
+
+            ' Write the contents of the StringBuilder to a text file
+            File.WriteAllText(result, sb.ToString())
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

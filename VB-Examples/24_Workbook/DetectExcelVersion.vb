@@ -12,30 +12,39 @@ Namespace DetectExcelVersion
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Files
-			Dim files() As String = { "..\..\..\..\..\..\Data\ExcelSample97_N.xls", "..\..\..\..\..\..\Data\ExcelSample_N1.xlsx", "..\..\..\..\..\..\Data\ExcelSample_N.xlsb" }
+            ' Define an array of file paths
+            Dim files() As String = {"..\..\..\..\..\..\Data\ExcelSample97_N.xls", "..\..\..\..\..\..\Data\ExcelSample_N1.xlsx", "..\..\..\..\..\..\Data\ExcelSample_N.xlsb"}
 
-			Dim builder As New StringBuilder()
+            ' Create a StringBuilder object to store the output
+            Dim builder As New StringBuilder()
 
-			For Each file As String In files
-				'Create a workbook
-				Dim workbook As New Workbook()
+            ' Iterate over each file path in the array
+            For Each file As String In files
 
-				'Load the document
-				workbook.LoadFromFile(file)
+                ' Create a new Workbook object
+                Dim workbook As New Workbook()
 
-				'Get the version
-				Dim version As ExcelVersion = workbook.Version
+                ' Load the workbook from the specified file
+                workbook.LoadFromFile(file)
 
-				builder.AppendLine(version.ToString())
-			Next file
+                ' Get the version of the loaded workbook
+                Dim version As ExcelVersion = workbook.Version
 
-			'Save to txt file
-			Dim result As String = "DetectExcelVersion_out.txt"
-			File.WriteAllText(result, builder.ToString())
+                ' Append the version to the StringBuilder
+                builder.AppendLine(version.ToString())
 
-			'Launch the file
-			ExcelDocViewer(result)
+                ' Release the resources used by the workbook
+                workbook.Dispose()
+            Next file
+
+            ' Specify the output file name
+            Dim result As String = "DetectExcelVersion_out.txt"
+
+            ' Write the contents of the StringBuilder to the output file
+            File.WriteAllText(result, builder.ToString())
+
+            'Launch the file
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

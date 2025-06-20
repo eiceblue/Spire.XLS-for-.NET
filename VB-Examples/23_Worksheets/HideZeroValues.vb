@@ -14,20 +14,27 @@ Namespace HideZeroValues
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
 
-			Dim workbook As New Workbook()
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SampleB_2.xlsx")
+            ' Create a new instance of the Workbook class
+            Dim workbook As New Workbook()
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Load the workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SampleB_2.xlsx")
 
-			'Set false to hide the zero values in sheet
-			sheet.IsDisplayZeros = False
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Set the IsDisplayZeros property of the worksheet to False
+            sheet.IsDisplayZeros = False
+
+            ' Specify the result file name
+            Dim result As String = "result.xlsx"
+
+            ' Save the modified workbook to the specified file in Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

@@ -13,38 +13,40 @@ Namespace GetWorksheetOfChart
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartToImage.xlsx")
+            ' Load the Excel file into the workbook.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartToImage.xlsx")
 
-			'Access first worksheet of the workbook
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook.
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-			'Access the first chart inside this worksheet
-			Dim chart As Chart = worksheet.Charts(0)
+            ' Get the first chart in the worksheet.
+            Dim chart As Chart = worksheet.Charts(0)
 
-			'Get its worksheet
-			Dim wSheet As Worksheet = TryCast(chart.Worksheet, Worksheet)
+            ' Cast the chart's worksheet as a Worksheet object.
+            Dim wSheet As Worksheet = TryCast(chart.Worksheet, Worksheet)
 
-			'Create StringBuilder to save 
-			Dim content As New StringBuilder()
+            ' Create a StringBuilder object to store the content.
+            Dim content As New StringBuilder()
 
-			'Set string format for displaying
-			Dim result As String = String.Format("Sheet Name: " & worksheet.Name & vbCrLf & "Charts' sheet Name: " & wSheet.Name)
+            ' Create a string with the sheet name and the chart's sheet name.
+            Dim result As String = String.Format("Sheet Name: " & worksheet.Name & vbCrLf & "Charts' sheet Name: " & wSheet.Name)
 
-			'Add result string to StringBuilder
-			content.AppendLine(result)
+            ' Append the result string to the content StringBuilder.
+            content.AppendLine(result)
 
-			'String for output file 
-			Dim outputFile As String = "Output.txt"
+            ' Specify the output file name.
+            Dim outputFile As String = "Output.txt"
 
-			'Save them to a txt file
-			File.WriteAllText(outputFile, content.ToString())
+            ' Write the contents of the content StringBuilder to a text file.
+            File.WriteAllText(outputFile, content.ToString())
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launching the output file.
-			Viewer(outputFile)
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

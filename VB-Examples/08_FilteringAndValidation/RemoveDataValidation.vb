@@ -12,28 +12,31 @@ Namespace RemoveDataValidation
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object to represent an Excel workbook
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\RemoveDataValidation.xlsx")
+            ' Load an existing Excel file named "RemoveDataValidation.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\RemoveDataValidation.xlsx")
 
-			'Create an array of rectangles, which is used to locate the ranges in worksheet.
-			Dim rectangles(0) As Rectangle
+            ' Declare and initialize an array of Rectangle objects with a size of 1
+            Dim rectangles(0) As Rectangle
 
-			'Assign value to the first element of the array. This rectangle specifies the cells from A1 to B3.
-			rectangles(0) = New Rectangle(0, 0, 1, 2)
+            ' Create a new Rectangle object and assign it to the first element of the rectangles array
+            rectangles(0) = New Rectangle(0, 0, 1, 2)
 
-			'Remove validations in the ranges represented by rectangles.
-			workbook.Worksheets(0).DVTable.Remove(rectangles)
+            ' Remove the data validation within the specified rectangles on the first worksheet of the workbook
+            workbook.Worksheets(0).DVTable.Remove(rectangles)
 
-			Dim result As String = "Result-RemoveDataValidation.xlsx"
+            ' Specify the output filename for the resulting workbook after removing data validation
+            Dim result As String = "Result-RemoveDataValidation.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Save the modified workbook to a new Excel file with Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

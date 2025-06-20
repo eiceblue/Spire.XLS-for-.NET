@@ -12,34 +12,38 @@ Namespace ExpandOrCollapseRows
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_7.xlsx")
+            ' Load the Excel file from a specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_7.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get the data in Pivot Table.
-			Dim pivotTable As Spire.Xls.Core.Spreadsheet.PivotTables.XlsPivotTable = TryCast(sheet.PivotTables(0), Spire.Xls.Core.Spreadsheet.PivotTables.XlsPivotTable)
+            ' Retrieve the PivotTable object from the worksheet and cast it as an XlsPivotTable
+            Dim pivotTable As Spire.Xls.Core.Spreadsheet.PivotTables.XlsPivotTable = TryCast(sheet.PivotTables(0), Spire.Xls.Core.Spreadsheet.PivotTables.XlsPivotTable)
 
-			'Calculate Data.
-			pivotTable.CalculateData()
+            ' Calculate the data in the PivotTable
+            pivotTable.CalculateData()
 
-			'Collapse the rows.
-			TryCast(pivotTable.PivotFields("Vendor No"), Spire.Xls.Core.Spreadsheet.PivotTables.XlsPivotField).HideItemDetail("3501", True)
+            ' Hide the detail for a specific item in the "Vendor No" field of the PivotTable
+            TryCast(pivotTable.PivotFields("Vendor No"), Spire.Xls.Core.Spreadsheet.PivotTables.XlsPivotField).HideItemDetail("3501", True)
 
-			'Expand the rows.
-			TryCast(pivotTable.PivotFields("Vendor No"), Spire.Xls.Core.Spreadsheet.PivotTables.XlsPivotField).HideItemDetail("3502", False)
+            ' Show the detail for another specific item in the "Vendor No" field of the PivotTable
+            TryCast(pivotTable.PivotFields("Vendor No"), Spire.Xls.Core.Spreadsheet.PivotTables.XlsPivotField).HideItemDetail("3502", False)
 
-			Dim result As String = "Result-ExpandOrCollapseRowsInPivotTable.xlsx"
+            ' Specify the file name for the result file
+            Dim result As String = "Result-ExpandOrCollapseRowsInPivotTable.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Save the workbook to the specified file path with the specified Excel version (2013)
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

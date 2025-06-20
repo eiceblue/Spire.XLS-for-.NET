@@ -13,15 +13,27 @@ Namespace CreateFilter
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CreateFilter.xlsx")
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			'Create filter
-			sheet.AutoFilters.Range = sheet.Range("A1:J1")
+            ' Create a new Workbook object to represent an Excel workbook
+            Dim workbook As New Workbook()
 
-			Dim result As String = "CreateFilter_out.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Load an existing Excel file named "CreateFilter.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CreateFilter.xlsx")
+
+            ' Get the first worksheet (index 0) from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+
+            ' Set the range for auto-filtering to be from cell A1 to J1 in the worksheet
+            sheet.AutoFilters.Range = sheet.Range("A1:J1")
+
+            ' Specify the output filename for the filtered data
+            Dim result As String = "CreateFilter_out.xlsx"
+
+            ' Save the filtered data to a new Excel file with Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

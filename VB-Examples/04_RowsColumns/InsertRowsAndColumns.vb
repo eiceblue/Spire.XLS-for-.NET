@@ -11,22 +11,28 @@ Namespace InsertRowsAndColumns
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\InsertRowsAndColumns.xls")
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
+            'Loads the Excel document from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\InsertRowsAndColumns.xls")
+            'Retrieves the first worksheet from the workbook.
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
+            'Inserting a row into the worksheet.
+            worksheet.InsertRow(2)
+            'Inserts the second column into the worksheet.
+            worksheet.InsertColumn(2)
+            'Inserts two rows from the fifth row into the worksheet.
+            worksheet.InsertRow(5, 2)
+            'Inserting two columns from the fifth column into the worksheet.
+            worksheet.InsertColumn(5, 2)
+            'Specifies the name of the resulting Excel file.
+            Dim result As String = "InsertRowsAndColumns_out.xlsx"
+            'Saves the modified workbook to a file with the specified name and Excel version.
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
-			'Inserting a row into the worksheet 
-			worksheet.InsertRow(2)
-			'Inserting a column into the worksheet 
-			worksheet.InsertColumn(2)
-			'Inserting multiple rows into the worksheet
-			worksheet.InsertRow(5, 2)
-			'Inserting multiple columns into the worksheet
-			worksheet.InsertColumn(5, 2)
-
-			Dim result As String="InsertRowsAndColumns_out.xlsx"
-			workbook.SaveToFile(result,ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

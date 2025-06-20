@@ -9,24 +9,29 @@ Namespace MoveWorksheet
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of the Workbook class
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample2.xlsx")
+            ' Load the workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample2.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Move worksheet
-			sheet.MoveWorksheet(2)
+            ' Move the worksheet to a new position (index 2)
+            sheet.MoveWorksheet(2)
 
-			'Save the document
-			Dim output As String = "MoveWorksheet.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Specify the output file name
+            Dim output As String = "MoveWorksheet.xlsx"
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Save the modified workbook to the specified file in Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

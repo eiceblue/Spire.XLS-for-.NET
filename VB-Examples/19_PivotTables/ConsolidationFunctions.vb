@@ -11,31 +11,38 @@ Namespace ConsolidationFunctions
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load an excel file including pivot table
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTableExample.xlsx")
-			'Get the sheet in which the pivot table is located
-			Dim sheet As Worksheet = workbook.Worksheets("PivotTable")
+            ' Load an Excel file named "PivotTableExample.xlsx" from a specific location
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTableExample.xlsx")
 
-			Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
+            ' Get the worksheet named "PivotTable"
+            Dim sheet As Worksheet = workbook.Worksheets("PivotTable")
 
-			'Apply Average consolidation function to first data field
-			pt.DataFields(0).Subtotal = SubtotalTypes.Average
+            ' Get the first PivotTable on the sheet and cast it to XlsPivotTable type
+            Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
 
-			'Apply Max consolidation function to second data field
-			pt.DataFields(1).Subtotal = SubtotalTypes.Max
+            ' Set the subtotal type for the first data field as Average
+            pt.DataFields(0).Subtotal = SubtotalTypes.Average
 
-			pt.CalculateData()
+            ' Set the subtotal type for the second data field as Maximum
+            pt.DataFields(1).Subtotal = SubtotalTypes.Max
 
-			Dim result As String = "ConsolidationFunctions_result.xlsx"
+            ' Calculate the data of the PivotTable
+            pt.CalculateData()
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Specify the filename for the resulting Excel file
+            Dim result As String = "ConsolidationFunctions_result.xlsx"
 
-			'View the document
-			FileViewer(result)
+            ' Save the Workbook object to the specified file in Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

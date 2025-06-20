@@ -12,50 +12,52 @@ Namespace CreateNestedGroup
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            '  Create a new workbook object.
+            Dim workbook As New Workbook()
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Set the style.
-			Dim style As CellStyle = workbook.Styles.Add("style")
-			style.Font.Color = Color.CadetBlue
-			style.Font.IsBold = True
+            'Set a style.
+            Dim style As CellStyle = workbook.Styles.Add("style")
+            style.Font.Color = Color.CadetBlue
+            style.Font.IsBold = True
 
-			'Set the summary rows appear above detail rows.
-			sheet.PageSetup.IsSummaryRowBelow = False
+            'Set the summary rows appear above detail rows.
+            sheet.PageSetup.IsSummaryRowBelow = False
 
-			'Insert sample data to cells.
-			sheet.Range("A1").Value = "Project plan for project X"
-			sheet.Range("A1").CellStyleName = style.Name
+            'Insert sample data to cells.
+            sheet.Range("A1").Value = "Project plan for project X"
+            sheet.Range("A1").CellStyleName = style.Name
 
-			sheet.Range("A3").Value = "Set up"
-			sheet.Range("A3").CellStyleName = style.Name
-			sheet.Range("A4").Value = "Task 1"
-			sheet.Range("A5").Value = "Task 2"
-			sheet.Range("A4:A5").BorderAround(LineStyleType.Thin)
-			sheet.Range("A4:A5").BorderInside(LineStyleType.Thin)
+            sheet.Range("A3").Value = "Set up"
+            sheet.Range("A3").CellStyleName = style.Name
+            sheet.Range("A4").Value = "Task 1"
+            sheet.Range("A5").Value = "Task 2"
+            sheet.Range("A4:A5").BorderAround(LineStyleType.Thin)
+            sheet.Range("A4:A5").BorderInside(LineStyleType.Thin)
 
-			sheet.Range("A7").Value = "Launch"
-			sheet.Range("A7").CellStyleName = style.Name
-			sheet.Range("A8").Value = "Task 1"
-			sheet.Range("A9").Value = "Task 2"
-			sheet.Range("A8:A9").BorderAround(LineStyleType.Thin)
-			sheet.Range("A8:A9").BorderInside(LineStyleType.Thin)
+            sheet.Range("A7").Value = "Launch"
+            sheet.Range("A7").CellStyleName = style.Name
+            sheet.Range("A8").Value = "Task 1"
+            sheet.Range("A9").Value = "Task 2"
+            sheet.Range("A8:A9").BorderAround(LineStyleType.Thin)
+            sheet.Range("A8:A9").BorderInside(LineStyleType.Thin)
 
-			'Group the rows that you want to group.
-			sheet.GroupByRows(2, 9, False)
-			sheet.GroupByRows(4, 5, False)
-			sheet.GroupByRows(8, 9, False)
+            'Group the rows that you want to group.
+            sheet.GroupByRows(2, 9, False)
+            sheet.GroupByRows(4, 5, False)
+            sheet.GroupByRows(8, 9, False)
 
-			Dim result As String = "Result-CreateNestedGroup.xlsx"
+            Dim result As String = "Result-CreateNestedGroup.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Save the workbook to a file named "Result-CreateNestedGroup.xlsx" using Excel 2013 format.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

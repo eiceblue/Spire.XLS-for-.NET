@@ -11,14 +11,22 @@ Namespace DataExport
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\DataExport.xlsx")
-			'Initailize worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Load an existing Excel file into the workbook
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\DataExport.xlsx")
 
-			Me.dataGrid1.DataSource = sheet.ExportDataTable()
-		End Sub
+            ' Initialize a Worksheet object by getting the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+
+            ' Set the data source of a DataGrid (assuming "dataGrid1" is a DataGrid control) to the exported DataTable from the worksheet
+            Me.dataGrid1.DataSource = sheet.ExportDataTable()
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+        End Sub
 
 		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
 			Close()

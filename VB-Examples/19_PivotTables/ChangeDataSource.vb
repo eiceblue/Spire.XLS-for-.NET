@@ -8,27 +8,38 @@ Namespace ChangeDataSource
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
-			'Load an excel file
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChangeDataSource.xlsx")
+            ' Create a new Workbook object.
+            Dim workbook As New Workbook()
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Load an Excel file from a specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChangeDataSource.xlsx")
 
-			Dim Range As CellRange = sheet.Range("A1:C15")
+            ' Get the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			Dim table As PivotTable = TryCast(workbook.Worksheets(1).PivotTables(0), PivotTable)
+            ' Define a CellRange object that represents the range "A1:C15" on the worksheet.
+            Dim Range As CellRange = sheet.Range("A1:C15")
 
-			'Change data source
-			table.ChangeDataSource(Range)
-			table.Cache.IsRefreshOnLoad = False
+            ' Get the first PivotTable from the second worksheet in the workbook and cast it to a PivotTable object.
+            Dim table As PivotTable = TryCast(workbook.Worksheets(1).PivotTables(0), PivotTable)
 
-			Dim result As String = "ChangeDataSource_result.xlsx"
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			'View the document
-			FileViewer(result)
+            ' Change the data source of the PivotTable to the specified range.
+            table.ChangeDataSource(Range)
+
+            ' Disable automatic refresh of the PivotTable cache when the workbook is loaded.
+            table.Cache.IsRefreshOnLoad = False
+
+            ' Specify the name for the result file.
+            Dim result As String = "ChangeDataSource_result.xlsx"
+
+            ' Save the modified workbook to a file with the specified result name and Excel version.
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 
 		End Sub
 

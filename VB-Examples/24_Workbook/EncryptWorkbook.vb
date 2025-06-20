@@ -10,16 +10,22 @@ Namespace EncryptWorkbook
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook and load a file
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\EncryptWorkbook.xlsx")
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Protect Workbook with the password you want
-			workbook.Protect("eiceblue")
+            ' Load the workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\EncryptWorkbook.xlsx")
 
-			'Save the document and launch it
-			workbook.SaveToFile("EncryptWorkbook_result.xlsx", ExcelVersion.Version2010)
-			ExcelDocViewer("EncryptWorkbook_result.xlsx")
+            ' Protect the workbook with a password
+            workbook.Protect("eiceblue")
+
+            ' Save the protected workbook to a new file with Excel Version 2010 format
+            workbook.SaveToFile("EncryptWorkbook_result.xlsx", ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer("EncryptWorkbook_result.xlsx")
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

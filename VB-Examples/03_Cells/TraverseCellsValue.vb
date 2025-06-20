@@ -13,38 +13,42 @@ Namespace TraverseCellsValue
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CellValues.xlsx")
+            'Loads an Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CellValues.xlsx")
 
-			'Get first worksheet of the workbook
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
+            'Retrieves the first worksheet from the workbook.
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-			'Get the cell range collection 
-			Dim cellRangeCollection() As CellRange = worksheet.Cells
+            'Retrieves the collection of all cells in the worksheet.
+            Dim cellRangeCollection() As CellRange = worksheet.Cells
 
-			'Create StringBuilder to save 
-			Dim content As New StringBuilder()
-			content.AppendLine("Values of the first sheet:")
+            'Creates a new instance of the StringBuilder class for storing the output.
+            Dim content As New StringBuilder()
+            'Appends a line to the StringBuilder object.
+            content.AppendLine("Values of the first sheet:")
 
-			'Traverse cells value
-			For Each cellRange As CellRange In cellRangeCollection
-				'Set string format for displaying
-				Dim result As String = String.Format("Cell: " & cellRange.RangeAddress & "   Value: " & cellRange.Value)
+            'Iterates through each cell range in the collection.
+            For Each cellRange As CellRange In cellRangeCollection
+                'Formats the cell address and value into a string.
+                Dim result As String = String.Format("Cell: " & cellRange.RangeAddress & "   Value: " & cellRange.Value)
 
-				'Add result string to StringBuilder
-				content.AppendLine(result)
-			Next cellRange
-			'String for output file 
-			Dim outputFile As String = "Output.txt"
+                'Appends the formatted string to the StringBuilder object.
+                content.AppendLine(result)
+            Next cellRange
 
-			'Save them to a txt file
-			File.WriteAllText(outputFile, content.ToString())
+            'Specifies the name of the output file.
+            Dim outputFile As String = "Output.txt"
 
-			'Launching the output file.
-			Viewer(outputFile)
+            'Writes the contents of the StringBuilder object to the specified file.
+            File.WriteAllText(outputFile, content.ToString())
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

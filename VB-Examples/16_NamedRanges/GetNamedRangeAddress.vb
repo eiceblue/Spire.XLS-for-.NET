@@ -17,24 +17,34 @@ Namespace GetNamedRangeAddress
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim sb As New StringBuilder()
+            ' Create a new StringBuilder object
+            Dim stringBuilder As New StringBuilder()
 
-			'Create a workbook and load the document from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\AllNamedRanges.xlsx")
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Get specific named range by index
-			Dim NamedRange As INamedRange = workbook.NameRanges(0)
+            ' Load an existing workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\AllNamedRanges.xlsx")
 
-			'Get the address of the named range
-			Dim address As String = NamedRange.RefersToRange.RangeAddress
+            ' Get the first named range from the workbook
+            Dim NamedRange As INamedRange = workbook.NameRanges(0)
 
-			sb.Append("The address of the named range " & NamedRange.Name & " is " & address)
+            ' Get the address of the range referred by the named range
+            Dim address As String = NamedRange.RefersToRange.RangeAddress
 
-			'Save and launch result file
-			Dim result As String = "result.txt"
-			File.WriteAllText(result, sb.ToString())
-			ExcelDocViewer(result)
+            ' Append the information about the named range and its address to the StringBuilder
+            stringBuilder.Append("The address of the named range " & NamedRange.Name & " is " & address)
+
+            ' Define the output file name as "result.txt"
+            Dim result As String = "result.txt"
+
+            ' Write the contents of the StringBuilder to a text file
+            File.WriteAllText(result, stringBuilder.ToString())
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

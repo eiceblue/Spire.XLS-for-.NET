@@ -10,33 +10,43 @@ Namespace CreatePivotChart
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTable.xlsx")
+            ' Load the Excel file "PivotTable.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTable.xlsx")
 
-			'get the first worksheet
-		   Dim sheet As Worksheet = workbook.Worksheets(0)
-		   'get the first pivot table in the worksheet
-		   Dim pivotTable As IPivotTable = sheet.PivotTables(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-		   'create a clustered column chart based on the pivot table
-		   Dim chart As Chart = sheet.Charts.Add(ExcelChartType.ColumnClustered, pivotTable)
-		   'set chart position
-		   chart.TopRow = 12
-		   chart.LeftColumn = 1
-		   chart.RightColumn = 8
-		   chart.BottomRow = 30
-		   chart.ChartTitle = "Product"
-		   chart.PrimaryCategoryAxis.MultiLevelLable = True
+            ' Get the first PivotTable from the worksheet
+            Dim pivotTable As IPivotTable = sheet.PivotTables(0)
 
-			'Save the document
-			Dim output As String = "CreatePivotChart.xlsx"
-		workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Add a column clustered chart to the worksheet, using the PivotTable as the data source
+            Dim chart As Chart = sheet.Charts.Add(ExcelChartType.ColumnClustered, pivotTable)
 
-			'Launch the file
-			ExcelDocViewer(output)
+            ' Set the position of the chart within the worksheet using row and column indices
+            chart.TopRow = 12
+            chart.LeftColumn = 1
+            chart.RightColumn = 8
+            chart.BottomRow = 30
+
+            ' Set the chart title to "Product"
+            chart.ChartTitle = "Product"
+
+            ' Enable multi-level category axis labels
+            chart.PrimaryCategoryAxis.MultiLevelLable = True
+
+            ' Specify the output file name as "CreatePivotChart.xlsx"
+            Dim output As String = "CreatePivotChart.xlsx"
+
+            ' Save the modified workbook to the specified file path, using Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

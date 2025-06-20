@@ -14,20 +14,26 @@ Namespace ApplyBuiltInStyles
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
 
-			Dim workbook As New Workbook()
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SampleB_2.xlsx")
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Load the workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SampleB_2.xlsx")
 
-			'Apply title style
-			sheet.Range("A1:J1").BuiltInStyle = BuiltInStyles.Title
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Set the built-in style "Title" for the range A1:J1 in the worksheet
+            sheet.Range("A1:J1").BuiltInStyle = BuiltInStyles.Title
+
+            ' Specify the output file path for saving the modified workbook
+            Dim result As String = "result.xlsx"
+
+            ' Save the workbook to the specified output file path in Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

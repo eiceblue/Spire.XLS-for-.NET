@@ -12,37 +12,44 @@ Namespace FindFormulaCells
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Instantiate a new workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\FindCellsSample.xlsx")
+            'Load an existing Excel document from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\FindCellsSample.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieve the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Find the cells that contain formula "=SUM(A11,A12)"
-			Dim ranges() As CellRange = sheet.FindAll("=SUM(A11,A12)", FindType.Formula, ExcelFindOptions.None)
+            'Search for all cell ranges in the worksheet that contain the formula "=SUM(A11,A12)".
+            Dim ranges() As CellRange = sheet.FindAll("=SUM(A11,A12)", FindType.Formula, ExcelFindOptions.None)
 
-			'Create a string builder
-			Dim builder As New StringBuilder()
+            'Instantiate a new StringBuilder object to build the output text.
+            Dim builder As New StringBuilder()
 
-			'Append the address of found cells to builder
-			If ranges.Length <> 0 Then
-				For Each range As CellRange In ranges
-					Dim address As String = range.RangeAddress
-					builder.AppendLine("The address of found cell is: " & address)
-				Next range
-			Else
-				builder.AppendLine("No cell contain the formula")
-			End If
+            'Check if any cell ranges containing the formula were found.
+            If ranges.Length <> 0 Then
+                'Iterate through each found cell range.
+                For Each range As CellRange In ranges
+                    'Retrieve the address of the current cell range.
+                    Dim address As String = range.RangeAddress
+                    'Append the address of the current cell range to the string builder.
+                    builder.AppendLine("The address of found cell is: " & address)
+                Next range
+            Else
+                'Append a message indicating that no cell contains the specified formula.
+                builder.AppendLine("No cell contain the formula")
+            End If
 
-			'Save to txt file
-			Dim result As String = "FindFormulaCells_out.txt"
-			File.WriteAllText(result, builder.ToString())
+            'Specify the file name for the output file.
+            Dim result As String = "FindFormulaCells_out.txt"
+            'Write the contents of the string builder to the specified output file.
+            File.WriteAllText(result, builder.ToString())
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the file
-			OutputViewer(result)
+            'Launch the file
+            OutputViewer(result)
 		End Sub
 		Private Sub OutputViewer(ByVal fileName As String)
 			Try

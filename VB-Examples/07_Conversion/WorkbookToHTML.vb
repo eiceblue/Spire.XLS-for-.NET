@@ -10,14 +10,19 @@ Namespace WorkbookToHTML
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\WorkbookToHTML.xlsx")
+            ' Create a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Convert to html
-			workbook.SaveToHtml("result.html")
+            ' Load the Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\WorkbookToHTML.xlsx")
 
-			'View the document
-			FileViewer("result.html")
+            ' Save the workbook to an HTML file.
+            workbook.SaveToHtml("result.html")
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer("result.html")
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

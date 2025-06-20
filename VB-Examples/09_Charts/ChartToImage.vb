@@ -11,17 +11,22 @@ Namespace ChartToImage
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Load a Workbook from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartToImage.xlsx")
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Save chart as image
-		   Dim image As Image= workbook.SaveChartAsImage(workbook.Worksheets(0), 0)
+            ' Load the Excel file "ChartToImage.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartToImage.xlsx")
 
-		   image.Save("Output.png",ImageFormat.Png)
+            ' Save the chart from the first worksheet of the workbook as an image and assign it to the 'image' variable
+            Dim image As Image = workbook.SaveChartAsImage(workbook.Worksheets(0), 0)
 
-			'Launch the file
-			ExcelDocViewer("Output.png")
+            ' Save the image to a file named "Output.png" in PNG format
+            image.Save("Output.png", ImageFormat.Png)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the file
+            ExcelDocViewer("Output.png")
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

@@ -13,39 +13,47 @@ Namespace SetFontAndBackground
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Workbook instance
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_5.xlsx")
+            ' Load the workbook from a specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_5.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get the textbox which will be edited.
-			Dim shape As XlsTextBoxShape = TryCast(sheet.TextBoxes(0), XlsTextBoxShape)
+            ' Get the first TextBox shape from the worksheet and cast it to XlsTextBoxShape
+            Dim shape As XlsTextBoxShape = TryCast(sheet.TextBoxes(0), XlsTextBoxShape)
 
-			'Set the font and background color for the textbox.
-			'Set font.
-			Dim font As ExcelFont = workbook.CreateFont()
-			'font.IsStrikethrough = true;
-			font.FontName = "Century Gothic"
-			font.Size = 10
-			font.IsBold = True
-			font.Color = Color.Blue
-			CType(New RichText(shape.RichText), RichText).SetFont(0, shape.Text.Length - 1, font)
+            ' Create a new ExcelFont instance
+            Dim font As ExcelFont = workbook.CreateFont()
 
-			'Set background color
-			shape.Fill.FillType = ShapeFillType.SolidColor
-			shape.Fill.ForeKnownColor = ExcelColors.BlueGray
+            ' Set the properties of the font
+            font.FontName = "Century Gothic"
+            font.Size = 10
+            font.IsBold = True
+            font.Color = Color.Blue
 
-			Dim result As String = "Result-SetFontAndBackgroundForTextBox.xlsx"
+            ' Set the font for the entire text in the TextBox shape
+            CType(New RichText(shape.RichText), RichText).SetFont(0, shape.Text.Length - 1, font)
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Set the fill type of the TextBox shape to solid color
+            shape.Fill.FillType = ShapeFillType.SolidColor
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Set the foreground color of the TextBox shape to a predefined Excel color
+            shape.Fill.ForeKnownColor = ExcelColors.BlueGray
+
+            ' Specify the output file name
+            Dim result As String = "Result-SetFontAndBackgroundForTextBox.xlsx"
+
+            ' Save the modified workbook to the specified file path in Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

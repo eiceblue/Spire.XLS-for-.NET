@@ -12,18 +12,23 @@ Namespace WriteImages
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a Workbook
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\WriteImages.xlsx")
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Instantiate a new Workbook object.
+            Dim workbook As New Workbook()
 
-			'Add an image to the specific cell
-			sheet.Pictures.Add(14, 5, "..\..\..\..\..\..\Data\SpireXls.png")
+            'Load an Excel document from the specified file.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\WriteImages.xlsx")
 
-			'Save and Launch
-			workbook.SaveToFile("Output.xlsx",ExcelVersion.Version2010)
-			ExcelDocViewer("Output.xlsx")
+            'Access the first worksheet in the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+
+            'Add an image to the specified cell at position (14, 5) using the image file "SpireXls.png".
+            sheet.Pictures.Add(14, 5, "..\..\..\..\..\..\Data\SpireXls.png")
+
+            'Save the workbook to the file "Output.xlsx" using Excel 2010 format.
+            workbook.SaveToFile("Output.xlsx", ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer("Output.xlsx")
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

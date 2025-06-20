@@ -17,25 +17,32 @@ Namespace EditLineChart
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\LineChart.xlsx")
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Load an existing Excel file named "LineChart.xlsx"
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\LineChart.xlsx")
 
-			'Get the line chart
-			Dim chart As Chart = sheet.Charts(0)
+            ' Get the first worksheet from the loaded workbook and assign it to a variable named "sheet"
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Add a new series
-			Dim cs As ChartSerie = chart.Series.Add("Added")
+            ' Get the first chart from the worksheet and assign it to a variable named "chart"
+            Dim chart As Chart = sheet.Charts(0)
 
-			'Set the values for the series
-			cs.Values = sheet.Range("I1:L1")
+            ' Add a new ChartSerie with the name "Added" to the chart and assign it to a variable named "cs"
+            Dim cs As ChartSerie = chart.Series.Add("Added")
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Set the values of the newly added series using the range I1:L1 from the worksheet
+            cs.Values = sheet.Range("I1:L1")
+
+            ' Specify the output file name as "result.xlsx"
+            Dim result As String = "result.xlsx"
+
+            ' Save the modified workbook to a file named "result.xlsx" in Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

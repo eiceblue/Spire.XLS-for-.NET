@@ -11,28 +11,30 @@ Namespace TextDirection
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook
+            Dim workbook As New Workbook()
 
-			'Add a new worksheet to the Excel object
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Access the "B5" cell from the worksheet
-			Dim cell As CellRange = sheet.Range("B5")
+            ' Get the cell range B5
+            Dim cell As CellRange = sheet.Range("B5")
 
-			'Add some value to the "B5" cell
-			cell.Text = "Hello Spire!"
+            ' Set the text of the cell to "Hello Spire!"
+            cell.Text = "Hello Spire!"
 
-			'Set the reading order from right to left of the text in the "B5" cell
-			cell.Style.ReadingOrder = ReadingOrderType.RightToLeft
+            ' Set the reading order of the cell to right-to-left
+            cell.Style.ReadingOrder = ReadingOrderType.RightToLeft
 
-			Dim result As String = "TextDirection_result.xlsx"
+            ' Save the workbook to a file named "TextDirection_result.xlsx" in Excel 2010 format
+            Dim result As String = "TextDirection_result.xlsx"
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'View the document
-		   FileViewer(result)
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

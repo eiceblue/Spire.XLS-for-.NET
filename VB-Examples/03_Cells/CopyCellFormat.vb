@@ -12,28 +12,32 @@ Namespace CopyCellFormat
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Instantiate a new workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
+            'Load an existing Excel file from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieve the first worksheet from the workbook..
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Copy the cell format from column 2 and apply to cells of column 5.
-			Dim count As Integer = sheet.Rows.Length
-			For i As Integer = 1 To count
-				sheet.Range(String.Format("E{0}", i)).Style = sheet.Range(String.Format("B{0}", i)).Style
-			Next i
+            'Get the number of rows in the worksheet.
+            Dim count As Integer = sheet.Rows.Length
+            'Iterate through each row.
+            For i As Integer = 1 To count
+                'Copy the cell style from column 2 (cell B) and apply it to the corresponding cell in column 5 (cell E).
+                sheet.Range(String.Format("E{0}", i)).Style = sheet.Range(String.Format("B{0}", i)).Style
+            Next i
+            'Specify the file name for the output file.
+            Dim result As String = "Result-CopyCellFormat.xlsx"
 
-			Dim result As String = "Result-CopyCellFormat.xlsx"
+            'Save the modified workbook to the specified output file using Excel 2013 version.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
-
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

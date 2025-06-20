@@ -16,28 +16,32 @@ Namespace ToHtmlStream
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ReadImages.xlsx")
+            ' Load the Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ReadImages.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Set the html options
-			Dim options As New HTMLOptions()
-			options.ImageEmbedded = True
+            ' Create an instance of HTMLOptions class to specify HTML conversion settings.
+            Dim options As New HTMLOptions()
+            options.ImageEmbedded = True
 
-			'String for output file 
-			Dim outputFile As String = "Output.html"
+            ' Specify the output file name for the HTML file.
+            Dim outputFile As String = "Output.html"
 
-			'Save sheet to html stream
-			Dim fileStream As New FileStream(outputFile, FileMode.Create)
-			sheet.SaveToHtml(fileStream, options)
+            ' Create a FileStream object in FileMode.Create to write the HTML content to a file.
+            Dim fileStream As New FileStream(outputFile, FileMode.Create)
 
-			'Launching the output file.
-			Viewer(outputFile)
+            ' Save the worksheet to an HTML file using the specified file stream and options.
+            sheet.SaveToHtml(fileStream, options)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

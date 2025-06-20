@@ -13,35 +13,41 @@ Namespace CopyWorksheet
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim sourceWorkbook As New Workbook()
+            ' Create a new Workbook object to hold the source workbook
+            Dim sourceWorkbook As New Workbook()
 
-			'Load the source Excel document from disk
-			sourceWorkbook.LoadFromFile("..\..\..\..\..\..\Data\ReadImages.xlsx")
+            ' Load an existing Excel file into the source workbook from a specified path
+            sourceWorkbook.LoadFromFile("..\..\..\..\..\..\Data\ReadImages.xlsx")
 
-			'Get the first worksheet
-			Dim srcWorksheet As Worksheet = sourceWorkbook.Worksheets(0)
+            ' Get the reference to the first worksheet in the source workbook
+            Dim srcWorksheet As Worksheet = sourceWorkbook.Worksheets(0)
 
-			'Create a workbook
-			Dim targetWorkbook As New Workbook()
+            ' Create a new Workbook object to hold the target workbook
+            Dim targetWorkbook As New Workbook()
 
-			'Load the target Excel document from disk
-			targetWorkbook.LoadFromFile("..\..\..\..\..\..\Data\sample.xlsx")
+            ' Load an existing Excel file into the target workbook from a specified path
+            targetWorkbook.LoadFromFile("..\..\..\..\..\..\Data\sample.xlsx")
 
-			'Add a new worksheet
-			Dim targetWorksheet As Worksheet = targetWorkbook.Worksheets.Add("added")
+            ' Add a new worksheet named "added" to the target workbook and get its reference
+            Dim targetWorksheet As Worksheet = targetWorkbook.Worksheets.Add("added")
 
-			'Copy the first worksheet of source Excel document to the new added worksheet of target Excel document
-			targetWorksheet.CopyFrom(srcWorksheet)
+            ' Copy the contents (including formatting and formulas) of the source worksheet to the target worksheet
+            targetWorksheet.CopyFrom(srcWorksheet)
 
-			'String for output file 
-			Dim outputFile As String = "Output.xlsx"
+            ' Specify the output file name for the modified target workbook
+            Dim outputFile As String = "Output.xlsx"
 
-			'Save the file
-			targetWorkbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            ' Save the modified target workbook to a new file with the specified name and Excel version (2013)
+            targetWorkbook.SaveToFile(outputFile, ExcelVersion.Version2013)
 
-			'Launching the output file.
-			Viewer(outputFile)
+            ' Release the resources used by the workbook
+            sourceWorkbook.Dispose()
+
+            ' Release the resources used by the workbook
+            targetWorkbook.Dispose()
+
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

@@ -12,28 +12,30 @@ Namespace AddTableWithFilter
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Excel workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
+            ' Load an existing Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Create a List Object named in Table.
-			sheet.ListObjects.Create("Table", sheet.Range(1, 1, sheet.LastRow, sheet.LastColumn))
+            ' Create a table by specifying the name "Table" and the range of cells to include.
+            sheet.ListObjects.Create("Table", sheet.Range(1, 1, sheet.LastRow, sheet.LastColumn))
 
-			'Set the BuiltInTableStyle for List object.
-			sheet.ListObjects(0).BuiltInTableStyle = TableBuiltInStyles.TableStyleLight9
+            ' Set the built-in table style for the created table to "TableStyleLight9".
+            sheet.ListObjects(0).BuiltInTableStyle = TableBuiltInStyles.TableStyleLight9
+            ' Specify the output file name.
+            Dim result As String = "Result-AddTableWithFilter.xlsx"
 
-			Dim result As String = "Result-AddTableWithFilter.xlsx"
+            ' Save the modified workbook to the specified file with Excel 2013 format.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
-
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

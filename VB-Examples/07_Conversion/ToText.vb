@@ -14,21 +14,25 @@ Namespace ToText
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object to represent an Excel workbook
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ConversionSample2.xlsx")
+            ' Load an existing Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ConversionSample2.xlsx")
 
-			'Get the first worksheet in excel workbook
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet (index 0) from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Save the document
-			Dim output As String = "ExceltoTxt.txt"
-			sheet.SaveToFile(output, " ", Encoding.UTF8)
+            ' Specify the output filename for the text file
+            Dim output As String = "ExceltoTxt.txt"
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Save the contents of the worksheet as a text file with space (" ") as the delimiter and UTF-8 encoding
+            sheet.SaveToFile(output, " ", Encoding.UTF8)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

@@ -12,31 +12,34 @@ Namespace EmptyCell
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Instantiate a new workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
+            'Load an existing Excel file from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieve the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Set the value as null to remove the original content from the Excel Cell.
-			sheet.Range("C6").Value = ""
+            'Set the value of cell C6 to null, effectively removing the original content from the cell.
+            sheet.Range("C6").Value = ""
 
-			'Clear the contents to remove the original content from the Excel Cell.
-			sheet.Range("B6").ClearContents()
+            'Clear the contents of cell B6 to remove the original content from the cell.
+            sheet.Range("B6").ClearContents()
 
-			'Remove the contents with format from the Excel cell.
-			sheet.Range("D6").ClearAll()
+            'Clear all contents and formatting in cell D6.
+            sheet.Range("D6").ClearAll()
 
-			Dim result As String = "Result-RemoveValueAndFormatFromCellRange.xlsx"
+            'Specify the file name for the output file.
+            Dim result As String = "Result-RemoveValueAndFormatFromCellRange.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            'Save the modified workbook to the specified output file using Excel 2013 version.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

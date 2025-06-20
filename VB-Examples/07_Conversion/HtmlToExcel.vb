@@ -12,22 +12,25 @@ Namespace HtmlToExcel
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'File path
-			Dim filePath As String = "..\..\..\..\..\..\Data\HtmlToExcel.html"
+            ' Specify the file path of the HTML file to be loaded
+            Dim filePath As String = "..\..\..\..\..\..\Data\HtmlToExcel.html"
 
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load html
-			workbook.LoadFromHtml(filePath)
+            ' Load the HTML file into the workbook
+            workbook.LoadFromHtml(filePath)
 
-			'Save to Excel file
-			Dim result As String = "HtmlToExcel_result.xlsx"
+            ' Specify the output file name for saving as Excel file
+            Dim result As String = "HtmlToExcel_result.xlsx"
 
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Save the workbook to an Excel file in Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the file
-			ExcelDocViewer(result)
+            'Launch the file
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

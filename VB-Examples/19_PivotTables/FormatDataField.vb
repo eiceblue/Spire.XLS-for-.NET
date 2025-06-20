@@ -13,19 +13,34 @@ Namespace FormatDataField
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\FormatDataField.xlsx")
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			' Access the PivotTable
-			Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
-			' Access the data field.
-			Dim pivotDataField As PivotDataField = pt.DataFields(0)
-			' Set data display format
-			pivotDataField.ShowDataAs = PivotFieldFormatType.PercentageOfColumn
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			Dim result As String = "FormatDataField_output.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Load an Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\FormatDataField.xlsx")
+
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+
+            ' Get the first PivotTable in the worksheet and cast it to XlsPivotTable
+            Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
+
+            ' Get the first data field in the PivotTable
+            Dim pivotDataField As PivotDataField = pt.DataFields(0)
+
+            ' Set the display format of the data field to Percentage of Column
+            pivotDataField.ShowDataAs = PivotFieldFormatType.PercentageOfColumn
+
+            ' Specify the output file name
+            Dim result As String = "FormatDataField_output.xlsx"
+
+            ' Save the modified workbook to the specified file path in Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

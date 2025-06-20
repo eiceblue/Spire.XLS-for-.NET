@@ -11,33 +11,39 @@ Namespace GetStyleSetStyle
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load a excel document
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\templateAz.xlsx")
+            ' Load the template file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\templateAz.xlsx")
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get "B4" cell
-			Dim range As CellRange = sheet.Range("B4")
-			'Get the style of cell
-			Dim style As CellStyle = range.Style
-			style.Font.FontName = "Calibri"
-			style.Font.IsBold = True
-			style.Font.Size = 15
-			style.Font.Color = Color.CornflowerBlue
+            ' Specify the range as cell B4 in the worksheet
+            Dim range As CellRange = sheet.Range("B4")
 
-			range.Style = style
+            ' Get the style of the specified range
+            Dim style As CellStyle = range.Style
 
-			Dim result As String = "UseGetStyleSetStyle_result.xlsx"
+            ' Set the font properties of the style
+            style.Font.FontName = "Calibri"
+            style.Font.IsBold = True
+            style.Font.Size = 15
+            style.Font.Color = Color.CornflowerBlue
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Apply the modified style to the range
+            range.Style = style
 
-			'View the document
-		   FileViewer(result)
+            ' Save the modified workbook to a new file named "UseGetStyleSetStyle_result.xlsx" in Excel 2010 format
+            Dim result As String = "UseGetStyleSetStyle_result.xlsx"
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

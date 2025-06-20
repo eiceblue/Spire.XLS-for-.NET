@@ -15,31 +15,47 @@ Namespace ExtractTextImageFromShape
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_5.xlsx")
+            ' Load an existing workbook from a file
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_5.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Extract text from the first shape and save to a txt file.
-			Dim shape1 As IPrstGeomShape = sheet.PrstGeomShapes(2)
-			Dim s As String = shape1.Text
-			Dim sb As New StringBuilder()
-			sb.AppendLine("The text in the third shape is: " & s)
-			Dim result1 As String = "Result-ExtractTextAndImageFromShape.txt"
-			File.WriteAllText(result1, sb.ToString())
+            ' Retrieve the third preset geometry shape from the worksheet
+            Dim shape1 As IPrstGeomShape = sheet.PrstGeomShapes(2)
 
-			'Extract image from the second shape and save to a local folder.
-			Dim shape2 As IPrstGeomShape = sheet.PrstGeomShapes(1)
-			Dim image As Image = shape2.Fill.Picture
-			Dim result2 As String = "Result-ExtractTextAndImageFromShape.png"
-			image.Save(result2, System.Drawing.Imaging.ImageFormat.Png)
+            ' Get the text content from shape1
+            Dim s As String = shape1.Text
 
-			'Launch the .txt file.
-			ExcelDocViewer(result1)
+            ' Create a StringBuilder and append the extracted text
+            Dim stringBuilder As New StringBuilder()
+            stringBuilder.AppendLine("The text in the third shape is: " & s)
+
+            ' Specify the resulting file name for saving the text content
+            Dim result1 As String = "Result-ExtractTextAndImageFromShape.txt"
+
+            ' Write the text content to a file
+            File.WriteAllText(result1, stringBuilder.ToString())
+
+            ' Retrieve the second preset geometry shape from the worksheet
+            Dim shape2 As IPrstGeomShape = sheet.PrstGeomShapes(1)
+
+            ' Get the image from the fill of shape2
+            Dim image As Image = shape2.Fill.Picture
+
+            ' Specify the resulting file name for saving the image
+            Dim result2 As String = "Result-ExtractTextAndImageFromShape.png"
+
+            ' Save the image to a file in PNG format
+            image.Save(result2, System.Drawing.Imaging.ImageFormat.Png)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the .txt file.
+            ExcelDocViewer(result1)
 
 			'Launch the image.
 			ExcelDocViewer(result2)

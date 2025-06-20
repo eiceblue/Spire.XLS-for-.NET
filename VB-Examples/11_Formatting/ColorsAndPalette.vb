@@ -12,31 +12,35 @@ Namespace ColorsAndPalette
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook
+            Dim workbook As New Workbook()
 
-			'Adding Orchid color to the palette at 60th index
-			workbook.ChangePaletteColor(Color.Orchid, 60)
+            ' Change the palette color to Orchid at index 60
+            workbook.ChangePaletteColor(Color.Orchid, 60)
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			Dim cell As CellRange = sheet.Range("B2")
-			cell.Text = "Welcome to use Spire.XLS"
+            ' Get the cell range B2
+            Dim cell As CellRange = sheet.Range("B2")
 
-			'Set the Orchid (custom) color to the font
-			cell.Style.Font.Color = Color.Orchid
-			cell.Style.Font.Size = 20
-			cell.AutoFitColumns()
-			cell.AutoFitRows()
+            ' Set the text in the cell
+            cell.Text = "Welcome to use Spire.XLS"
 
-			Dim result As String = "ColorsAndPalette_result.xlsx"
+            ' Set the font color, size, and autofit the columns and rows of the cell
+            cell.Style.Font.Color = Color.Orchid
+            cell.Style.Font.Size = 20
+            cell.AutoFitColumns()
+            cell.AutoFitRows()
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Save the workbook to a file
+            Dim result As String = "ColorsAndPalette_result.xlsx"
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'View the document
-			FileViewer(result)
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

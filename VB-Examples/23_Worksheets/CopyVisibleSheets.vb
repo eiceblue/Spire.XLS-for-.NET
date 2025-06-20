@@ -10,31 +10,40 @@ Namespace CopyVisibleSheets
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load a csv file
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CopyVisibleSheets.xlsx")
+            ' Load an existing workbook from a file
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CopyVisibleSheets.xlsx")
 
-			'Create a new workbook
-			Dim workbookNew As New Workbook()
-			workbookNew.Version = ExcelVersion.Version2013
-			workbookNew.Worksheets.Clear()
+            ' Create a new Workbook object for the copied sheets
+            Dim workbookNew As New Workbook()
+            workbookNew.Version = ExcelVersion.Version2013
+            workbookNew.Worksheets.Clear()
 
-			'Loop through the worksheets
-			For Each sheet As Worksheet In workbook.Worksheets
-				'Judge if the worksheet is visible
-				If sheet.Visibility = WorksheetVisibility.Visible Then
-					'Copy the sheet to new workbook
-					Dim name As String = sheet.Name
-					workbookNew.Worksheets.AddCopy(sheet)
-				End If
-			Next sheet
+            ' Iterate through each worksheet in the original workbook
+            For Each sheet As Worksheet In workbook.Worksheets
 
-			'Save the Excel file
-			Dim result As String = "CopyVisibleSheets_out.xlsx"
-			workbookNew.SaveToFile(result, ExcelVersion.Version2013)
-			ExcelDocViewer(result)
+                ' Check if the worksheet is visible
+                If sheet.Visibility = WorksheetVisibility.Visible Then
+
+                    ' Get the name of the visible sheet
+                    Dim name As String = sheet.Name
+
+                    ' Add a copy of the visible sheet to the new workbook
+                    workbookNew.Worksheets.AddCopy(sheet)
+                End If
+            Next sheet
+
+            ' Specify the output file name for the new workbook
+            Dim result As String = "CopyVisibleSheets_out.xlsx"
+
+            ' Save the new workbook to a file using Excel 2013 format
+            workbookNew.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

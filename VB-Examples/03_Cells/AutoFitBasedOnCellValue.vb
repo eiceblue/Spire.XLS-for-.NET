@@ -13,36 +13,42 @@ Namespace AutoFitBasedOnCellValue
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Instantiate a new workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ReadImages.xlsx")
+            'Load an existing Excel document from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ReadImages.xlsx")
 
-			'Get first worksheet of the workbook
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
+            'Retrieve the first worksheet from the workbook.
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-			'Set value for B8
-			Dim cell As CellRange = worksheet.Range("B8")
-			cell.Text = "Welcome to Spire.XLS!"
+            'Get the cell range for cell B8 in the worksheet.
+            Dim cell As CellRange = worksheet.Range("B8")
+            'Set the text value of the cell to "Welcome to Spire.XLS!".
+            cell.Text = "Welcome to Spire.XLS!"
 
-			'Set the cell style
-			Dim style As CellStyle = cell.Style
-			style.Font.Size = 16
-			style.Font.IsBold = True
+            'Get the style of the cell.
+            Dim style As CellStyle = cell.Style
+            'Set the font size to 16.
+            style.Font.Size = 16
+            'Set the font to bold.
+            style.Font.IsBold = True
 
-			'Autofit column width and row height based on cell value
-			cell.AutoFitColumns()
-			cell.AutoFitRows()
+            'Adjust the column width to fit the content of the cell.
+            cell.AutoFitColumns()
+            'Adjust the row height to fit the content of the cell.
+            cell.AutoFitRows()
 
-			'String for output file 
-			Dim outputFile As String = "Output.xlsx"
+            'Specify the file name for the output file.
+            Dim outputFile As String = "Output.xlsx"
 
-			'Save the file
-			workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            'Save the workbook to the specified output file using Excel 2013 version.
+            workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launching the output file.
-			Viewer(outputFile)
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

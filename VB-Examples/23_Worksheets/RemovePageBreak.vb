@@ -9,30 +9,35 @@ Namespace RemovePageBreak
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\PageBreak.xlsx")
+            ' Load a workbook from a specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\PageBreak.xlsx")
 
-			'Get the first worksheet from the workbook
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Clear all the vertical page breaks
-			sheet.VPageBreaks.Clear()
+            ' Clear all vertical page breaks in the worksheet.
+            sheet.VPageBreaks.Clear()
 
-			'Remove the firt horizontal Page Break
-			sheet.HPageBreaks.RemoveAt(0)
+            ' Remove the horizontal page break at index 0 in the worksheet.
+            sheet.HPageBreaks.RemoveAt(0)
 
-			'Set the ViewMode as Preview to see how the page breaks work
-			sheet.ViewMode = ViewMode.Preview
+            ' Set the worksheet view mode to Preview.
+            sheet.ViewMode = ViewMode.Preview
 
-			'Save the document
-			Dim output As String = "RemovePageBreak.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Specify the output file name for saving the modified workbook.
+            Dim output As String = "RemovePageBreak.xlsx"
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Save the workbook to the specified file path using Excel 2013 format.
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

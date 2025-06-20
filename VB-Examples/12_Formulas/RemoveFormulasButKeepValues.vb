@@ -12,32 +12,44 @@ Namespace RemoveFormulasButKeepValues
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\RemoveFormulasButKeepValues.xlsx")
+            ' Load the Excel file "RemoveFormulasButKeepValues.xlsx" from a specific path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\RemoveFormulasButKeepValues.xlsx")
 
-			'Loop through worksheets.
-			For Each sheet As Worksheet In workbook.Worksheets
-				'Loop through cells.
-				For Each cell As CellRange In sheet.Range
-					'If the cell contain formula, get the formula value, clear cell content, and then fill the formula value into the cell.
-					If cell.HasFormula Then
-						Dim value As Object = cell.FormulaValue
-						cell.Clear(ExcelClearOptions.ClearContent)
-						cell.Value2 = value
-					End If
-				Next cell
-			Next sheet
+            ' Iterate through each Worksheet in the Workbook
+            For Each sheet As Worksheet In workbook.Worksheets
 
-			Dim result As String = "Result-RemoveFormulasButKeepValues.xlsx"
+                ' Iterate through each CellRange in the current Worksheet
+                For Each cell As CellRange In sheet.Range
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+                    ' Check if the cell contains a formula
+                    If cell.HasFormula Then
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+                        ' Store the value calculated by the formula in a variable
+                        Dim value As Object = cell.FormulaValue
+
+                        ' Clear the content of the cell, removing the formula
+                        cell.Clear(ExcelClearOptions.ClearContent)
+
+                        ' Set the value of the cell to the stored value, retaining only the calculated result
+                        cell.Value2 = value
+                    End If
+                Next cell
+            Next sheet
+
+            ' Specify the name for the resulting file after removing formulas but keeping values
+            Dim result As String = "Result-RemoveFormulasButKeepValues.xlsx"
+
+            ' Save the modified Workbook to a file with Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

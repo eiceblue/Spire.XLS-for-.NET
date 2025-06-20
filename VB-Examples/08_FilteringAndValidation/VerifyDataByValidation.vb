@@ -13,51 +13,57 @@ Namespace VerifyDataByValidation
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object to represent an Excel workbook
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Sample.xlsx")
+            ' Load an existing Excel file named "Sample.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Sample.xlsx")
 
-			'Get first worksheet of the workbook
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet (index 0) from the workbook
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-			'Cell B4 has the Decimal Validation
-			Dim cell As CellRange = worksheet.Range("B4")
+            ' Specify the range of cell B4 and assign it to the variable "cell"
+            Dim cell As CellRange = worksheet.Range("B4")
 
-			'Get the valditation of this cell
-			Dim validation As Validation = cell.DataValidation
+            ' Get the data validation settings for the cell
+            Dim validation As Validation = cell.DataValidation
 
-			'Get the specified data range
-			Dim minimum As Double = Double.Parse(validation.Formula1)
-			Dim maximum As Double = Double.Parse(validation.Formula2)
+            ' Parse the minimum and maximum values from the data validation formulas
+            Dim minimum As Double = Double.Parse(validation.Formula1)
+            Dim maximum As Double = Double.Parse(validation.Formula2)
 
-			'Create StringBuilder to save 
-			Dim content As New StringBuilder()
+            ' Create a StringBuilder object to store the validation results
+            Dim content As New StringBuilder()
 
-			'Set different numbers for the cell
-			For i As Integer = 5 To 99 Step 40
-				cell.NumberValue = i
-				Dim result As String=Nothing
-				'Verify 
-				If cell.NumberValue < minimum OrElse cell.NumberValue > maximum Then
-					'Set string format for displaying
-					result = String.Format("Is input " & i & " a valid value for this Cell: false")
-				Else
-					'Set string format for displaying
-					result = String.Format("Is input " & i & " a valid value for this Cell: true")
-				End If
-				'Add result string to StringBuilder
-				content.AppendLine(result)
-			Next i
-			'String for output file 
-			Dim outputFile As String = "Output.txt"
+            ' Iterate from 5 to 99 with a step of 40
+            For i As Integer = 5 To 99 Step 40
+                ' Set the cell value to the current iteration value
+                cell.NumberValue = i
 
-			'Save them to a txt file
-			File.WriteAllText(outputFile, content.ToString())
+                ' Declare a string variable to store the result message
+                Dim result As String = Nothing
 
-			'Launching the output file.
-			Viewer(outputFile)
+                ' Check if the cell value is outside the valid range
+                If cell.NumberValue < minimum OrElse cell.NumberValue > maximum Then
+                    result = String.Format("Is input " & i & " a valid value for this Cell: false")
+                Else
+                    result = String.Format("Is input " & i & " a valid value for this Cell: true")
+                End If
+
+                ' Append the result message to the StringBuilder object
+                content.AppendLine(result)
+            Next i
+
+            ' Specify the output filename for the validation results
+            Dim outputFile As String = "Output.txt"
+
+            ' Write the content of the StringBuilder object to a text file
+            File.WriteAllText(outputFile, content.ToString())
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

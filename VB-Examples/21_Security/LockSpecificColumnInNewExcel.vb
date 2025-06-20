@@ -12,34 +12,40 @@ Namespace LockSpecificColumnInNewExcel
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Create an empty worksheet.
-			workbook.CreateEmptySheet()
+            ' Create an empty sheet in the Workbook
+            workbook.CreateEmptySheet()
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the Workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Loop through all the columns in the worksheet and unlock them.
-			For i As Integer = 0 To 254
-				sheet.Rows(i).Style.Locked = False
-			Next i
+            ' Loop through rows 0 to 254 and set the Locked property of each row's style to False
+            For i As Integer = 0 To 254
+                sheet.Rows(i).Style.Locked = False
+            Next i
 
-			'Lock the fourth column in the worksheet.
-			sheet.Columns(3).Text = "Locked"
-			sheet.Columns(3).Style.Locked = True
+            ' Set the text of column 3 in the worksheet to "Locked"
+            sheet.Columns(3).Text = "Locked"
 
-			'Set the password.
-			sheet.Protect("123", SheetProtectionType.All)
+            ' Set the Locked property of column 3's style to True
+            sheet.Columns(3).Style.Locked = True
 
-			Dim result As String = "Result-LockSpecificColumnInNewlyXlsFile.xlsx"
+            ' Protect the worksheet with the specified password and enable all protection options
+            sheet.Protect("123", SheetProtectionType.All)
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Specify the name of the resulting Excel file after locking specific columns
+            Dim result As String = "Result-LockSpecificColumnInNewlyXlsFile.xlsx"
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Save the Workbook to the specified path in Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

@@ -11,57 +11,58 @@ Namespace UsingStyleObject
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook
+            Dim workbook As New Workbook()
 
-			'Add a new worksheet to the Excel object
-			Dim sheet As Worksheet = workbook.Worksheets.Add("new sheet")
+            ' Add a new worksheet with the name "new sheet"
+            Dim sheet As Worksheet = workbook.Worksheets.Add("new sheet")
 
-			'Access the "B1" cell from the worksheet
-			Dim cell As CellRange = sheet.Range("B1")
+            ' Get the cell range B1
+            Dim cell As CellRange = sheet.Range("B1")
 
-			'Add some value to the "B1" cell
-			cell.Text = "Hello Spire!"
+            ' Set the text of the cell to "Hello Spire!"
+            cell.Text = "Hello Spire!"
 
-			'Create a new style
-			Dim style As CellStyle = workbook.Styles.Add("newStyle")
+            ' Create a new cell style named "newStyle" and add it to the workbook's styles
+            Dim style As CellStyle = workbook.Styles.Add("newStyle")
 
-			'Set the vertical alignment of the text in the "B1" cell
-			style.VerticalAlignment = VerticalAlignType.Center
+            ' Set the vertical alignment and horizontal alignment of the style to center
+            style.VerticalAlignment = VerticalAlignType.Center
+            style.HorizontalAlignment = HorizontalAlignType.Center
 
-			'Set the horizontal alignment of the text in the "B1" cell
-			style.HorizontalAlignment = HorizontalAlignType.Center
+            ' Set the font color of the style to blue
+            style.Font.Color = Color.Blue
 
-			'Set the font color of the text in the "B1" cell
-			style.Font.Color = Color.Blue
+            ' Enable shrinking the text to fit within the cell
+            style.ShrinkToFit = True
 
-			'Shrink the text to fit in the cell
-			style.ShrinkToFit = True
+            ' Set the bottom border color and line style of the style
+            style.Borders(BordersLineType.EdgeBottom).Color = Color.GreenYellow
+            style.Borders(BordersLineType.EdgeBottom).LineStyle = LineStyleType.Medium
 
-			'Set the bottom border color of the cell to GreenYellow
-			style.Borders(BordersLineType.EdgeBottom).Color = Color.GreenYellow
+            ' Apply the style to the cell
+            cell.Style = style
 
-			'Set the bottom border type of the cell to Medium
-			style.Borders(BordersLineType.EdgeBottom).LineStyle = LineStyleType.Medium
+            ' Apply the style to cell B4 and set its text to "Test"
+            sheet.Range("B4").Style = style
+            sheet.Range("B4").Text = "Test"
 
-			'Assign the Style object to the "B1" cell
-			cell.Style = style
+            ' Apply the style to cell C3 using the style's name property and set its text
+            sheet.Range("C3").CellStyleName = style.Name
+            sheet.Range("C3").Text = "Welcome to use Spire.XLS"
 
+            ' Apply the style to cell D4
+            sheet.Range("D4").Style = style
 
-			'Apply the same style to some other cells
-			sheet.Range("B4").Style = style
-			sheet.Range("B4").Text = "Test"
-			sheet.Range("C3").CellStyleName = style.Name
-			sheet.Range("C3").Text = "Welcome to use Spire.XLS"
-			sheet.Range("D4").Style = style
+            ' Save the workbook to a file named "UsingStyleObject_result.xlsx" in Excel 2010 format
+            Dim result As String = "UsingStyleObject_result.xlsx"
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
 
-			Dim result As String = "UsingStyleObject_result.xlsx"
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-
-			'View the document
-		   FileViewer(result)
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

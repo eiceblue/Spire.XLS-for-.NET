@@ -13,19 +13,29 @@ Namespace CreateTable
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CreateTable.xlsx")
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			' Add a new List Object to the worksheet
-			sheet.ListObjects.Create("table", sheet.Range(1, 1, 19, 5))
-			' Add Default Style to the table    
-			sheet.ListObjects(0).BuiltInTableStyle = TableBuiltInStyles.TableStyleLight9
+            ' Load an existing Excel file into the workbook
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CreateTable.xlsx")
 
-			'Save to file
-			Dim result As String = "CreateTable_out.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+
+            ' Add a new List Object (table) to the worksheet
+            sheet.ListObjects.Create("table", sheet.Range(1, 1, 19, 5))
+
+            ' Apply a default style (TableStyleLight9) to the table
+            sheet.ListObjects(0).BuiltInTableStyle = TableBuiltInStyles.TableStyleLight9
+
+            ' Save the modified workbook to a new file named "CreateTable_out.xlsx"
+            Dim result As String = "CreateTable_out.xlsx"
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

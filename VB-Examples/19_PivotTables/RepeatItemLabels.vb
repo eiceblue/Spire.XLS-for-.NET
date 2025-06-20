@@ -11,38 +11,62 @@ Namespace RepeatItemLabels
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
-			'Load an excel file including pivot table
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\RepeatItemLabelsExample.xlsx")
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			'Add an empty worksheet 
-			Dim sheet2 As Worksheet = workbook.CreateEmptySheet()
-			'Add PivotTable
-			sheet2.Name = "Pivot Table"
-			Dim dataRange As CellRange = sheet.Range("A1:D9")
-			Dim cache As PivotCache = workbook.PivotCaches.Add(dataRange)
-			Dim pt As PivotTable = sheet2.PivotTables.Add("Pivot Table", sheet.Range("A1"), cache)
-			Dim r1 = pt.PivotFields("VendorNo")
-			r1.Axis = AxisTypes.Row
-			pt.Options.RowHeaderCaption = "VendorNo"
-			r1.Subtotals = SubtotalTypes.None
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			r1.RepeatItemLabels = True
-			'Repeat item lables
-			pt.PivotFields("OnHand").RepeatItemLabels = True
-			pt.Options.RowLayout = PivotTableLayoutType.Tabular
-			Dim r2 = pt.PivotFields("Desc")
-			r2.Axis = AxisTypes.Row
-			pt.DataFields.Add(pt.PivotFields("OnHand"), "Sum of onHand", SubtotalTypes.None)
-			pt.BuiltInStyle = PivotBuiltInStyles.PivotStyleMedium12
-			Dim result As String = "RepeatItemLabels_result.xlsx"
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Load an Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\RepeatItemLabelsExample.xlsx")
 
-			'View the document
-			FileViewer(result)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+
+            ' Create a new empty worksheet
+            Dim sheet2 As Worksheet = workbook.CreateEmptySheet()
+            sheet2.Name = "Pivot Table"
+
+            ' Define the range of data to be used for the PivotTable
+            Dim dataRange As CellRange = sheet.Range("A1:D9")
+
+            ' Create a PivotCache based on the data range
+            Dim cache As PivotCache = workbook.PivotCaches.Add(dataRange)
+
+            ' Add a PivotTable to sheet2 with the specified name, source range, and cache
+            Dim pt As PivotTable = sheet2.PivotTables.Add("Pivot Table", sheet.Range("A1"), cache)
+
+            ' Configure the first field ("VendorNo") in the PivotTable
+            Dim r1 = pt.PivotFields("VendorNo")
+            r1.Axis = AxisTypes.Row
+            pt.Options.RowHeaderCaption = "VendorNo"
+            r1.Subtotals = SubtotalTypes.None
+            r1.RepeatItemLabels = True
+
+            ' Configure the second field ("OnHand") in the PivotTable
+            pt.PivotFields("OnHand").RepeatItemLabels = True
+
+            ' Set the row layout of the PivotTable to Tabular
+            pt.Options.RowLayout = PivotTableLayoutType.Tabular
+
+            ' Configure the third field ("Desc") in the PivotTable
+            Dim r2 = pt.PivotFields("Desc")
+            r2.Axis = AxisTypes.Row
+
+            ' Add a data field ("OnHand") to the PivotTable
+            pt.DataFields.Add(pt.PivotFields("OnHand"), "Sum of onHand", SubtotalTypes.None)
+
+            ' Set the built-in style of the PivotTable to PivotStyleMedium12
+            pt.BuiltInStyle = PivotBuiltInStyles.PivotStyleMedium12
+
+            ' Specify the output file name
+            Dim result As String = "RepeatItemLabels_result.xlsx"
+
+            ' Save the modified workbook to the specified file path in Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

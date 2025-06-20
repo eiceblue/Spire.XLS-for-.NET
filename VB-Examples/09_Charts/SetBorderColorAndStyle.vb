@@ -10,27 +10,32 @@ Namespace SetBorderColorAndStyle
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample3.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample3.xlsx")
 
-			'Get the first worksheet from workbook and then get the first chart from the worksheet
-			Dim ws As Worksheet = workbook.Worksheets(0)
-			Dim chart As Chart = ws.Charts(0)
+            ' Get the first worksheet in the workbook
+            Dim ws As Worksheet = workbook.Worksheets(0)
 
-			'Set CustomLineWeight property for Series line
-			TryCast(chart.Series(0).DataPoints(0).DataFormat.LineProperties, XlsChartBorder).CustomLineWeight = 2.5f
-			'Set color property for Series line
-			TryCast(chart.Series(0).DataPoints(0).DataFormat.LineProperties, XlsChartBorder).Color = Color.Red
+            ' Get the first chart in the worksheet
+            Dim chart As Chart = ws.Charts(0)
 
-			'Save the document
-			Dim output As String = "SetBorderColorAndStyle.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Set the line weight of the first data point in the first series of the chart
+            TryCast(chart.Series(0).DataPoints(0).DataFormat.LineProperties, XlsChartBorder).CustomLineWeight = 2.5F
 
-			'Launch the file
-			ExcelDocViewer(output)
+            ' Set the color of the line of the first data point in the first series of the chart
+            TryCast(chart.Series(0).DataPoints(0).DataFormat.LineProperties, XlsChartBorder).Color = Color.Red
+
+            ' Save the modified workbook to a new file
+            Dim output As String = "SetBorderColorAndStyle.xlsx"
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

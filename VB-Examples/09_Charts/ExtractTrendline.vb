@@ -12,27 +12,37 @@ Namespace ExtractTrendline
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Declare a new workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample4.xlsx")
+            ' Load the workbook from a file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample4.xlsx")
 
-			'Get the chart from the first worksheet
-			Dim chart As Chart = workbook.Worksheets(0).Charts(0)
+            ' Get the first chart from the first worksheet in the workbook
+            Dim chart As Chart = workbook.Worksheets(0).Charts(0)
 
-			'Get the trendline of the chart and then extract the equation of the trendline
-			Dim trendLine As IChartTrendLine = chart.Series(1).TrendLines(0)
-			Dim formula As String = trendLine.Formula
-			Dim sb As New StringBuilder()
-			sb.AppendLine("The equation is: " & formula)
+            ' Get the trendline object from the second series of the chart
+            Dim trendLine As IChartTrendLine = chart.Series(1).TrendLines(0)
 
-			'Save to Text file
-			Dim output As String = "ExtractTrendline.txt"
-			File.WriteAllText(output, sb.ToString())
+            ' Get the formula of the trendline
+            Dim formula As String = trendLine.Formula
 
-			'Launch the file
-			ExcelDocViewer(output)
+            ' Create a StringBuilder to store the output text
+            Dim sb As New StringBuilder()
+
+            ' Append the equation information to the StringBuilder
+            sb.AppendLine("The equation is: " & formula)
+
+            ' Specify the output file name
+            Dim output As String = "ExtractTrendline.txt"
+
+            ' Write the contents of the StringBuilder to the output file
+            File.WriteAllText(output, sb.ToString())
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

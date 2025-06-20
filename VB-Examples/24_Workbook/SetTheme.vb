@@ -8,27 +8,41 @@ Namespace SetTheme
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim srcWorkbook As New Workbook()
-			'Load an excel file
-			srcWorkbook.LoadFromFile("..\..\..\..\..\..\Data\SetTheme.xlsx")
-			Dim srcWorksheet As Worksheet = srcWorkbook.Worksheets(0)
+            ' Create a new Workbook object to hold the source workbook
+            Dim srcWorkbook As New Workbook()
 
-			Dim workbook As New Workbook()
-			workbook.Worksheets.Clear()
-			workbook.Worksheets.AddCopy(srcWorksheet)
+            ' Load an existing Excel file into the source workbook
+            srcWorkbook.LoadFromFile("..\..\..\..\..\..\Data\SetTheme.xlsx")
 
-			'1. Copy the theme of the workbook
-			'workbook.CopyTheme(srcWorkbook);
+            ' Get the first worksheet from the source workbook
+            Dim srcWorksheet As Worksheet = srcWorkbook.Worksheets(0)
 
-			'2. Set a certain type of color of the default theme in the workbook
-			workbook.SetThemeColor(ThemeColorType.Dk1, Color.SkyBlue)
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			Dim result As String = "SetTheme_result.xlsx"
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			'View the document
-			FileViewer(result)
+            ' Clear any existing worksheets in the workbook
+            workbook.Worksheets.Clear()
+
+            ' Add a copy of the source worksheet to the workbook
+            workbook.Worksheets.AddCopy(srcWorksheet)
+
+            ' Copy the theme from the source workbook to the current workbook (commented out)
+            ' workbook.CopyTheme(srcWorkbook)
+
+            ' Set the theme color for the workbook's theme
+            workbook.SetThemeColor(ThemeColorType.Dk1, Color.SkyBlue)
+
+            ' Specify the output file name
+            Dim result As String = "SetTheme_result.xlsx"
+
+            ' Save the workbook to the specified output file in Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 
 		End Sub
 

@@ -9,29 +9,34 @@ Namespace CSVToPDF
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CSVSample.csv",",", 1, 1)
+            ' Load the CSV file from the specified path with the specified delimiter (","),
+            ' starting at row 1 and column 1
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CSVSample.csv", ",", 1, 1)
 
-			'Set the SheetFitToPage property as true
-			workbook.ConverterSetting.SheetFitToPage = True
+            ' Set the SheetFitToPage property of the ConverterSetting to True
+            workbook.ConverterSetting.SheetFitToPage = True
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Autofit a column if the characters in the column exceed column width
-			For i As Integer = 1 To sheet.Columns.Length - 1
-				sheet.AutoFitColumn(i)
-			Next i
+            ' Auto-fit columns in the worksheet
+            For i As Integer = 1 To sheet.Columns.Length - 1
+                sheet.AutoFitColumn(i)
+            Next i
 
-			'Save to PDF document
-			Dim output As String = "CSVToPDF.pdf"
-			workbook.SaveToFile(output, FileFormat.PDF)
+            ' Specify the output file name for saving as PDF
+            Dim output As String = "CSVToPDF.pdf"
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Save the workbook to a PDF file
+            workbook.SaveToFile(output, FileFormat.PDF)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

@@ -13,15 +13,21 @@ Namespace OfficeOpenXMLToExcel
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Initialize worksheet
-			Using fileStream As FileStream = File.OpenRead("..\..\..\..\..\..\Data\OfficeOpenXMLToExcel.Xml")
-				workbook.LoadFromXml(fileStream)
-			End Using
-			workbook.SaveToFile("OfficeOpenXMLToExcel.xlsx", ExcelVersion.Version2010)
+            ' Open the XML file as a FileStream for reading
+            Using fileStream As FileStream = File.OpenRead("..\..\..\..\..\..\Data\OfficeOpenXMLToExcel.Xml")
+                ' Load the XML data into the workbook
+                workbook.LoadFromXml(fileStream)
+            End Using
 
-			ExcelDocViewer("OfficeOpenXMLToExcel.xlsx")
+            ' Save the workbook to an Excel file in Excel 2010 format
+            workbook.SaveToFile("OfficeOpenXMLToExcel.xlsx", ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer("OfficeOpenXMLToExcel.xlsx")
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

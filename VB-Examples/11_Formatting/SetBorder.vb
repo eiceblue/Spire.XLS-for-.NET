@@ -11,30 +11,41 @@ Namespace SetBorder
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SetBorder.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SetBorder.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get the cell range where you want to apply border style
-			Dim cr As CellRange = sheet.Range(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn)
+            ' Define a CellRange object that includes all cells in the worksheet
+            Dim cr As CellRange = sheet.Range(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn)
 
-			'Apply border style 
-			cr.Borders.LineStyle = LineStyleType.Double
-			cr.Borders(BordersLineType.DiagonalDown).LineStyle = LineStyleType.None
-			cr.Borders(BordersLineType.DiagonalUp).LineStyle = LineStyleType.None
-			cr.Borders.Color = Color.CadetBlue
+            ' Set the border style of the CellRange to Double line
+            cr.Borders.LineStyle = LineStyleType.Double
 
-			Dim result As String = "SetBorder_result.xlsx"
-			'Save the document
-			workbook.SaveToFile(result,ExcelVersion.Version2010)
+            ' Set the diagonal down border style of the CellRange to None
+            cr.Borders(BordersLineType.DiagonalDown).LineStyle = LineStyleType.None
 
-			'Launch the Excel file
-			ExcelDocViewer(result)
+            ' Set the diagonal up border style of the CellRange to None
+            cr.Borders(BordersLineType.DiagonalUp).LineStyle = LineStyleType.None
+
+            ' Set the border color of the CellRange to CadetBlue
+            cr.Borders.Color = Color.CadetBlue
+
+            ' Specify the output file name for the modified workbook
+            Dim result As String = "SetBorder_result.xlsx"
+
+            ' Save the modified workbook to the specified file path with Excel version 2010
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

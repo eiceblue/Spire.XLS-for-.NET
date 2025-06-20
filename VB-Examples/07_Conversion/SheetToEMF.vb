@@ -11,28 +11,34 @@ Namespace SheetToEMF
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ConversionSample1.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ConversionSample1.xlsx")
 
-			'Get the first worksheet in excel workbook
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Create a memory stream
-			Dim stream As New MemoryStream()
+            ' Create a new MemoryStream to store the EMF stream
+            Dim stream As New MemoryStream()
 
-			'Save excel worksheet into EMF stream
-			sheet.ToEMFStream(stream, 1, 1, 28, 8, EmfType.EmfPlusDual)
+            ' Convert the worksheet to EMF format and save it to the MemoryStream
+            sheet.ToEMFStream(stream, 1, 1, 28, 8, EmfType.EmfPlusDual)
 
-			'Save to file
-			Dim img As Image = Image.FromStream(stream)
-			Dim output As String = "ToEMF.emf"
-			img.Save(output)
+            ' Create an Image object from the MemoryStream
+            Dim img As Image = Image.FromStream(stream)
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Specify the output file name for saving the EMF image
+            Dim output As String = "ToEMF.emf"
+
+            ' Save the EMF image to a file
+            img.Save(output)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

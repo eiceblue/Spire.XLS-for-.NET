@@ -13,20 +13,24 @@ Namespace EachWorksheetToDifferentPDF
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Load the document from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\EachWorksheetToDifferentPDFSample.xlsx")
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			For Each sheet As Worksheet In workbook.Worksheets
-				Dim FileName As String = sheet.Name & ".pdf"
-				'Save the sheet to PDF
-				sheet.SaveToPdf(FileName)
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\EachWorksheetToDifferentPDFSample.xlsx")
 
-				'Launch the result file
-				ExcelDocViewer(FileName)
-			Next sheet
+            ' Iterate through each worksheet in the workbook
+            For Each sheet As Worksheet In workbook.Worksheets
+                ' Set the file name for the PDF as the name of the current sheet
+                Dim FileName As String = sheet.Name & ".pdf"
 
-		End Sub
+                ' Save the current sheet to PDF with the specified file name
+                sheet.SaveToPdf(FileName)
+            Next sheet
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+        End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try
 				Process.Start(fileName)

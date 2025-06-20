@@ -12,19 +12,30 @@ Namespace LocateImages
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a Workbook
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\LocateImages.xlsx")
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Create a new workbook object.
+            Dim workbook As New Workbook()
 
-			Dim pic As ExcelPicture = sheet.Pictures(0)
-			pic.LeftColumnOffset = 300
-			pic.TopRowOffset = 300
+            'Load an existing Excel document from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\LocateImages.xlsx")
 
-			'Save and Launch
-			workbook.SaveToFile("Output.xlsx", ExcelVersion.Version2010)
-			ExcelDocViewer("Output.xlsx")
+            'Retrieve the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+
+            'Retrieve the first picture from the worksheet.
+            Dim pic As ExcelPicture = sheet.Pictures(0)
+
+            'Set the left column offset of the picture to 300, adjusting its horizontal position.
+            pic.LeftColumnOffset = 300
+
+            'Set the top row offset of the picture to 300, adjusting its vertical position.
+            pic.TopRowOffset = 300
+
+            'Save the modified workbook to the specified output file using Excel 2010 format.
+            workbook.SaveToFile("Output.xlsx", ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer("Output.xlsx")
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

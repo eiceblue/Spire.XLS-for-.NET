@@ -13,46 +13,50 @@ Namespace GetCellDisplayedText
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Instantiate a new Workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ReadImages.xlsx")
+            'Load the Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ReadImages.xlsx")
 
-			'Get first worksheet of the workbook
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
+            'Access the first worksheet in the workbook.
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-			'Set value for B8
-			Dim cell As CellRange = worksheet.Range("B8")
-			cell.NumberValue = 0.012345
+            'Access the cell range B8 in the worksheet.
+            Dim cell As CellRange = worksheet.Range("B8")
+            'Set the numeric value of the cell to 0.012345.
+            cell.NumberValue = 0.012345
 
-			'Set the cell style
-			Dim style As CellStyle = cell.Style
-			style.NumberFormat = "0.00"
+            'Access the style of the cell.
+            Dim style As CellStyle = cell.Style
+            'Set the number format of the cell to "0.00".
+            style.NumberFormat = "0.00"
 
-			'Get the cell value
-			Dim cellValue As String = cell.Value
+            'Retrieve the value of the cell as a string.
+            Dim cellValue As String = cell.Value
 
-			'Get the displayed text of the cell
-			Dim displayedText As String = cell.DisplayedText
+            'Retrieve the displayed text of the cell.
+            Dim displayedText As String = cell.DisplayedText
 
-			'Create StringBuilder to save 
-			Dim content As New StringBuilder()
+            'Create a StringBuilder object to store the output content.
+            Dim content As New StringBuilder()
 
-			'Set string format for displaying
-			Dim result As String = String.Format("B8 Value: " & cellValue & vbCrLf & "B8 displayed text: " & displayedText)
+            'Create the result string with the formatted values.
+            Dim result As String = String.Format("B8 Value: " & cellValue & vbCrLf & "B8 displayed text: " & displayedText)
 
-			'Add result string to StringBuilder
-			content.AppendLine(result)
+            'Append the result string to the StringBuilder.
+            content.AppendLine(result)
 
-			'String for output file 
-			Dim outputFile As String = "Output.txt"
+            'Specify the output file name.
+            Dim outputFile As String = "Output.txt"
 
-			'Save them to a txt file
-			File.WriteAllText(outputFile, content.ToString())
+            'Write the content of the StringBuilder to the specified text file.
+            File.WriteAllText(outputFile, content.ToString())
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launching the output file.
-			Viewer(outputFile)
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

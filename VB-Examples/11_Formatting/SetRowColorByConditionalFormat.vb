@@ -14,44 +14,52 @@ Namespace SetRowColorByConditionalFormat
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
+            ' Load an existing Excel file
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Select the range that you want to format.
-			Dim dataRange As CellRange = sheet.AllocatedRange
+            ' Get the range of cells that contain data in the worksheet
+            Dim dataRange As CellRange = sheet.AllocatedRange
 
-			'Set conditional formatting.
-			Dim xcfs As XlsConditionalFormats = sheet.ConditionalFormats.Add()
-			xcfs.AddRange(dataRange)
-			Dim format1 As IConditionalFormat = xcfs.AddCondition()
-			'Determines the cells to format.
-			format1.FirstFormula = "=MOD(ROW(),2)=0"
-			'Set conditional formatting type
-			format1.FormatType = ConditionalFormatType.Formula
-			'Set the color.
-			format1.BackColor = Color.LightSeaGreen
+            ' Add a new conditional formats collection to the worksheet
+            Dim xcfs As XlsConditionalFormats = sheet.ConditionalFormats.Add()
+            ' Add the data range to the conditional formats collection
+            xcfs.AddRange(dataRange)
+            ' Add a new conditional format to the collection
+            Dim format1 As IConditionalFormat = xcfs.AddCondition()
+            ' Set the formula for the conditional format (highlight even rows)
+            format1.FirstFormula = "=MOD(ROW(),2)=0"
+            ' Set the format type to Formula
+            format1.FormatType = ConditionalFormatType.Formula
+            ' Set the background color to light sea green
+            format1.BackColor = Color.LightSeaGreen
 
-			'Set the backcolor of the odd rows as Yellow.
-			Dim xcfs1 As XlsConditionalFormats = sheet.ConditionalFormats.Add()
-			xcfs1.AddRange(dataRange)
-			Dim format2 As IConditionalFormat = xcfs.AddCondition()
-			format2.FirstFormula = "=MOD(ROW(),2)=1"
-			format2.FormatType = ConditionalFormatType.Formula
-			format2.BackColor = Color.Yellow
+            ' Add another conditional formats collection to the worksheet
+            Dim xcfs1 As XlsConditionalFormats = sheet.ConditionalFormats.Add()
+            ' Add the data range to the second conditional formats collection
+            xcfs1.AddRange(dataRange)
+            ' Add a new conditional format to the second collection
+            Dim format2 As IConditionalFormat = xcfs.AddCondition()
+            ' Set the formula for the conditional format (highlight odd rows)
+            format2.FirstFormula = "=MOD(ROW(),2)=1"
+            ' Set the format type to Formula
+            format2.FormatType = ConditionalFormatType.Formula
+            ' Set the background color to yellow
+            format2.BackColor = Color.Yellow
 
-			Dim result As String = "Result-SetRowColorWithConditionalFormatting.xlsx"
+            ' Save the workbook to a new file with the name "Result-SetRowColorWithConditionalFormatting.xlsx"
+            Dim result As String = "Result-SetRowColorWithConditionalFormatting.xlsx"
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
-
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

@@ -9,24 +9,29 @@ Namespace HideOrShowWorksheet
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample3.xlsx")
+            ' Load an Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample3.xlsx")
 
-			'Hide the sheet named "Sheet1"
-			workbook.Worksheets("Sheet1").Visibility = WorksheetVisibility.Hidden
+            ' Hide the worksheet with the name "Sheet1"
+            workbook.Worksheets("Sheet1").Visibility = WorksheetVisibility.Hidden
 
-			'Show the second sheet
-			workbook.Worksheets(1).Visibility = WorksheetVisibility.Visible
+            ' Make the first worksheet visible
+            workbook.Worksheets(1).Visibility = WorksheetVisibility.Visible
 
-			'Save the document
-			Dim output As String = "HideOrShowWorksheet.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Specify the output file path
+            Dim output As String = "HideOrShowWorksheet.xlsx"
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Save the modified workbook to a file in Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

@@ -12,27 +12,32 @@ Namespace DeleteAllImages
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Create a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_5.xlsx")
+            'Load an existing Excel document from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_5.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieve the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Delete all images from the worksheet.
-			For i As Integer = sheet.Pictures.Count - 1 To 0 Step -1
-				sheet.Pictures(i).Remove()
-			Next i
+            'Delete all images from the worksheet.  
+            'Iterate through the pictures in reverse order.
+            For i As Integer = sheet.Pictures.Count - 1 To 0 Step -1
+                'Remove each picture from the worksheet.
+                sheet.Pictures(i).Remove()
+            Next i
 
-			Dim result As String = "Result-DeleteAllImages.xlsx"
+            'Specify the name of the resulting file after deleting the images.
+            Dim result As String = "Result-DeleteAllImages.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            'Save the modified workbook to the specified output file using Excel 2013 format.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

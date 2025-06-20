@@ -10,33 +10,38 @@ Namespace MakeCellActive
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
-			'Read an Excel file
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\templateAz.xlsx")
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Get the 2nd sheet
-			Dim sheet As Worksheet = workbook.Worksheets(1)
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\templateAz.xlsx")
 
-			'Set the 2nd sheet as an active sheet.
-			sheet.Activate()
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(1)
 
-			'Set B2 cell as an active cell in the worksheet.
-			sheet.SetActiveCell(sheet.Range("B2"))
+            ' Activate the worksheet
+            sheet.Activate()
 
-			'Set the B column as the first visible column in the worksheet.
-			sheet.FirstVisibleColumn = 1
+            ' Set the active cell to cell B2
+            sheet.SetActiveCell(sheet.Range("B2"))
 
-			'Set the 2nd row as the first visible row in the worksheet.
-			sheet.FirstVisibleRow = 1
+            ' Set the first visible column to column 1
+            sheet.FirstVisibleColumn = 1
 
-			Dim result As String = "MakeCellActive_result.xlsx"
+            ' Set the first visible row to row 1
+            sheet.FirstVisibleRow = 1
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Specify the filename for the resulting Excel file
+            Dim result As String = "MakeCellActive_result.xlsx"
 
-			'View the document
-			FileViewer(result)
+            ' Save the workbook to the specified filename in Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

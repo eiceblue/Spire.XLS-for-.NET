@@ -16,22 +16,33 @@ Namespace GetAllNamedRange
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim sb As New StringBuilder()
+            ' Create a new StringBuilder object
+            Dim sb As New StringBuilder()
 
-			'Load the document from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\AllNamedRanges.xlsx")
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Get all named range
-			Dim ranges As INameRanges = workbook.NameRanges
-			For Each nameRange As INamedRange In ranges
-				sb.Append(nameRange.Name & vbCrLf)
-			Next nameRange
+            ' Load an existing workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\AllNamedRanges.xlsx")
 
-			'Save and launch result file
-			Dim result As String = "result.txt"
-			File.WriteAllText(result, sb.ToString())
-			ExcelDocViewer(result)
+            ' Get the collection of named ranges in the workbook
+            Dim ranges As INameRanges = workbook.NameRanges
+
+            ' Iterate through each named range and append its name to the StringBuilder
+            For Each nameRange As INamedRange In ranges
+                sb.Append(nameRange.Name & vbCrLf)
+            Next nameRange
+
+            ' Define the output file name as "result.txt"
+            Dim result As String = "result.txt"
+
+            ' Write the contents of the StringBuilder to a text file
+            File.WriteAllText(result, sb.ToString())
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

@@ -12,17 +12,18 @@ Namespace ReadImages
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a Workbook
-			Dim workbook As New Workbook()
+            'Create a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ReadImages.xlsx")
+            'Load an existing Excel document from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ReadImages.xlsx")
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieve the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get the first image
-			Dim pic As ExcelPicture = sheet.Pictures(0)
+            'Access the first picture in the worksheet.
+            Dim pic As ExcelPicture = sheet.Pictures(0)
+
 
 			Using frm1 As New Form()
 				Dim pic1 As New PictureBox()
@@ -34,7 +35,9 @@ Namespace ReadImages
 				frm1.Controls.Add(pic1)
 				frm1.ShowDialog()
 			End Using
-		End Sub
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+        End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try
 				Process.Start(fileName)

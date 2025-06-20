@@ -10,24 +10,36 @@ Namespace ReplaceAndHighlight
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ReplaceAndHighlight.xlsx")
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ReplaceAndHighlight.xlsx")
 
-			Dim ranges() As CellRange = worksheet.FindAllString("Total", True, True)
+            ' Get the first worksheet from the workbook
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-			For Each range As CellRange In ranges
-				'reset the text, in other words, replace the text
-				range.Text = "Sum"
+            ' Find all occurrences of the string "Total" in the worksheet, case-sensitive and whole word matching
+            Dim ranges() As CellRange = worksheet.FindAllString("Total", True, True)
 
-				'set the color
-				range.Style.Color = Color.Yellow
-			Next range
+            ' Iterate through each found range
+            For Each range As CellRange In ranges
+                ' Replace the text with "Sum"
+                range.Text = "Sum"
 
-			Dim result As String="ReplaceAndHighlight_result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+                ' Set the color of the range to yellow
+                range.Style.Color = Color.Yellow
+            Next range
+
+            ' Specify the output file name for the modified workbook
+            Dim result As String = "ReplaceAndHighlight_result.xlsx"
+
+            ' Save the workbook to the specified file path using Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

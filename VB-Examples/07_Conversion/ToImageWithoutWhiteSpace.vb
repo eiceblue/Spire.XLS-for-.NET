@@ -13,26 +13,33 @@ Namespace ToImageWithoutWhiteSpace
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Load the document from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SampleB_2.xlsx")
+            ' Create a new Workbook object.
+            Dim workbook As New Workbook()
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Load the Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SampleB_2.xlsx")
 
-			'Set the margin as 0 to remove the white space around the image
-			sheet.PageSetup.LeftMargin = 0
-			sheet.PageSetup.BottomMargin = 0
-			sheet.PageSetup.TopMargin = 0
-			sheet.PageSetup.RightMargin = 0
+            ' Get the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'convert to image
-			Dim image As Image = sheet.ToImage(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn)
+            ' Set the left, bottom, top, and right margins of the worksheet's page setup to 0.
+            sheet.PageSetup.LeftMargin = 0
+            sheet.PageSetup.BottomMargin = 0
+            sheet.PageSetup.TopMargin = 0
+            sheet.PageSetup.RightMargin = 0
 
-			'Save and launch result file
-			Dim result As String = "result.png"
-			image.Save(result)
-			ExcelDocViewer(result)
+            ' Generate an Image object by converting the range of cells in the worksheet to an image.
+            Dim image As Image = sheet.ToImage(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn)
+
+            ' Specify the file name for the resulting image.
+            Dim result As String = "result.png"
+
+            ' Save the image to the specified file.
+            image.Save(result)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

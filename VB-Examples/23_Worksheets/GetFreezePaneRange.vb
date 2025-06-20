@@ -9,26 +9,35 @@ Namespace GetFreezePaneRange
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook class
+            Dim workbook As New Workbook()
 
-			'Load an excel file
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\GetFreezePaneRange.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\GetFreezePaneRange.xlsx")
 
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			Dim rowIndex As Integer
-			Dim colIndex As Integer
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'The row and column index of the frozen pane is passed through the out parameter. 
-			'If it returns to 0, it means that it is not frozen
-			sheet.GetFreezePanes(rowIndex, colIndex)
+            ' Declare variables for storing row and column indices
+            Dim rowIndex As Integer
+            Dim colIndex As Integer
 
-			Dim range As String = "Row index: " & rowIndex & ", column index: " & colIndex
+            ' Get the freeze pane indices of the worksheet
+            sheet.GetFreezePanes(rowIndex, colIndex)
 
-			'Save the document and launch it
-			Dim result As String = "GetFreezePaneCellRange_result.txt"
-			File.WriteAllText(result, range)
-			FileViewer(result)
+            ' Create a string representation of the freeze pane range
+            Dim range As String = "Row index: " & rowIndex & ", column index: " & colIndex
+
+            ' Define the output file name
+            Dim result As String = "GetFreezePaneCellRange_result.txt"
+
+            ' Write the freeze pane range to the output file
+            File.WriteAllText(result, range)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

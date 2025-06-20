@@ -10,17 +10,19 @@ Namespace ToODS
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'load a excel document
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ToODS.xlsx")
+            ' Load the Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ToODS.xlsx")
 
-			'convert to ODS file
-			workbook.SaveToFile("Result.ods", FileFormat.ODS)
+            ' Save the workbook as an ODS file.
+            workbook.SaveToFile("Result.ods", FileFormat.ODS)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'view the document
-			ExcelDocViewer("Result.ods")
+            'view the document
+            ExcelDocViewer("Result.ods")
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

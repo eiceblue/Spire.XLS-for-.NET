@@ -12,34 +12,42 @@ Namespace AlignPictureWithinCell
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Create a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Assign the first worksheet to the "sheet" variable.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			sheet.Range("A1").Text = "Align Picture Within A Cell:"
-			sheet.Range("A1").Style.VerticalAlignment = VerticalAlignType.Top
+            'Set the text content of cell A1 to "Align Picture Within A Cell:".
+            sheet.Range("A1").Text = "Align Picture Within A Cell:"
+            'Sets the vertical alignment of the cell A1 to the top.
+            sheet.Range("A1").Style.VerticalAlignment = VerticalAlignType.Top
 
-			'Insert an image to the specific cell.
-			Dim picPath As String = "..\..\..\..\..\..\Data\SpireXls.png"
-			Dim picture As ExcelPicture = sheet.Pictures.Add(1, 1, picPath)
+            'Specifie the file path of the image.
+            Dim picPath As String = "..\..\..\..\..\..\Data\SpireXls.png"
+            'Adds an image to the specified cell (1, 1).
+            Dim picture As ExcelPicture = sheet.Pictures.Add(1, 1, picPath)
 
-			'Adjust the column width and row height so that the cell can contain the picture.
-			sheet.Columns(0).ColumnWidth = 40
-			sheet.Rows(0).RowHeight = 200
+            'Set the width of the first column to 40.
+            sheet.Columns(0).ColumnWidth = 40
+            'Sets the height of the first row to 200.
+            sheet.Rows(0).RowHeight = 200
 
-			'Vertically and horizontally align the image.
-			picture.LeftColumnOffset = 100
-			picture.TopRowOffset = 25
+            'Set the horizontal offset of the image.
+            picture.LeftColumnOffset = 100
+            'Sets the vertical offset of the image.
+            picture.TopRowOffset = 25
 
-			Dim result As String = "Result-AlignPictureWithinCell.xlsx"
+            'Specify the file name for the resulting workbook.
+            Dim result As String = "Result-AlignPictureWithinCell.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            'Save the workbook to a file with the specified name and version.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

@@ -13,32 +13,37 @@ Namespace AccessDocumentProperties
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\AccessDocumentProperties.xlsx")
+            ' Load a workbook from a specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\AccessDocumentProperties.xlsx")
 
-			'Create string builder
-			Dim builder As New StringBuilder()
+            ' Create a StringBuilder object to store the extracted document properties
+            Dim builder As New StringBuilder()
 
-			'Get all document properties
-			Dim properties As ICustomDocumentProperties = workbook.CustomDocumentProperties
+            ' Get the custom document properties of the workbook
+            Dim properties As ICustomDocumentProperties = workbook.CustomDocumentProperties
 
-			'Access document property by property name
-			Dim property1 As DocumentProperty = CType(properties("Editor"), DocumentProperty)
-			builder.AppendLine(property1.Name & " " & property1.Value)
+            ' Retrieve and append the value of the "Editor" property to the StringBuilder
+            Dim property1 As DocumentProperty = CType(properties("Editor"), DocumentProperty)
+            builder.AppendLine(property1.Name.ToString() & " " & property1.Value.ToString())
 
-			'Access document property by property index
-			Dim property2 As DocumentProperty = CType(properties(0), DocumentProperty)
-			builder.AppendLine(property2.Name & " " & property2.Value)
+            ' Retrieve and append the value of the first property in the collection to the StringBuilder
+            Dim property2 As DocumentProperty = CType(properties(0), DocumentProperty)
+            builder.AppendLine(property2.Name.ToString() & " " & property2.Value.ToString())
 
-			'Save to txt file
-			Dim result As String = "AccessDocumentProperties_out.txt"
-			File.WriteAllText(result, builder.ToString())
+            ' Specify the output file name
+            Dim result As String = "AccessDocumentProperties_out.txt"
 
-			'Launch the file 
-			ExcelDocViewer(result)
+            ' Write the contents of the StringBuilder to the output file
+            File.WriteAllText(result, builder.ToString())
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the file 
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

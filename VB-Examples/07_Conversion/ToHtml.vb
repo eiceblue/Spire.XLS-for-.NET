@@ -13,15 +13,25 @@ Namespace ToHtml
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
+            ' Create a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ToHtml.xlsx")
+            ' Load the Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ToHtml.xlsx")
 
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			Dim options As New HTMLOptions()
-			options.ImageEmbedded = True
-			sheet.SaveToHtml("sample.html")
-			ExcelDocViewer("sample.html")
+            ' Get the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+
+            ' Create an instance of HTMLOptions class to specify HTML conversion settings.
+            Dim options As New HTMLOptions()
+            options.ImageEmbedded = True
+
+            ' Save the worksheet to an HTML file with the specified options.
+            sheet.SaveToHtml("sample.html", options)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer("sample.html")
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

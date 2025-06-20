@@ -14,55 +14,60 @@ Namespace ApplyConditionalFormatting
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Insert data to cell range from A1 to C4.
-			sheet.Range("A1").NumberValue = 582
-			sheet.Range("A2").NumberValue = 234
-			sheet.Range("A3").NumberValue = 314
-			sheet.Range("A4").NumberValue = 50
-			sheet.Range("B1").NumberValue = 150
-			sheet.Range("B2").NumberValue = 894
-			sheet.Range("B3").NumberValue = 560
-			sheet.Range("B4").NumberValue = 900
-			sheet.Range("C1").NumberValue = 134
-			sheet.Range("C2").NumberValue = 700
-			sheet.Range("C3").NumberValue = 920
-			sheet.Range("C4").NumberValue = 450
-			sheet.AllocatedRange.RowHeight = 15
-			sheet.AllocatedRange.ColumnWidth = 17
+            ' Set numeric values for cells A1 to C4 in the worksheet
+            sheet.Range("A1").NumberValue = 582
+            sheet.Range("A2").NumberValue = 234
+            sheet.Range("A3").NumberValue = 314
+            sheet.Range("A4").NumberValue = 50
+            sheet.Range("B1").NumberValue = 150
+            sheet.Range("B2").NumberValue = 894
+            sheet.Range("B3").NumberValue = 560
+            sheet.Range("B4").NumberValue = 900
+            sheet.Range("C1").NumberValue = 134
+            sheet.Range("C2").NumberValue = 700
+            sheet.Range("C3").NumberValue = 920
+            sheet.Range("C4").NumberValue = 450
 
-			'Create conditional formatting rule.
-			Dim xcfs1 As XlsConditionalFormats = sheet.ConditionalFormats.Add()
-			xcfs1.AddRange(sheet.AllocatedRange)
-			Dim format1 As IConditionalFormat = xcfs1.AddCondition()
-			format1.FormatType = ConditionalFormatType.CellValue
-			format1.FirstFormula = "800"
-			format1.Operator = ComparisonOperatorType.Greater
-			format1.FontColor = Color.Red
-			format1.BackColor = Color.LightSalmon
+            ' Set the row height and column width for the allocated range in the worksheet
+            sheet.AllocatedRange.RowHeight = 15
+            sheet.AllocatedRange.ColumnWidth = 17
 
-			'Create conditional formatting rule.
-			Dim xcfs2 As XlsConditionalFormats = sheet.ConditionalFormats.Add()
-			xcfs2.AddRange(sheet.AllocatedRange)
-			Dim format2 As IConditionalFormat = xcfs1.AddCondition()
-			format2.FormatType = ConditionalFormatType.CellValue
-			format2.FirstFormula = "300"
-			format2.Operator = ComparisonOperatorType.Less
-			format2.FontColor = Color.Green
-			format2.BackColor = Color.LightBlue
+            ' Add the first conditional formatting rule to the worksheet based on cell values
+            Dim xcfs1 As XlsConditionalFormats = sheet.ConditionalFormats.Add()
+            xcfs1.AddRange(sheet.AllocatedRange)
+            Dim format1 As IConditionalFormat = xcfs1.AddCondition()
+            format1.FormatType = ConditionalFormatType.CellValue
+            format1.FirstFormula = "800"
+            format1.Operator = ComparisonOperatorType.Greater
+            format1.FontColor = Color.Red
+            format1.BackColor = Color.LightSalmon
 
-			Dim result As String = "Result-ApplyConditionalFormattingToDataRange.xlsx"
+            ' Add the second conditional formatting rule to the worksheet based on cell values
+            Dim xcfs2 As XlsConditionalFormats = sheet.ConditionalFormats.Add()
+            xcfs2.AddRange(sheet.AllocatedRange)
+            Dim format2 As IConditionalFormat = xcfs2.AddCondition()
+            format2.FormatType = ConditionalFormatType.CellValue
+            format2.FirstFormula = "300"
+            format2.Operator = ComparisonOperatorType.Less
+            format2.FontColor = Color.Green
+            format2.BackColor = Color.LightBlue
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Specify the output file path for saving the modified workbook
+            Dim result As String = "Result-ApplyConditionalFormattingToDataRange.xlsx"
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Save the workbook to the specified output file path in Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

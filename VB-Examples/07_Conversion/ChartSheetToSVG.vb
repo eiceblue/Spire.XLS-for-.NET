@@ -10,24 +10,34 @@ Namespace ChartSheetToSVG
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSheet.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSheet.xlsx")
 
-			'Get the second chartsheet by name
-			Dim cs As ChartSheet = workbook.GetChartSheetByName("Chart1")
+            ' Get the ChartSheet named "Chart1" from the workbook
+            Dim cs As ChartSheet = workbook.GetChartSheetByName("Chart1")
 
-			'Save to SVG stream
-			Dim output As String = "ToSVG.svg"
-			Dim fs As New FileStream(String.Format(output), FileMode.Create)
-			cs.ToSVGStream(fs)
-			fs.Flush()
-			fs.Close()
+            ' Specify the output file name for the SVG conversion
+            Dim output As String = "ToSVG.svg"
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Create a new FileStream with the specified output file name
+            Dim fs As New FileStream(String.Format(output), FileMode.Create)
+
+            ' Convert the ChartSheet to SVG and write it to the FileStream
+            cs.ToSVGStream(fs)
+
+            ' Flush any buffered data in the FileStream
+            fs.Flush()
+
+            ' Close the FileStream
+            fs.Close()
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

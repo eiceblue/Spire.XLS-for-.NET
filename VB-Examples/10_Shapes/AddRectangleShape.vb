@@ -11,34 +11,43 @@ Namespace AddRectangleShape
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Declare and initialize a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ExcelSample_N1.xlsx")
+            ' Load an Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ExcelSample_N1.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Add rectangle shape 1------Rect
-			Dim rect1 As IRectangleShape=sheet.RectangleShapes.AddRectangle(11, 2, 60, 100, RectangleShapeType.Rect)
-			rect1.Line.Weight = 1
-			'Fill shape with solid color
-			rect1.Fill.FillType = ShapeFillType.SolidColor
-			rect1.Fill.ForeColor = Color.DarkGreen
+            ' Add a rectangle shape to the worksheet at position (11, 2) with width 60, height 100, and rectangle shape type
+            Dim rect1 As IRectangleShape = sheet.RectangleShapes.AddRectangle(11, 2, 60, 100, RectangleShapeType.Rect)
+            ' Set the weight of the line to 1
+            rect1.Line.Weight = 1
 
-			'Add rectangle shape 2------RoundRect
-			Dim rect2 As IRectangleShape = sheet.RectangleShapes.AddRectangle(11, 5, 60, 100, RectangleShapeType.RoundRect)
-			rect2.Line.Weight = 1
-			rect2.Fill.FillType = ShapeFillType.SolidColor
-			rect2.Fill.ForeColor = Color.DarkCyan
+            ' Set the fill type of rect1 to solid color and set the foreground color to DarkGreen
+            rect1.Fill.FillType = ShapeFillType.SolidColor
+            rect1.Fill.ForeColor = Color.DarkGreen
 
-			'Save the document
-			Dim output As String = "AddRectangleShape_out.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Add another rectangle shape to the worksheet at position (11, 5) with width 60, height 100, and round rectangle shape type
+            Dim rect2 As IRectangleShape = sheet.RectangleShapes.AddRectangle(11, 5, 60, 100, RectangleShapeType.RoundRect)
+            ' Set the weight of the line to 1
+            rect2.Line.Weight = 1
+            ' Set the fill type of rect2 to solid color
+            rect2.Fill.FillType = ShapeFillType.SolidColor
+            ' Set the foreground color of rect2 to DarkCyan
+            rect2.Fill.ForeColor = Color.DarkCyan
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Specify the output file name
+            Dim output As String = "AddRectangleShape_out.xlsx"
+
+            ' Save the modified workbook to the specified file in Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

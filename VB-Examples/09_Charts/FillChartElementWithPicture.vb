@@ -9,30 +9,32 @@ Namespace FillChartElementWithPicture
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample1.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample1.xlsx")
 
-			'Get the first worksheet from workbook
-			Dim ws As Worksheet = workbook.Worksheets(0)
-			'Get the first chart
-			Dim chart As Chart = ws.Charts(0)
+            ' Get the first worksheet from the workbook
+            Dim ws As Worksheet = workbook.Worksheets(0)
 
-			' A. Fill chart area with image
-			chart.ChartArea.Fill.CustomPicture(Image.FromFile("..\..\..\..\..\..\Data\background.png"), "None")
-			chart.PlotArea.Fill.Transparency = 0.9
+            ' Get the first chart from the worksheet
+            Dim chart As Chart = ws.Charts(0)
 
-			'// B.Fill plot area with image
-			'chart.PlotArea.Fill.CustomPicture(Image.FromFile(@"..\..\..\..\..\..\Data\background.png"), "None");
+            ' Set a custom picture as the fill for the chart area, specifying the image file path and fill style
+            chart.ChartArea.Fill.CustomPicture(Image.FromFile("..\..\..\..\..\..\Data\background.png"), "None")
 
-			'Save the document
-			Dim output As String = "FillChartElementWithPicture.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2010)
+            ' Set the transparency of the plot area fill to 0.9 (90% transparent)
+            chart.PlotArea.Fill.Transparency = 0.9
 
-			'Launch the file
-			ExcelDocViewer(output)
+            ' Save the modified workbook to a new file named "FillChartElementWithPicture.xlsx"
+            Dim output As String = "FillChartElementWithPicture.xlsx"
+            workbook.SaveToFile(output, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

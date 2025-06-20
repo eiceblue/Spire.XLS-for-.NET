@@ -9,25 +9,31 @@ Namespace SelectedRangeToPDF
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ConversionSample1.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ConversionSample1.xlsx")
 
-			'Add a new sheet to workbook
-			workbook.Worksheets.Add("newsheet")
-			'Copy your area to new sheet.
-			workbook.Worksheets(0).Range("A9:E15").Copy(workbook.Worksheets(1).Range("A9:E15"), False, True)
-			'Auto fit column width
-			workbook.Worksheets(1).Range("A9:E15").AutoFitColumns()
+            ' Add a new worksheet to the workbook
+            workbook.Worksheets.Add("newsheet")
 
-			'Save the document
-			Dim output As String = "SelectedRangeToPDF.pdf"
-			workbook.Worksheets(1).SaveToPdf(output)
+            ' Copy the range A9:E15 from the first worksheet to the second worksheet
+            workbook.Worksheets(0).Range("A9:E15").Copy(workbook.Worksheets(1).Range("A9:E15"), False, True)
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Auto-fit columns in the range A9:E15 of the second worksheet
+            workbook.Worksheets(1).Range("A9:E15").AutoFitColumns()
+
+            ' Specify the output file name for saving the second worksheet as PDF
+            Dim output As String = "SelectedRangeToPDF.pdf"
+
+            ' Save the second worksheet to a PDF file
+            workbook.Worksheets(1).SaveToPdf(output)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

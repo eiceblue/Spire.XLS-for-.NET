@@ -10,28 +10,36 @@ Namespace AdjustBarSpace
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample1.xlsx")
+            ' Load the Excel file "ChartSample1.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample1.xlsx")
 
-			'Get the first worksheet from workbook and then get the first chart from the worksheet
-			Dim ws As Worksheet = workbook.Worksheets(0)
-			Dim chart As Chart = ws.Charts(0)
+            ' Get the first worksheet from the workbook
+            Dim ws As Worksheet = workbook.Worksheets(0)
 
-			'Adjust the space between bars
-			For Each cs As ChartSerie In chart.Series
-				cs.Format.Options.GapWidth = 200
-				cs.Format.Options.Overlap = 0
-			Next cs
+            ' Get the first chart from the worksheet
+            Dim chart As Chart = ws.Charts(0)
 
-			'Save the document
-			Dim output As String = "AjustBarSpace.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Iterate through each series in the chart
+            For Each cs As ChartSerie In chart.Series
+                ' Set the gap width of the series to 200
+                cs.Format.Options.GapWidth = 200
+                ' Set the overlap of the series to 0
+                cs.Format.Options.Overlap = 0
+            Next cs
 
-			'Launch the file
-			ExcelDocViewer(output)
+            ' Specify the output file name as "AdjustBarSpace.xlsx"
+            Dim output As String = "AdjustBarSpace.xlsx"
+
+            ' Save the modified workbook to the specified file path, using the Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

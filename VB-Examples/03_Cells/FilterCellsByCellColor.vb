@@ -13,34 +13,37 @@ Namespace FilterCellsByCellColor
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Instantiate a new workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_3.xlsx")
+            'Load an existing Excel file from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_3.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieve the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Create an auto filter in the sheet and specify the range to be filterd
-			sheet.AutoFilters.Range = sheet.Range("G1:G19")
+            'Create an auto filter on column G (range G1:G19) in the worksheet.
+            sheet.AutoFilters.Range = sheet.Range("G1:G19")
 
-			'Get the column to be filterd
-			Dim filtercolumn As FilterColumn = CType(sheet.AutoFilters(0), FilterColumn)
+            'Retrieve the filter column for column G.
+            Dim filtercolumn As FilterColumn = CType(sheet.AutoFilters(0), FilterColumn)
 
-			'Add a color filter to filter the column based on cell color
-			sheet.AutoFilters.AddFillColorFilter(filtercolumn, Color.Red)
+            'Add a color filter to filter the cells in the filter column that have a red fill color.
+            sheet.AutoFilters.AddFillColorFilter(filtercolumn, Color.Red)
 
-			'Filter the data.
-			sheet.AutoFilters.Filter()
+            'Apply the filters to the worksheet data based on the specified criteria.
+            sheet.AutoFilters.Filter()
 
-			Dim result As String = "Result-FilterCellsByCellColor.xlsx"
+            'Specify the file name for the output file.
+            Dim result As String = "Result-FilterCellsByCellColor.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            'Save the modified workbook to the specified output file using Excel 2013 version.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

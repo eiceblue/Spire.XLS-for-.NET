@@ -17,32 +17,39 @@ Namespace GetChartDataPointValues
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim sb As New StringBuilder()
+            ' Create a StringBuilder object to store the extracted data.
+            Dim stringBuilder As New StringBuilder()
 
-			'Load the document from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartToImage.xlsx")
+            ' Create a new Workbook object and load an Excel file.
+            Dim workbook As New Workbook()
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartToImage.xlsx")
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get the chart
-			Dim chart As Chart = sheet.Charts(0)
+            ' Get the first chart in the worksheet.
+            Dim chart As Chart = sheet.Charts(0)
 
-			'Get the first series of the chart
-			Dim cs As ChartSerie = chart.Series(0)
+            ' Get the first series in the chart.
+            Dim cs As ChartSerie = chart.Series(0)
 
-			For Each cr As CellRange In cs.Values
-				sb.Append(cr.RangeAddress & vbCrLf)
+            ' Loop through each cell range in the series values.
+            For Each cr As CellRange In cs.Values
+                ' Append the range address to the StringBuilder.
+                stringBuilder.Append(cr.RangeAddress & vbCrLf)
 
-				'Get the data point value
-				sb.Append("The value of the data point is " & cr.Value & vbCrLf)
-			Next cr
+                ' Append the value of the data point to the StringBuilder.
+                stringBuilder.Append("The value of the data point is " & cr.Value & vbCrLf)
+            Next cr
 
-			Dim result As String = "result.txt"
-			'Save and launch result file
-			File.WriteAllText(result, sb.ToString())
-			ExcelDocViewer(result)
+            ' Specify the file name for the result.
+            Dim result As String = "result.txt"
+
+            ' Write the contents of the StringBuilder to a text file.
+            File.WriteAllText(result, stringBuilder.ToString())
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

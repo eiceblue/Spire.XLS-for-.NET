@@ -10,30 +10,46 @@ Namespace CreateAnExcelWithFiveSheets
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim start As Date = Date.Now
-			'Create a workbook
-			Dim workbook As New Workbook()
-			workbook.CreateEmptySheets(5)
-			For i As Integer = 0 To 4
-				Dim sheet As Worksheet = workbook.Worksheets(i)
-				sheet.Name = "Sheet" & i.ToString()
-				For row As Integer = 1 To 150
-					For col As Integer = 1 To 50
-						sheet.Range(row, col).Text="row" & row.ToString() & " col" & col.ToString()
-					Next col
-				Next row
-			Next i
+            ' Record the start time
+            Dim start As Date = Date.Now
 
-			Dim result As String = "CreateAnExcelWithFiveSheets_result.xlsx"
+            ' Create a new Excel workbook object.
+            Dim workbook As New Workbook()
+            workbook.CreateEmptySheets(5)
 
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            For i As Integer = 0 To 4
+                ' Get the worksheet at the current index
+                Dim sheet As Worksheet = workbook.Worksheets(i)
+                ' Set the worksheet name 
+                sheet.Name = "Sheet" & i.ToString()
 
-			Dim [end] As Date = Date.Now
-			Dim time As TimeSpan = [end].Subtract(start)
-			MessageBox.Show("File has been created successfully! " & vbLf & "Time consumed (Seconds): " & time.TotalSeconds.ToString())
+                ' Fill in data by iterating through rows and columns
+                For row As Integer = 1 To 150
+                    For col As Integer = 1 To 50
+                        sheet.Range(row, col).Text = "row" & row.ToString() & " col" & col.ToString() ' Set text content in the cell
+                    Next col
+                Next row
+            Next i
 
-			'View the document
-			FileViewer(result)
+            ' Specify the file name for the result
+            Dim result As String = "CreateAnExcelWithFiveSheets_result.xlsx"
+
+            ' Save the workbook to a file
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Record the end time
+            Dim [end] As Date = Date.Now
+
+            ' Calculate the elapsed time
+            Dim time As TimeSpan = [end].Subtract(start)
+
+            MessageBox.Show("File has been created successfully! " & vbLf & "Time consumed (Seconds): " & time.TotalSeconds.ToString())
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

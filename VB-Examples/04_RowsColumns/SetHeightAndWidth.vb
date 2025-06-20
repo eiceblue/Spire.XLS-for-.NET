@@ -11,18 +11,26 @@ Namespace SetHeightAndWidth
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SetHeightAndWidth.xls")
+            'Create a new Workbook object.
+            Dim workbook As New Workbook()
 
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
-			' Setting the width to 30
-			worksheet.SetColumnWidth(4, 30)
-			' Setting the height to 30
-			worksheet.SetRowHeight(4,30)
+            ' Load an existing Excel file into the Workbook object.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SetHeightAndWidth.xls")
 
-			Dim result As String="SetHeightAndWidth_out.xlsx"
-			workbook.SaveToFile(result,ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Get the first worksheet from the Workbook.
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
+            ' Set the fourth column width to 30.
+            worksheet.SetColumnWidth(4, 30)
+            ' Set the fourth row height to 30.
+            worksheet.SetRowHeight(4, 30)
+            'Specify the name for the result file.
+            Dim result As String = "SetHeightAndWidth_out.xlsx"
+            'Save the workbook to a file with the specified name and Excel version (in this case, Excel 2010).
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

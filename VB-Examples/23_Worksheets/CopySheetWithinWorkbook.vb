@@ -12,27 +12,36 @@ Namespace CopySheetWithinWorkbook
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
+            ' Load an existing Excel file into the workbook from a specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
 
-			'Get the first and the second worksheets.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			Dim sheet1 As Worksheet = workbook.Worksheets.Add("MySheet")
-			Dim sourceRange As CellRange = sheet.AllocatedRange
+            ' Get the reference to the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Copy the first worksheet to the second one.
-			sheet.Copy(sourceRange, sheet1, sheet.FirstRow, sheet.FirstColumn, True)
+            ' Add a new worksheet named "MySheet" to the workbook and get its reference
+            Dim sheet1 As Worksheet = workbook.Worksheets.Add("MySheet")
 
-			Dim result As String = "Result-CopySheetWithinWorkbook.xlsx"
+            ' Get the range of cells that are allocated (used) in the source worksheet
+            Dim sourceRange As CellRange = sheet.AllocatedRange
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Copy the source range of cells to the destination worksheet starting from the first row and column,
+            ' while preserving the formatting and formulas
+            sheet.Copy(sourceRange, sheet1, sheet.FirstRow, sheet.FirstColumn, True)
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Specify the name for the resulting copied sheet within the workbook
+            Dim result As String = "Result-CopySheetWithinWorkbook.xlsx"
+
+            ' Save the modified workbook to a new file with the specified name and Excel version (2013)
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

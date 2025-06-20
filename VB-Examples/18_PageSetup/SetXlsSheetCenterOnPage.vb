@@ -12,29 +12,35 @@ Namespace SetXlsSheetCenterOnPage
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
+            ' Load an Excel file from a specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get the PageSetup object of the first page.
-			Dim pageSetup As PageSetup = sheet.PageSetup
+            ' Get the PageSetup object of the worksheet.
+            Dim pageSetup As PageSetup = sheet.PageSetup
 
-			'Set the worksheet center on page.
-			pageSetup.CenterHorizontally = True
-			pageSetup.CenterVertically = True
+            ' Set the CenterHorizontally property to true, centering the sheet horizontally on the page.
+            pageSetup.CenterHorizontally = True
 
-			Dim result As String = "Result-SetXlsSheetCenterOnPage.xlsx"
+            ' Set the CenterVertically property to true, centering the sheet vertically on the page.
+            pageSetup.CenterVertically = True
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Specify the name for the result file.
+            Dim result As String = "Result-SetXlsSheetCenterOnPage.xlsx"
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Save the modified workbook to a file with the specified result name and Excel version.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

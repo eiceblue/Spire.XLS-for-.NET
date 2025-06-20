@@ -11,32 +11,38 @@ Namespace UsePredefinedStyles
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Create a new style
-			Dim style As CellStyle = workbook.Styles.Add("newStyle")
-			style.Font.FontName = "Calibri"
-			style.Font.IsBold = True
-			style.Font.Size = 15
-			style.Font.Color = Color.CornflowerBlue
+            ' Create a new cell style named "newStyle"
+            Dim style As CellStyle = workbook.Styles.Add("newStyle")
+            style.Font.FontName = "Calibri"
+            style.Font.IsBold = True
+            style.Font.Size = 15
+            style.Font.Color = Color.CornflowerBlue
 
-			'Get "B5" cell
-			Dim range As CellRange =sheet.Range("B5")
-			range.Text = "Welcome to use Spire.XLS"
-			range.CellStyleName = style.Name
-			range.AutoFitColumns()
+            ' Get the cell range B5
+            Dim range As CellRange = sheet.Range("B5")
 
-			Dim result As String = "UsePredefinedStyles_result.xlsx"
+            ' Set the text of the cell and apply the "newStyle" to it
+            range.Text = "Welcome to use Spire.XLS"
+            range.CellStyleName = style.Name
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Auto-fit the columns in the range
+            range.AutoFitColumns()
 
-			'View the document
-		   FileViewer(result)
+            ' Save the modified workbook to a new file
+            Dim result As String = "UsePredefinedStyles_result.xlsx"
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

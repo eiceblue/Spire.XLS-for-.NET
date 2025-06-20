@@ -12,34 +12,45 @@ Namespace ExtractOLEObjects
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ExtractOle2.xlsx")
+            ' Load the workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ExtractOle2.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Extract ole objects
-			If sheet.HasOleObjects Then
-				For i As Integer = 0 To sheet.OleObjects.Count - 1
-					Dim [Object] = sheet.OleObjects(i)
-					Dim type As OleObjectType = sheet.OleObjects(i).ObjectType
-					Select Case type
-						'Word document
-						Case OleObjectType.WordDocument
-							File.WriteAllBytes("Ole.docx", [Object].OleData)
-						'PowerPoint document
-						Case OleObjectType.PowerPointSlide
-							File.WriteAllBytes("Ole.pptx", [Object].OleData)
-						'PDF document
-						Case OleObjectType.AdobeAcrobatDocument
-							File.WriteAllBytes("Ole.pdf", [Object].OleData)
-					End Select
-				Next i
-			End If
-			MessageBox.Show("Completed!")
+            ' Check if the worksheet has any OLE objects
+            If sheet.HasOleObjects Then
+                ' Iterate through each OLE object in the worksheet
+                For i As Integer = 0 To sheet.OleObjects.Count - 1
+                    ' Get the current OLE object
+                    Dim [Object] = sheet.OleObjects(i)
+
+                    ' Get the type of the current OLE object
+                    Dim type As OleObjectType = sheet.OleObjects(i).ObjectType
+
+                    ' Process the OLE object based on its type
+                    Select Case type
+                        Case OleObjectType.WordDocument
+                            ' Save the OLE data as a Word document file
+                            File.WriteAllBytes("Ole.docx", [Object].OleData)
+
+                        Case OleObjectType.PowerPointSlide
+                            ' Save the OLE data as a PowerPoint slide file
+                            File.WriteAllBytes("Ole.pptx", [Object].OleData)
+
+                        Case OleObjectType.AdobeAcrobatDocument
+                            ' Save the OLE data as a PDF file
+                            File.WriteAllBytes("Ole.pdf", [Object].OleData)
+                    End Select
+                Next i
+            End If
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            MessageBox.Show("Completed!")
 		End Sub
 
 		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click

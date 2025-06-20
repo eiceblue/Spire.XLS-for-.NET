@@ -11,19 +11,24 @@ Namespace ZoomFactor
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook and load a file
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ZoomFactor.xlsx")
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ZoomFactor.xlsx")
 
-			'Set the zoom factor of the sheet to 85
-			sheet.Zoom = 85
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Save the document and launch it
-			workbook.SaveToFile("ZoomFactor_result.xlsx",ExcelVersion.Version2010)
-			ExcelDocViewer("ZoomFactor_result.xlsx")
+            ' Set the zoom factor of the worksheet to 85%
+            sheet.Zoom = 85
+
+            ' Save the modified workbook to a new file named "ZoomFactor_result.xlsx" in Excel 2010 format
+            workbook.SaveToFile("ZoomFactor_result.xlsx", ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            ExcelDocViewer("ZoomFactor_result.xlsx")
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

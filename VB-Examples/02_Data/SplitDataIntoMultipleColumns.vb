@@ -12,33 +12,41 @@ Namespace SplitDataIntoMultipleColumns
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\SplitExcelDataIntoMultipleCols.xlsx")
+            'Loads an Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\SplitExcelDataIntoMultipleCols.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Gets the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Split data into separate columns by the delimited characters ¨C space.
-			Dim splitText() As String = Nothing
-			Dim text As String = Nothing
-			For i As Integer = 1 To sheet.LastRow - 1
-				text = sheet.Range(i + 1, 1).Text
-				splitText = text.Split(" "c)
-				For j As Integer = 0 To splitText.Length - 1
-					sheet.Range(i + 1, 1 + j + 1).Text = splitText(j)
-				Next j
-			Next i
+            'Declares an array to store the split text.
+            Dim splitText() As String = Nothing
+            'Declares a variable to store the text from each cell.
+            Dim text As String = Nothing
+            'Iterates through each row in the worksheet, excluding the last row.
+            For i As Integer = 1 To sheet.LastRow - 1
+                'Gets the text from the current cell in the first column.
+                text = sheet.Range(i + 1, 1).Text
+                'Splits the text into an array using space as the delimiter.
+                splitText = text.Split(" "c)
+                'Iterates through each element in the splitText array.
+                For j As Integer = 0 To splitText.Length - 1
+                    'Sets the value of the corresponding cell in the next column to the split text.
+                    sheet.Range(i + 1, 1 + j + 1).Text = splitText(j)
+                Next j
+            Next i
+            'Specifies the filename for the resulting Excel file.
+            Dim result As String = "Result-SplitExcelDataIntoMultipleColumns.xlsx"
 
-			Dim result As String = "Result-SplitExcelDataIntoMultipleCols.xlsx"
+            'Saves the modified workbook to a file with the specified filename and Excel version.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
-
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

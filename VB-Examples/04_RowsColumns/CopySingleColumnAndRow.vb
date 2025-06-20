@@ -12,35 +12,37 @@ Namespace CopySingleColumnAndRow
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Instantiate a new Workbook object to create a workbook.
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CreateTable.xlsx")
+            'Load the Excel document from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CreateTable.xlsx")
 
-			'Get the first worksheet
-			Dim sheet1 As Worksheet = workbook.Worksheets(0)
+            'Get the first worksheet from the workbook.
+            Dim sheet1 As Worksheet = workbook.Worksheets(0)
 
-			'Specify a destination range to copy one column 
-			Dim columnCells As CellRange = sheet1.Range("G1:G19")
+            'Specify the destination range where the copied column will be placed.n 
+            Dim columnCells As CellRange = sheet1.Range("G1:G19")
 
-			'Copy the second column to destination range 
-			sheet1.Columns(1).Copy(columnCells)
+            'Copy the content of the second column and paste it into the destination range.
+            sheet1.Columns(1).Copy(columnCells)
 
-			'Specify a destination range to copy one row 
-			Dim rowCells As CellRange = sheet1.Range("A21:E21")
+            'Specify the destination range where the copied row will be placed.
+            Dim rowCells As CellRange = sheet1.Range("A21:E21")
 
-			'Copy the first row to destination range 
-			sheet1.Rows(0).Copy(rowCells)
+            'Copy the content of the first row and paste it into the destination range.
+            sheet1.Rows(0).Copy(rowCells)
 
-			'String for output file 
-			Dim outputFile As String = "Output.xlsx"
+            'Specify the name for the resulting file.
+            Dim outputFile As String = "Output.xlsx"
 
-			'Save the file
-			workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            'Save the workbook to a file with the specified name and Excel version (in this case, Excel 2013).
+            workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launching the output file.
-			Viewer(outputFile)
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

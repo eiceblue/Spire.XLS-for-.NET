@@ -12,27 +12,31 @@ Namespace OnlyCopyFormulaValue
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CopyOnlyFormulaValue1.xlsx")
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
+            'Loads an Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CopyOnlyFormulaValue1.xlsx")
+            'Retrieves the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Specifies the copy option to only copy formula values.
+            Dim copyOptions As CopyRangeOptions = CopyRangeOptions.OnlyCopyFormulaValue
+            'Specifies the source range to be copied.
+            Dim sourceRange As CellRange = sheet.Range("A6:E6")
+            'Copies the source range to the destination range with the specified copy options.
+            sheet.Copy(sourceRange, sheet.Range("A8:E8"), copyOptions)
+            'Copies the source range to another destination range with the same copy options.
+            sourceRange.Copy(sheet.Range("A10:E10"), copyOptions)
+            'Specifies the name of the output file.
+            Dim result As String = "Result-OnlyCopyFormulaValue.xlsx"
 
-			'Set the copy option
-			Dim copyOptions As CopyRangeOptions = CopyRangeOptions.OnlyCopyFormulaValue
+            'Saves the workbook to the specified file in Excel 2013 format.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			Dim sourceRange As CellRange = sheet.Range("A6:E6")
-			sheet.Copy(sourceRange, sheet.Range("A8:E8"), copyOptions)
-
-
-			sourceRange.Copy(sheet.Range("A10:E10"), copyOptions)
-
-			Dim result As String = "Result-OnlyCopyFormulaValue.xlsx"
-
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
-
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

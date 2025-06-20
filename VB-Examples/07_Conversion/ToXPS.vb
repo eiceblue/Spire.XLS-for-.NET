@@ -11,10 +11,18 @@ Namespace ToXPS
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ToXPS.xlsx")
-			workbook.SaveToFile("ToXPS.xps", Spire.Xls.FileFormat.XPS)
-			ExcelDocViewer("ToXPS.xps")
+            ' Create a new instance of the Workbook class.
+            Dim workbook As New Workbook()
+
+            ' Load the Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ToXPS.xlsx")
+
+            ' Save the workbook as an XPS file.
+            workbook.SaveToFile("Result.xps", FileFormat.XPS)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer("ToXPS.xps")
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

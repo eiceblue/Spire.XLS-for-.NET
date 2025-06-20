@@ -15,23 +15,26 @@ Namespace SetExcelCalculationMode
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CreateTable.xlsx")
+            ' Load an existing Excel file into the workbook
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CreateTable.xlsx")
 
-			'Set excel calculation mode as Manual
-			workbook.CalculationMode = ExcelCalculationMode.Manual
+            ' Set the calculation mode of the workbook to manual
+            workbook.CalculationMode = ExcelCalculationMode.Manual
 
-			'String for output file 
-			Dim outputFile As String = "Output.xlsx"
+            ' Specify the output file name
+            Dim outputFile As String = "Output.xlsx"
 
-			'Save the file
-			workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            ' Save the workbook to the specified output file in Excel 2013 format
+            workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
 
-			'Launching the output file.
-			Viewer(outputFile)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

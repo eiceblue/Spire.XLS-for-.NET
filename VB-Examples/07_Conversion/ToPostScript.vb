@@ -10,18 +10,23 @@ Namespace ToPostScript
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'load an excel document
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ToPostScript.xlsx")
+            ' Load the Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ToPostScript.xlsx")
 
-			Dim result As String = "Result.ps"
-			'convert to ODS file
-			workbook.SaveToFile(result, FileFormat.PostScript)
+            ' Specify the file name
+            Dim result As String = "result.ps"
 
-			'view the document
-			ExcelDocViewer(result)
+            ' Save the workbook as a PostScript file.
+            workbook.SaveToFile(result, FileFormat.PostScript)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'view the document
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

@@ -14,27 +14,31 @@ Namespace CountNumberOfCells
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Instantiate a new workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
+            'Load an existing Excel file from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieve the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			Dim content As New StringBuilder()
+            'Create a StringBuilder object to store the content.
+            Dim content As New StringBuilder()
 
-			'Get the number of cells.
-			content.AppendLine("Number of Cells: " & sheet.Cells.Length)
+            'Append the number of cells in the worksheet to the content.
+            content.AppendLine("Number of Cells: " & sheet.Cells.Length)
 
-			Dim result As String = "Result-CountNumberOfCells.txt"
+            'Specify the file name for the output file.
+            Dim result As String = "Result-CountNumberOfCells.txt"
 
-			'Save to file.
-			File.WriteAllText(result, content.ToString())
+            'Save the content to the specified output file.
+            File.WriteAllText(result, content.ToString())
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

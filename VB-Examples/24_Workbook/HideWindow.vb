@@ -11,17 +11,26 @@ Namespace HideWindow
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
-			'Load an excel file
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\HideWindowExample.xlsx")
-			'Hide window
-			workbook.IsHideWindow = True
-			Dim result As String = "HideWindow_result.xlsx"
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			'View the document
-			FileViewer(result)
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
+
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\HideWindowExample.xlsx")
+
+            ' Set the IsHideWindow property of the workbook to True
+            workbook.IsHideWindow = True
+
+            ' Specify the output file name
+            Dim result As String = "HideWindow_result.xlsx"
+
+            ' Save the workbook to the specified file in Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

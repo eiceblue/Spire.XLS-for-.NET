@@ -14,36 +14,56 @@ Namespace HighlightRankedValues
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_6.xlsx")
+            ' Load an existing Excel file into the workbook
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_6.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Apply conditional formatting to range "D2:D10" to highlight the top 2 values.
-			Dim xcfs As XlsConditionalFormats = sheet.ConditionalFormats.Add()
-			xcfs.AddRange(sheet.Range("D2:D10"))
-			Dim format1 As IConditionalFormat = xcfs.AddTopBottomCondition(TopBottomType.Top, 2)
-			format1.FormatType = ConditionalFormatType.TopBottom
-			format1.BackColor = Color.Red
+            ' Create a new collection of conditional formats for the worksheet
+            Dim xcfs As XlsConditionalFormats = sheet.ConditionalFormats.Add()
 
-			'Apply conditional formatting to range "E2:E10" to highlight the bottom 2 values.
-			Dim xcfs1 As XlsConditionalFormats = sheet.ConditionalFormats.Add()
-			xcfs1.AddRange(sheet.Range("E2:E10"))
-			Dim format2 As IConditionalFormat = xcfs1.AddTopBottomCondition(TopBottomType.Bottom,2)
-			format2.FormatType = ConditionalFormatType.TopBottom
-			format2.BackColor = Color.ForestGreen
+            ' Define the range of cells to apply conditional formatting to
+            xcfs.AddRange(sheet.Range("D2:D10"))
 
-			Dim result As String = "Result-HighlightTopAndBottomRankedValues.xlsx"
+            ' Add a top/bottom conditional format with "Top" type and show top 2 values
+            Dim format1 As IConditionalFormat = xcfs.AddTopBottomCondition(TopBottomType.Top, 2)
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Set the format type to Top/Bottom
+            format1.FormatType = ConditionalFormatType.TopBottom
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Set the background color for the conditional format
+            format1.BackColor = Color.Red
+
+            ' Create another collection of conditional formats for the worksheet
+            Dim xcfs1 As XlsConditionalFormats = sheet.ConditionalFormats.Add()
+
+            ' Define the range of cells to apply conditional formatting to
+            xcfs1.AddRange(sheet.Range("E2:E10"))
+
+            ' Add a top/bottom conditional format with "Bottom" type and show bottom 2 values
+            Dim format2 As IConditionalFormat = xcfs1.AddTopBottomCondition(TopBottomType.Bottom, 2)
+
+            ' Set the format type to Top/Bottom
+            format2.FormatType = ConditionalFormatType.TopBottom
+
+            ' Set the background color for the conditional format
+            format2.BackColor = Color.ForestGreen
+
+            ' Specify the filename to save the modified workbook
+            Dim result As String = "Result-HighlightTopAndBottomRankedValues.xlsx"
+
+            ' Save the workbook to the specified file path using Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

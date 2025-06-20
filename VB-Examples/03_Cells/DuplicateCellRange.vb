@@ -12,25 +12,28 @@ Namespace DuplicateCellRange
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Instantiate a new workbook object..
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
+            'Load an existing Excel file from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieve the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Copy data from source range to destination range and maintain the format.
-			sheet.Copy(sheet.Range("A6:F6"), sheet.Range("A16:F16"), True)
+            'Copy the data and formatting from the source range (A6:F6) to the destination range (A16:F16) in the same worksheet, while maintaining the format.
+            sheet.Copy(sheet.Range("A6:F6"), sheet.Range("A16:F16"), True)
 
-			Dim result As String = "Result-DuplicateCellRange.xlsx"
+            'Specify the file name for the output file.
+            Dim result As String = "Result-DuplicateCellRange.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            'Save the modified workbook to the specified output file using Excel 2013 version.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

@@ -15,29 +15,35 @@ Namespace InsertWebImage
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Create a new workbook object.
+            Dim workbook As New Workbook()
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieve the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			Dim URL As String = "http://www.e-iceblue.com/downloads/demo/Logo.png"
+            'Specify the URL of the image to be downloaded.
+            Dim URL As String = "http://www.e-iceblue.com/downloads/demo/Logo.png"
 
-			'Instantiate the web client object
-			Dim webClient As New WebClient()
+            'Create a WebClient object.
+            Dim webClient As New WebClient()
 
-			'Extract image data into memory stream
-			Dim objImage As MemoryStream = New System.IO.MemoryStream(webClient.DownloadData(URL))
+            'Download the image from the specified URL and store it in a MemoryStream.
+            Dim objImage As MemoryStream = New System.IO.MemoryStream(webClient.DownloadData(URL))
 
-			Dim image As Image = Image.FromStream(objImage)
+            'Create an Image object from the downloaded image data.
+            Dim image As Image = image.FromStream(objImage)
 
-			'Add the image in the sheet
-			sheet.Pictures.Add(3, 2, image)
+            'Insert the image at cell coordinates (3, 2) in the worksheet.
+            sheet.Pictures.Add(3, 2, image)
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            'Specify the name of the resulting file after adding the image.
+            Dim result As String = "result.xlsx"
+            'Save the modified workbook to the specified output file using Excel 2010 format.
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

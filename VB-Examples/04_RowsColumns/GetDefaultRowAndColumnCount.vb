@@ -11,27 +11,35 @@ Namespace GetDefaultRowAndColumnCount
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
-			'Clear all worksheets
-			workbook.Worksheets.Clear()
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Create a new worksheet
-			Dim sheet As Worksheet = workbook.CreateEmptySheet()
-			Dim sb As New StringBuilder()
-			'Get row and column count
-			Dim rowCount As Integer = sheet.Rows.Length
-			Dim columnCount As Integer = sheet.Columns.Length
+            'Removes all existing worksheets from the workbook.
+            workbook.Worksheets.Clear()
 
-			sb.AppendLine("The default row count is :" & rowCount)
-			sb.AppendLine("The default column count is :" & columnCount)
+            'Creates a new empty worksheet and assigns it to the variable 'sheet'.
+            Dim sheet As Worksheet = workbook.CreateEmptySheet()
+            'Creates a new instance of the StringBuilder class.
+            Dim sb As New StringBuilder()
 
-			'Save to Text file
-			Dim output As String = "GetDefaultRowAndColumnCount.txt"
-			File.WriteAllText(output, sb.ToString())
+            'Gets the number of rows in the worksheet.
+            Dim rowCount As Integer = sheet.Rows.Length
+            'Gets the number of columns in the worksheet.
+            Dim columnCount As Integer = sheet.Columns.Length
+            'Appends the row count information to the StringBuilder.
+            sb.AppendLine("The default row count is: " & rowCount)
+            'Appends the column count information to the StringBuilder.
+            sb.AppendLine("The default column count is: " & columnCount)
 
-			'Launch the file
-			ExcelDocViewer(output)
+            'Specifies the name of the output text file.
+            Dim output As String = "GetDefaultRowAndColumnCount.txt"
+            'Writes the content of the StringBuilder to the specified text file.
+            File.WriteAllText(output, sb.ToString())
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

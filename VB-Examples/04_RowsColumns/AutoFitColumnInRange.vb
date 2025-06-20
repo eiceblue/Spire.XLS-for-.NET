@@ -9,24 +9,27 @@ Namespace AutoFitColumnInRange
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\AutoFitSample.xlsx")
+            'Loads an Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\AutoFitSample.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieves the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Autofit the Column of the worksheet
-			sheet.AutoFitColumn(2, 2, 5)
+            'Adjusts the width of columns 2 to 5 in the worksheet to fit the content.
+            sheet.AutoFitColumn(2, 2, 5)
 
-			'Save the document
-			Dim output As String = "AutoFitColumnInRange.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            'Specifies the name of the output file.
+            Dim output As String = "AutoFitColumnInRange.xlsx"
+            'Saves the workbook to the specified file in Excel 2013 format.
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the file
-			ExcelDocViewer(output)
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

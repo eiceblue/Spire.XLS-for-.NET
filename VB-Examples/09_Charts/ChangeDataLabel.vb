@@ -15,22 +15,30 @@ Namespace ChangeDataLabel
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
 
-			'Create a workbook
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChangeDataLabel.xlsx")
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Load the Excel file "ChangeDataLabel.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChangeDataLabel.xlsx")
 
-			'Get the chart
-			Dim chart As Chart = sheet.Charts(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Change data label of the frist datapoint of the first series
-			chart.Series(0).DataPoints(0).DataLabels.Text = "changed data label"
+            ' Get the first chart from the worksheet
+            Dim chart As Chart = sheet.Charts(0)
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Change the text of the data label of the first data point in the first series of the chart
+            chart.Series(0).DataPoints(0).DataLabels.Text = "changed data label"
+
+            ' Specify the output file name as "result.xlsx"
+            Dim result As String = "result.xlsx"
+
+            ' Save the modified workbook to the specified file path, using the Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)

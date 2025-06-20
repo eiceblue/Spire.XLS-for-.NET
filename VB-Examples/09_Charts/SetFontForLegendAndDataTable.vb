@@ -10,35 +10,44 @@ Namespace SetFontForLegendAndDataTable
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample1.xlsx")
+            ' Load a workbook file named "ChartSample1.xlsx" from a specific file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample1.xlsx")
 
-			'Get the first worksheet from workbook
-			Dim ws As Worksheet = workbook.Worksheets(0)
-			Dim chart As Chart = ws.Charts(0)
+            ' Get the first worksheet from the workbook
+            Dim ws As Worksheet = workbook.Worksheets(0)
 
-			'Create a font with specified size and color
-			Dim font As ExcelFont = workbook.CreateFont()
-			font.Size = 14.0
-			font.Color = Color.Red
+            ' Get the first chart from the worksheet
+            Dim chart As Chart = ws.Charts(0)
 
-			'Apply the font to chart Legend
-			chart.Legend.TextArea.SetFont(font)
+            ' Create a new font object
+            Dim font As ExcelFont = workbook.CreateFont()
 
-			'Apply the font to chart DataLabel
-			For Each cs As ChartSerie In chart.Series
-				cs.DataPoints.DefaultDataPoint.DataLabels.TextArea.SetFont(font)
-			Next cs
+            ' Set the font size to 14 and color to Red
+            font.Size = 14.0
+            font.Color = Color.Red
 
-			'Save the document
-			Dim output As String = "SetFontForLegendAndDataTable.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Set the font for the legend text area of the chart
+            chart.Legend.TextArea.SetFont(font)
 
-			'Launch the file
-			ExcelDocViewer(output)
+            ' Iterate through each series in the chart
+            For Each cs As ChartSerie In chart.Series
+                ' Set the font for data labels of each data point in the series
+                cs.DataPoints.DefaultDataPoint.DataLabels.TextArea.SetFont(font)
+            Next cs
+
+            ' Define the output file name as "SetFontForLegendAndDataTable.xlsx"
+            Dim output As String = "SetFontForLegendAndDataTable.xlsx"
+
+            ' Save the modified workbook to the specified output file with Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

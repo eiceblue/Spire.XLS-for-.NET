@@ -14,23 +14,30 @@ Namespace AddPictureInChart
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Load the document from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartToImage.xlsx")
+            ' Create a new Workbook object to represent an Excel workbook
+            Dim workbook As New Workbook()
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Load an existing Excel file named "ChartToImage.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartToImage.xlsx")
 
-			'Get the chart
-			Dim chart As Chart = sheet.Charts(0)
+            ' Get the first worksheet (index 0) from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Add the picture in chart
-			chart.Shapes.AddPicture("..\..\..\..\..\..\Data\SpireXls.png")
+            ' Get the first chart (index 0) on the worksheet
+            Dim chart As Chart = sheet.Charts(0)
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Add a picture to the chart using the specified image file path
+            chart.Shapes.AddPicture("..\..\..\..\..\..\Data\SpireXls.png")
+
+            ' Specify the output filename for the modified workbook
+            Dim result As String = "result.xlsx"
+
+            ' Save the modified workbook to a new Excel file with the Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

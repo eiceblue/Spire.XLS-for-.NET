@@ -10,25 +10,31 @@ Namespace RemoveComment
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CommentSample.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CommentSample.xlsx")
 
-			'Get all comments of the first sheet
-			Dim comments As CommentsCollection = workbook.Worksheets(0).Comments
-			'Change the content of the first comment
-			comments(0).Text = "This comment has been changed."
-			'Remove the second comment
-			comments(1).Remove()
+            ' Retrieve the CommentsCollection from the first worksheet of the workbook
+            Dim comments As CommentsCollection = workbook.Worksheets(0).Comments
 
-			'Save the document
-			Dim output As String = "RemoveAndChangeComment.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Modify the text of the first comment
+            comments(0).Text = "This comment has been changed."
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Remove the second comment from the collection
+            comments(1).Remove()
+
+            ' Specify the output file name for saving the modified workbook
+            Dim output As String = "RemoveAndChangeComment.xlsx"
+
+            ' Save the workbook to the specified file path using Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

@@ -11,52 +11,62 @@ Namespace ForegroundAndBackground
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook
+            Dim workbook As New Workbook()
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Create a new style
-			Dim style As CellStyle = workbook.Styles.Add("newStyle1")
+            ' Add a new cell style named "newStyle1"
+            Dim style As CellStyle = workbook.Styles.Add("newStyle1")
 
-			'Set filling pattern type
-			style.Interior.FillPattern = ExcelPatternType.VerticalStripe
+            ' Set the fill pattern of the interior to vertical stripes
+            style.Interior.FillPattern = ExcelPatternType.VerticalStripe
 
-			'Set filling Background color
-			style.Interior.Gradient.BackKnownColor = ExcelColors.Green
+            ' Set the background color of the gradient to green
+            style.Interior.Gradient.BackKnownColor = ExcelColors.Green
 
-			'Set filling Foreground color
-			style.Interior.Gradient.ForeKnownColor = ExcelColors.Yellow
+            ' Set the foreground color of the gradient to yellow
+            style.Interior.Gradient.ForeKnownColor = ExcelColors.Yellow
 
-			'Apply the style to  "B2" cell
-			sheet.Range("B2").CellStyleName = style.Name
-			sheet.Range("B2").Text = "Test"
-			sheet.Range("B2").RowHeight = 30
-			sheet.Range("B2").ColumnWidth = 50
+            ' Apply the "newStyle1" cell style to cell B2
+            sheet.Range("B2").CellStyleName = style.Name
 
+            ' Set the text of cell B2 to "Test"
+            sheet.Range("B2").Text = "Test"
 
-			'Create a new style
-			style = workbook.Styles.Add("newStyle2")
+            ' Set the row height of cell B2 to 30
+            sheet.Range("B2").RowHeight = 30
 
-			'Set filling pattern type
-			style.Interior.FillPattern = ExcelPatternType.ThinHorizontalStripe
+            ' Set the column width of cell B2 to 50
+            sheet.Range("B2").ColumnWidth = 50
 
-			'Set filling Foreground color
-			style.Interior.Gradient.ForeKnownColor = ExcelColors.Red
+            ' Add a new cell style named "newStyle2"
+            style = workbook.Styles.Add("newStyle2")
 
-			'Apply the style to  "B4" cell
-			sheet.Range("B4").CellStyleName = style.Name
-			sheet.Range("B4").RowHeight = 30
-			sheet.Range("B4").ColumnWidth = 60
+            ' Set the fill pattern of the interior to thin horizontal stripes
+            style.Interior.FillPattern = ExcelPatternType.ThinHorizontalStripe
 
-			Dim result As String = "ForegroundAndBackground_result.xlsx"
+            ' Set the foreground color of the gradient to red
+            style.Interior.Gradient.ForeKnownColor = ExcelColors.Red
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Apply the "newStyle2" cell style to cell B4
+            sheet.Range("B4").CellStyleName = style.Name
 
-			'View the document
-			FileViewer(result)
+            ' Set the row height of cell B4 to 30
+            sheet.Range("B4").RowHeight = 30
+
+            ' Set the column width of cell B4 to 60
+            sheet.Range("B4").ColumnWidth = 60
+
+            ' Save the modified workbook to a new file named "ForegroundAndBackground_result.xlsx" using Excel 2010 format
+            Dim result As String = "ForegroundAndBackground_result.xlsx"
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

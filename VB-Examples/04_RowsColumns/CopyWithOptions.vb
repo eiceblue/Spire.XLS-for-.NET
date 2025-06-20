@@ -12,32 +12,36 @@ Namespace CopyWithOptions
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Instantiate a new Workbook object to create a workbook.
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Sample.xlsx")
+            'Load the Excel document from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Sample.xlsx")
 
-			'Get the first worksheet
-			Dim sheet1 As Worksheet = workbook.Worksheets(0)
+            'Get the first worksheet from the workbook.
+            Dim sheet1 As Worksheet = workbook.Worksheets(0)
 
-			'Add a new worksheet as destination sheet
-			Dim destinationSheet As Worksheet = workbook.Worksheets.Add("DestSheet")
+            'Add a new worksheet named "DestSheet" to the workbook.
+            Dim destinationSheet As Worksheet = workbook.Worksheets.Add("DestSheet")
 
-			'Specify a copy range of original sheet
-			Dim cellRange As CellRange = sheet1.Range("B2:D4")
+            'Specify the range of cells (B2:D4) that will be copied.
+            Dim cellRange As CellRange = sheet1.Range("B2:D4")
 
-			'Copy the specified range to added worksheet and keep original styles and update reference
-			workbook.Worksheets(0).Copy(cellRange, workbook.Worksheets(1), 2, 1, True, True)
+            'Copy the content of the specified range from the first worksheet to the second worksheet, starting at cell C3 (row offset: 2, column offset: 1).
+            'Maintain the original styles of the copied cells and update any cell references in formulas accordingly.
+            workbook.Worksheets(0).Copy(cellRange, workbook.Worksheets(1), 2, 1, True, True)
 
-			'String for output file 
-			Dim outputFile As String = "Output.xlsx"
 
-			'Save the file
-			workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            'Specify the name for the resulting file.
+            Dim outputFile As String = "Output.xlsx"
 
-			'Launching the output file.
-			Viewer(outputFile)
+            'Save the workbook to a file with the specified name and Excel version (in this case, Excel 2013).
+            workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

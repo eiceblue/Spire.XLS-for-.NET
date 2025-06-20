@@ -12,29 +12,30 @@ Namespace CopyCellsRange
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CreateTable.xlsx")
+            ' Load an Excel document named "CreateTable.xlsx" from the specified file path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CreateTable.xlsx")
 
-			'Get the first worksheet
-			Dim sheet1 As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook.
+            Dim sheet1 As Worksheet = workbook.Worksheets(0)
 
-			'Specify a destination range 
-			Dim cells As CellRange = sheet1.Range("G1:H19")
+            ' Specify a destination range in the worksheet (cells G1 to H19).
+            Dim cells As CellRange = sheet1.Range("G1:H19")
 
-			'Copy the selected range to destination range 
-			sheet1.Range("B1:C19").Copy(cells)
+            ' Copy the selected range (cells B1 to C19) to the destination range specified.
+            sheet1.Range("B1:C19").Copy(cells)
 
-			'String for output file 
-			Dim outputFile As String = "Output.xlsx"
 
-			'Save the file
-			workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            Dim outputFile As String = "Output.xlsx"
 
-			'Launching the output file.
-			Viewer(outputFile)
+            ' Save the modified workbook to a file with the name specified in outputFile, using Excel 2013 format.
+            workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

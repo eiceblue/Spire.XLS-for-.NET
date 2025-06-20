@@ -12,28 +12,32 @@ Namespace SetSheetFitToPageProperty
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
+            'Load the workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_4.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Set the FitToPagesTall property.
-			sheet.PageSetup.FitToPagesTall = 1
+            'Set the FitToPagesTall property of the PageSetup object to 1, which means fit to 1 page tall
+            sheet.PageSetup.FitToPagesTall = 1
 
-			'Set the FitToPagesWide property.
-			sheet.PageSetup.FitToPagesWide = 1
+            'Set the FitToPagesWide property of the PageSetup object to 1, which means fit to 1 page wide
+            sheet.PageSetup.FitToPagesWide = 1
 
-			Dim result As String = "Result-SetSheetFitToPageProperty.xlsx"
+            'Specify the filename for the resulting workbook that will be saved
+            Dim result As String = "Result-SetSheetFitToPageProperty.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            'Save the workbook to the specified file path in Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

@@ -11,11 +11,19 @@ Namespace ToPDF
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
+			' Create a new instance of Workbook
 			Using workbook As New Workbook()
+
+				' Load the Excel file from the specified path
 				workbook.LoadFromFile("..\..\..\..\..\..\Data\ToPDF.xlsx")
+
+				' Set the ConverterSetting property to fit the sheet to the page when converting to PDF
 				workbook.ConverterSetting.SheetFitToPage = True
+
+				' Save the workbook as a PDF file with the name "sample.pdf"
 				workbook.SaveToFile("sample.pdf", FileFormat.PDF)
 			End Using
+
 			ExcelDocViewer("sample.pdf")
 		End Sub
 

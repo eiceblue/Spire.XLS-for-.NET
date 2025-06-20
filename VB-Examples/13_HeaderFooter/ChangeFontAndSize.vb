@@ -12,29 +12,36 @@ Namespace ChangeFontAndSize
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChangeFontAndSizeForHeaderAndFooter.xlsx")
+            ' Load an existing workbook from a file
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChangeFontAndSizeForHeaderAndFooter.xlsx")
 
-			'Get the first worksheet.
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Set the new font and size for the header and footer
-			Dim text As String = sheet.PageSetup.LeftHeader
-			'"Arial Unicode MS" is font name, "18" is font size
-			text = "&""Arial Unicode MS""&18 Header Footer Sample by Spire.XLS "
-			sheet.PageSetup.LeftHeader = text
-			sheet.PageSetup.RightFooter = text
+            ' Get the current text in the left header
+            Dim text As String = sheet.PageSetup.LeftHeader
 
-			Dim result As String = "Result-ChangeFontAndSizeForHeaderAndFooter.xlsx"
+            ' Update the left header text with a custom string and font size
+            text = "&""Arial Unicode MS""&18 Header Footer Sample by Spire.XLS "
+            sheet.PageSetup.LeftHeader = text
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Set the right footer to the same text as the left header
+            sheet.PageSetup.RightFooter = text
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            ' Specify the output filename for the modified workbook
+            Dim result As String = "Result-ChangeFontAndSizeForHeaderAndFooter.xlsx"
+
+            ' Save the modified workbook to a file
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

@@ -9,22 +9,26 @@ Namespace ShapeToImage
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ShapeToImage.xlsx")
+            ' Load an existing Excel file into the workbook
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ShapeToImage.xlsx")
 
-			'Get the first worksheet
-			Dim sheet1 As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet1 As Worksheet = workbook.Worksheets(0)
 
-			'Get the first shape from the first worksheet
-			Dim shape As XlsShape = TryCast(sheet1.PrstGeomShapes(0), XlsShape)
+            ' Get the first PrstGeomShape in the worksheet and cast it to XlsShape type
+            Dim shape As XlsShape = TryCast(sheet1.PrstGeomShapes(0), XlsShape)
 
-			'Save the shape to a image
-			Dim img As Image = shape.SaveToImage()
-			img.Save("ShapeToImage.png", ImageFormat.Png)
-			FileViewer("ShapeToImage.png")
+            ' Save the shape as an image
+            Dim img As Image = shape.SaveToImage()
+
+            ' Save the image to a file named "ShapeToImage.png" in PNG format
+            img.Save("ShapeToImage.png", ImageFormat.Png)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            FileViewer("ShapeToImage.png")
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

@@ -12,23 +12,31 @@ Namespace ProtectCell
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook and load a file
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ProtectCell.xlsx")
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
+            ' Load the workbook from a specific file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ProtectCell.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Set the Locked property of the entire allocated range to false, allowing changes
+            sheet.AllocatedRange.Style.Locked = False
 
-			'Protect cell
-			sheet.Range("B3").Style.Locked = True
-			sheet.Range("C3").Style.Locked = False
+            ' Set the Locked property of cell B3 to true, preventing changes
+            sheet.Range("B3").Style.Locked = True
 
-			sheet.Protect("TestPassword", SheetProtectionType.All)
+            ' Protect the worksheet with a password using SheetProtectionType.All option
+            sheet.Protect("TestPassword", SheetProtectionType.All)
 
-			Dim result As String = "ProtectCell_result.xlsx"
-			'Save the document and launch it
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
-			ExcelDocViewer(result)
+            ' Define the output file name for the protected workbook
+            Dim result As String = "ProtectCell_result.xlsx"
+            ' Save the protected workbook to the specified file path and Excel version (2013)
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

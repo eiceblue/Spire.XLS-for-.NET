@@ -16,26 +16,34 @@ Namespace FormatNamedRangeCells
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
 
-			'Create a workbook and load the document from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\AllNamedRanges.xlsx")
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Get specific named range by index
-			Dim NamedRange As INamedRange = workbook.NameRanges(0)
+            ' Load an existing workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\AllNamedRanges.xlsx")
 
-			'Get the cell range of the named range
-			Dim range As IXLSRange = NamedRange.RefersToRange
+            ' Get the first named range from the workbook
+            Dim NamedRange As INamedRange = workbook.NameRanges(0)
 
-			'Set color for the range
-			range.Style.Color = Color.Yellow
+            ' Get the range referred by the named range
+            Dim range As IXLSRange = NamedRange.RefersToRange
 
-			'Set the font as bold
-			range.Style.Font.IsBold = True
+            ' Set the color of the range to yellow
+            range.Style.Color = Color.Yellow
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Make the font bold for the range
+            range.Style.Font.IsBold = True
+
+            ' Define the output file name as "result.xlsx"
+            Dim result As String = "result.xlsx"
+
+            ' Save the modified workbook to the specified file path using Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

@@ -10,21 +10,25 @@ Namespace HelloWorld
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			sheet.Range("A1").Text = "Hello World"
+            ' Create a new Excel workbook object.
+            Dim workbook As New Workbook()
+            ' Access the first sheet of the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Set the value of cell A1 in the sheet to "Hello World".
+            sheet.Range("A1").Text = "Hello World"
+            ' Automatically adjust the width of column A to fit the content.
+            sheet.Range("A1").AutoFitColumns()
+            ' Specify the file name for the resulting Excel file.
+            Dim result As String = "HelloWorld.xlsx"
 
-			sheet.Range("A1").AutoFitColumns()
+            ' Save the workbook to a file.
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
 
-			Dim result As String = "HelloWorld.xlsx"
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-
-			'View the document
-			FileViewer(result)
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

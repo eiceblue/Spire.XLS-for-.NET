@@ -12,17 +12,31 @@ Namespace NamedRanges
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\NamedRanges.xlsx")
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			'Creating a named range
-			Dim NamedRange As INamedRange = workbook.NameRanges.Add("NewNamedRange")
-			'Setting the range of the named range
-			NamedRange.RefersToRange = sheet.Range("A8:E12")
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			Dim result As String = "NamedRanges_result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
-			ExcelDocViewer(result)
+            ' Load an existing workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\NamedRanges.xlsx")
+
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+
+            ' Add a new named range to the workbook with the name "NewNamedRange"
+            Dim NamedRange As INamedRange = workbook.NameRanges.Add("NewNamedRange")
+
+            ' Set the range referred by the named range to be the range A8:E12 in the worksheet
+            NamedRange.RefersToRange = sheet.Range("A8:E12")
+
+            ' Define the output file name as "NamedRanges_result.xlsx"
+            Dim result As String = "NamedRanges_result.xlsx"
+
+            ' Save the modified workbook to the specified file path using Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

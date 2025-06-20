@@ -9,36 +9,42 @@ Namespace SetFontForTitleAndAxis
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\ChartSample1.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample1.xlsx")
 
-			'Set font for chart title and chart axis
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
-			Dim chart As Chart = worksheet.Charts(0)
+            ' Get the first worksheet in the workbook
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-			'Format the font for the chart title
-			chart.ChartTitleArea.Color = Color.Blue
-			chart.ChartTitleArea.Size = 20.0
-			chart.ChartTitleArea.FontName = "Arial"
+            ' Get the first chart in the worksheet
+            Dim chart As Chart = worksheet.Charts(0)
 
-			'Format the font for the chart Axis
-			chart.PrimaryValueAxis.Font.Color = Color.Gold
-			chart.PrimaryValueAxis.Font.Size = 10.0
+            ' Set the color, size, and font name for the chart title area
+            chart.ChartTitleArea.Color = Color.Blue
+            chart.ChartTitleArea.Size = 20.0
+            chart.ChartTitleArea.FontName = "Arial"
 
-			chart.PrimaryCategoryAxis.Font.FontName = "Arial"
-			chart.PrimaryCategoryAxis.Font.Color = Color.Red
-			chart.PrimaryCategoryAxis.Font.Size = 20.0
+            ' Set the color and size for the primary value axis font
+            chart.PrimaryValueAxis.Font.Color = Color.Gold
+            chart.PrimaryValueAxis.Font.Size = 10.0
 
+            ' Set the font name, color, and size for the primary category axis font
+            chart.PrimaryCategoryAxis.Font.FontName = "Arial"
+            chart.PrimaryCategoryAxis.Font.Color = Color.Red
+            chart.PrimaryCategoryAxis.Font.Size = 20.0
 
-			'Save the document
-			Dim output As String = "SetFontForTitleAndAxis.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Specify the output file name
+            Dim output As String = "SetFontForTitleAndAxis.xlsx"
 
-			'Launch the file
-			ExcelDocViewer(output)
+            ' Save the modified workbook to a new file
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

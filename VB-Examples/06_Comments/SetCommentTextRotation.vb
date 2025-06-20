@@ -18,41 +18,49 @@ Namespace SetCommentTextRotation
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CellValues.xlsx")
+            ' Load an existing Excel file from a specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CellValues.xlsx")
 
-			'Get the default first  worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Create Excel font
-			Dim font As ExcelFont = workbook.CreateFont()
-			font.FontName = "Arial"
-			font.Size = 11
-			font.KnownColor = ExcelColors.Orange
+            ' Create a new font object for formatting
+            Dim font As ExcelFont = workbook.CreateFont()
+            font.FontName = "Arial"
+            font.Size = 11
+            font.KnownColor = ExcelColors.Orange
 
-			'Add the comment
-			Dim range As CellRange = sheet.Range("E1")
-			range.Comment.Text = "This is a comment"
-			range.Comment.RichText.SetFont(0, (range.Comment.Text.Length - 1), font)
+            ' Get a specific cell range (E1 in this case)
+            Dim range As CellRange = sheet.Range("E1")
 
-			' Set its vertical and horizontal alignment 
-			range.Comment.VAlignment = CommentVAlignType.Center
-			range.Comment.HAlignment = CommentHAlignType.Right
+            ' Add a comment to the cell
+            range.Comment.Text = "This is a comment"
 
-			'Set the comment text rotation
-			range.Comment.TextRotation = TextRotationType.LeftToRight
+            ' Apply the font formatting to the comment text
+            range.Comment.RichText.SetFont(0, (range.Comment.Text.Length - 1), font)
 
-			'String for output file 
-			Dim outputFile As String = "Output.xlsx"
+            ' Set the vertical alignment of the comment
+            range.Comment.VAlignment = CommentVAlignType.Center
 
-			'Save the file
-			workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            ' Set the horizontal alignment of the comment
+            range.Comment.HAlignment = CommentHAlignType.Right
 
-			'Launching the output file.
-			Viewer(outputFile)
+            ' Set the text rotation of the comment
+            range.Comment.TextRotation = TextRotationType.LeftToRight
+
+            ' Specify the output file name
+            Dim outputFile As String = "Output.xlsx"
+
+            ' Save the workbook to the specified output file
+            workbook.SaveToFile(outputFile, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launching the output file.
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

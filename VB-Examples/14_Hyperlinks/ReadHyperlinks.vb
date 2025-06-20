@@ -11,12 +11,21 @@ Namespace ReadHyperlinks
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ReadHyperlinks.xlsx")
-			Dim sheet As Worksheet = workbook.Worksheets(0)
-			textBox1.Text = sheet.HyperLinks(0).Address
-			textBox2.Text = sheet.HyperLinks(1).Address
-		End Sub
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
+
+            ' Load an existing workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ReadHyperlinks.xlsx")
+
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
+
+            ' Get the address of the first hyperlink in the worksheet
+            textBox1.Text = sheet.HyperLinks(0).Address
+
+            ' Get the address of the second hyperlink in the worksheet
+            textBox2.Text = sheet.HyperLinks(1).Address
+        End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try
 				Process.Start(fileName)

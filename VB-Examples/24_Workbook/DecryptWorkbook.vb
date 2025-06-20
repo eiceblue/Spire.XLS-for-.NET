@@ -9,25 +9,35 @@ Namespace DecryptWorkbook
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim fileName As String = "..\..\..\..\..\..\Data\DecryptWorkbook.xlsx"
+            ' Specify the file name of the workbook to decrypt
+            Dim fileName As String = "..\..\..\..\..\..\Data\DecryptWorkbook.xlsx"
 
-			'Detect if the Excel workbook is password protected.
-			Dim value As Boolean = Workbook.IsPasswordProtected(fileName)
+            ' Check if the workbook is password-protected
+            Dim value As Boolean = Workbook.IsPasswordProtected(fileName)
 
-			If value Then
-				'Load a file with the password specified
-				Dim workbook As New Workbook()
-				workbook.OpenPassword = "eiceblue"
-				workbook.LoadFromFile(fileName)
+            ' If the workbook is password-protected, perform the following operations
+            If value Then
 
-				'Decrypt workbook
-				workbook.UnProtect()
+                ' Create a new Workbook object
+                Dim workbook As New Workbook()
 
-				'Save the document
-				workbook.SaveToFile("DecryptWorkbook_result.xlsx", ExcelVersion.Version2010)
-			End If
+                ' Set the open password for the workbook
+                workbook.OpenPassword = "eiceblue"
 
-			ExcelDocViewer("DecryptWorkbook_result.xlsx")
+                ' Load the password-protected workbook
+                workbook.LoadFromFile(fileName)
+
+                ' Remove the protection from the workbook
+                workbook.UnProtect()
+
+                ' Save the decrypted workbook to a new file with Excel Version 2010 format
+                workbook.SaveToFile("DecryptWorkbook_result.xlsx", ExcelVersion.Version2010)
+
+                ' Release the resources used by the workbook
+                workbook.Dispose()
+            End If
+
+            ExcelDocViewer("DecryptWorkbook_result.xlsx")
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

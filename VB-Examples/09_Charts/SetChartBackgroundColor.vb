@@ -9,25 +9,28 @@ Namespace SetChartBackgroundColor
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample1.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartSample1.xlsx")
 
-			'Get the first worksheet from workbook and then get the first chart from the worksheet
-			Dim ws As Worksheet = workbook.Worksheets(0)
-			Dim chart As Chart = ws.Charts(0)
+            ' Get the first worksheet in the workbook
+            Dim ws As Worksheet = workbook.Worksheets(0)
 
-			'Set background color
-			chart.ChartArea.ForeGroundColor = Color.LightYellow
+            ' Get the first chart in the worksheet
+            Dim chart As Chart = ws.Charts(0)
 
-			'Save the document
-			Dim output As String = "SetChartBackgroundColor.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Set the foreground color of the chart area to LightYellow
+            chart.ChartArea.ForeGroundColor = Color.LightYellow
 
-			'Launch the file
-			ExcelDocViewer(output)
+            ' Save the modified workbook to a new file
+            Dim output As String = "SetChartBackgroundColor.xlsx"
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

@@ -9,24 +9,28 @@ Namespace ActivateWorksheet
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample2.xlsx")
+            ' Load a workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample2.xlsx")
 
-			'Get the second worksheet from the workbook
-			Dim sheet As Worksheet = workbook.Worksheets(1)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(1)
 
-			'Activate the sheet
-			sheet.Activate()
+            ' Activate the worksheet
+            sheet.Activate()
 
-			'Save the document
-			Dim output As String = "ActivateWorksheet.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Specify the output file name
+            Dim output As String = "ActivateWorksheet.xlsx"
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Save the workbook to the specified file path in Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

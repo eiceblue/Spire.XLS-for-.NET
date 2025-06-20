@@ -11,31 +11,38 @@ Namespace ManipulateTextBox
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Workbook instance
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ManipulateTextBoxControl.xlsx")
+            ' Load the workbook from a specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ManipulateTextBoxControl.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Get the first textbox
-			Dim tb As ITextBox = sheet.TextBoxes(0)
+            ' Get the first TextBox control from the worksheet
+            Dim tb As ITextBox = sheet.TextBoxes(0)
 
-			'Change the text of textbox
-			tb.Text = "Spire.XLS for .NET"
+            ' Set the text of the TextBox
+            tb.Text = "Spire.XLS for .NET"
 
-			'Set the alignment of textbox as center
-			tb.HAlignment = CommentHAlignType.Center
-			tb.VAlignment = CommentVAlignType.Center
+            ' Set the horizontal alignment of the TextBox to center
+            tb.HAlignment = CommentHAlignType.Center
 
-			'Save the document
-			Dim output As String = "ManipulateTextBoxControl_out.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Set the vertical alignment of the TextBox to center
+            tb.VAlignment = CommentVAlignType.Center
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Specify the output file name
+            Dim output As String = "ManipulateTextBoxControl_out.xlsx"
+
+            ' Save the modified workbook to the specified file path in Excel 2013 format
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

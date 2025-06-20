@@ -11,47 +11,64 @@ Namespace FontStyles
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a Workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\FontStyles.xlsx")
+            ' Load an existing Excel file named "FontStyles.xlsx" from a specific location
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\FontStyles.xlsx")
 
-			'Get the first sheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Set font style
-			sheet.Range("B1").Style.Font.FontName = "Comic Sans MS"
-			sheet.Range("B2:D2").Style.Font.FontName = "Corbel"
-			sheet.Range("B3:D7").Style.Font.FontName = "Aleo"
+            ' Set the font name for cell B1 to "Comic Sans MS"
+            sheet.Range("B1").Style.Font.FontName = "Comic Sans MS"
 
-			'Set font size
-			sheet.Range("B1").Style.Font.Size = 45
-			sheet.Range("B2:D3").Style.Font.Size = 25
-			sheet.Range("B3:D7").Style.Font.Size = 12
+            ' Set the font name for cells B2 to D2 to "Corbel"
+            sheet.Range("B2:D2").Style.Font.FontName = "Corbel"
 
-			'Set excel cell data to be bold
-			sheet.Range("B2:D2").Style.Font.IsBold = True
+            ' Set the font name for cells B3 to D7 to "Aleo"
+            sheet.Range("B3:D7").Style.Font.FontName = "Aleo"
 
-			'Set excel cell data to be underline
-			sheet.Range("B3:B7").Style.Font.Underline = FontUnderlineType.Single
+            ' Set the font size for cell B1 to 45
+            sheet.Range("B1").Style.Font.Size = 45
 
-			'set excel cell data color
-			sheet.Range("B1").Style.Font.Color = Color.CornflowerBlue
-			sheet.Range("B2:D2").Style.Font.Color = Color.CadetBlue
-			sheet.Range("B3:D7").Style.Font.Color = Color.Firebrick
+            ' Set the font size for cells B2 to D3 to 25
+            sheet.Range("B2:D3").Style.Font.Size = 25
 
-			'set excel cell data to be italic
-			sheet.Range("B3:D7").Style.Font.IsItalic = True
+            ' Set the font size for cells B3 to D7 to 12
+            sheet.Range("B3:D7").Style.Font.Size = 12
 
-			'Add strikethrough
-			sheet.Range("D3").Style.Font.IsStrikethrough = True
-			sheet.Range("D7").Style.Font.IsStrikethrough = True
+            ' Set the font style of cells B2 to D2 to bold
+            sheet.Range("B2:D2").Style.Font.IsBold = True
 
-			Dim result As String = "FontStyles_output.xlsx"
-			'Save and Launch
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Set the font style of cells B3 to B7 to underline
+            sheet.Range("B3:B7").Style.Font.Underline = FontUnderlineType.Single
+
+            ' Set the font color of cell B1 to CornflowerBlue
+            sheet.Range("B1").Style.Font.Color = Color.CornflowerBlue
+
+            ' Set the font color of cells B2 to D2 to CadetBlue
+            sheet.Range("B2:D2").Style.Font.Color = Color.CadetBlue
+
+            ' Set the font color of cells B3 to D7 to Firebrick
+            sheet.Range("B3:D7").Style.Font.Color = Color.Firebrick
+
+            ' Set the font style of cells B3 to D7 to italic
+            sheet.Range("B3:D7").Style.Font.IsItalic = True
+
+            ' Set the strikethrough font style for cell D3
+            sheet.Range("D3").Style.Font.IsStrikethrough = True
+
+            ' Set the strikethrough font style for cell D7
+            sheet.Range("D7").Style.Font.IsStrikethrough = True
+
+            ' Save the modified workbook to a new file named "FontStyles_output.xlsx" using Excel 2010 format
+            Dim result As String = "FontStyles_output.xlsx"
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

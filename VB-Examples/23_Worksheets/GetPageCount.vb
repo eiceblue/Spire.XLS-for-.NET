@@ -11,26 +11,41 @@ Namespace GetPageCount
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new workbook object
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample2.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample2.xlsx")
 
-			Dim pageInfoList = workbook.GetSplitPageInfo()
-			Dim sb As New StringBuilder()
-			For i As Integer = 0 To workbook.Worksheets.Count - 1
-				Dim sheetname As String = workbook.Worksheets(i).Name
-				Dim pagecount As Integer = pageInfoList(i).Count
-				sb.AppendLine(sheetname & "'s page count is: " & pagecount)
-			Next i
+            ' Retrieve the split page information for each worksheet in the workbook
+            Dim pageInfoList = workbook.GetSplitPageInfo()
 
-			'Save the document
-			Dim output As String = "GetPageCount.txt"
-			File.WriteAllText(output, sb.ToString())
+            ' Create a StringBuilder object to store the output text
+            Dim stringBuilder As New StringBuilder()
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            ' Iterate through each worksheet in the workbook
+            For i As Integer = 0 To workbook.Worksheets.Count - 1
+                ' Retrieve the name of the current worksheet
+                Dim sheetname As String = workbook.Worksheets(i).Name
+
+                ' Retrieve the page count for the current worksheet
+                Dim pagecount As Integer = pageInfoList(i).Count
+
+                ' Append the worksheet name and its page count to the StringBuilder
+                stringBuilder.AppendLine(sheetname & "'s page count is: " & pagecount)
+            Next i
+
+            ' Specify the output file path and name
+            Dim output As String = "GetPageCount.txt"
+
+            ' Write the contents of the StringBuilder to the output file
+            File.WriteAllText(output, stringBuilder.ToString())
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

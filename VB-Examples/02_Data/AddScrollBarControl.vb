@@ -11,33 +11,42 @@ Namespace AddScrollBarControl
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new Excel workbook object.
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ExcelSample_N1.xlsx")
+            ' Load an existing Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ExcelSample_N1.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet in the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Set a value for range B10
-			sheet.Range("B10").Value2 = 1
-			sheet.Range("B10").Style.Font.IsBold = True
+            ' Set the value of cell B10 to 1.
+            sheet.Range("B10").Value2 = 1
+            ' Apply bold font style to the text in cell B10.
+            sheet.Range("B10").Style.Font.IsBold = True
 
-			'Add scroll bar control
-			Dim scrollBar As IScrollBarShape = sheet.ScrollBarShapes.AddScrollBar(10, 3, 150, 20)
-			scrollBar.LinkedCell = sheet.Range("B10")
-			scrollBar.Min = 1
-			scrollBar.Max = 150
-			scrollBar.IncrementalChange = 1
-			scrollBar.Display3DShading = True
+            ' Add a scroll bar control at position (10, 3) with width 150 and height 20.
+            Dim scrollBar As IScrollBarShape = sheet.ScrollBarShapes.AddScrollBar(10, 3, 150, 20)
+            ' Link the value of the scroll bar to cell B10.
+            scrollBar.LinkedCell = sheet.Range("B10")
+            ' Set the minimum value of the scroll bar to 1.
+            scrollBar.Min = 1
+            ' Set the maximum value of the scroll bar to 150.
+            scrollBar.Max = 150
+            ' Set the incremental change value when scrolling to 1.
+            scrollBar.IncrementalChange = 1
+            ' Enable 3D shading for the scroll bar.
+            scrollBar.Display3DShading = True
 
-			'Save the document
-			Dim output As String = "AddScrollBarControl_out.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Specify the output file name.
+            Dim output As String = "AddScrollBarControl_out.xlsx"
+            ' Save the modified workbook to the specified file with Excel 2013 format.
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the Excel file
-			ExcelDocViewer(output)
+            'Launch the Excel file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

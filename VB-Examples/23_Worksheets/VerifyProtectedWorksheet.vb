@@ -13,35 +13,38 @@ Namespace VerifyProtectedWorksheet
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load the Excel document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\ProtectedWorksheet.xlsx")
+            ' Load the Excel file from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\ProtectedWorksheet.xlsx")
 
-			'Get the first worksheet
-			Dim worksheet As Worksheet = workbook.Worksheets(0)
+            ' Get the first worksheet from the workbook
+            Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-			'Verify the first worksheet 
-			Dim detect As Boolean = worksheet.IsPasswordProtected
+            ' Check if the worksheet is password protected
+            Dim detect As Boolean = worksheet.IsPasswordProtected
 
-			'Create StringBuilder to save 
-			Dim content As New StringBuilder()
+            ' Create a StringBuilder to store the content
+            Dim content As New StringBuilder()
 
-			'Set string format for displaying
-			Dim result As String = String.Format("The first worksheet is password protected or not: " & detect)
+            ' Format the result string indicating whether the first worksheet is password protected or not
+            Dim result As String = String.Format("The first worksheet is password protected or not: " & detect)
 
-			'Add result string to StringBuilder
-			content.AppendLine(result)
+            ' Append the result to the content StringBuilder
+            content.AppendLine(result)
 
-			'String for output file 
-			Dim outputFile As String = "Output.txt"
+            ' Specify the output file path
+            Dim outputFile As String = "Output.txt"
 
-			'Save them to a txt file
-			File.WriteAllText(outputFile, content.ToString())
+            ' Write the content to the output file
+            File.WriteAllText(outputFile, content.ToString())
 
-			'Launch the output file
-			Viewer(outputFile)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'Launch the output file
+            Viewer(outputFile)
 		End Sub
 		Private Sub Viewer(ByVal fileName As String)
 			Try

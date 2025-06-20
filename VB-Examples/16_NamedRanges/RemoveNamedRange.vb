@@ -16,21 +16,28 @@ Namespace RemoveNamedRange
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
 
-			'Create a workbook and load the document from disk
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\AllNamedRanges.xlsx")
+            ' Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
+            ' Load the workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\AllNamedRanges.xlsx")
 
-			'Remove the named range by index
-			workbook.NameRanges.RemoveAt(0)
+            ' Remove the NameRange at index 0
+            workbook.NameRanges.RemoveAt(0)
 
-			'Remove the named range by name
-			workbook.NameRanges.Remove("NameRange2")
+            ' Remove the NameRange with the name "NameRange2"
+            workbook.NameRanges.Remove("NameRange2")
 
-			'Save and launch result file
-			Dim result As String = "result.xlsx"
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
-			ExcelDocViewer(result)
+            ' Specify the output file name
+            Dim result As String = "result.xlsx"
+
+            ' Save the workbook to the specified file path with Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            ExcelDocViewer(result)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

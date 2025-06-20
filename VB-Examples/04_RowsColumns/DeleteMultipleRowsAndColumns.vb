@@ -9,27 +9,29 @@ Namespace DeleteMultipleRowsAndColumns
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CommonTemplate1.xlsx")
+            'Loads the Excel document from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CommonTemplate1.xlsx")
 
-			'Get the first worksheet
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            'Retrieves the first worksheet from the workbook.
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			'Delete 4 rows from the fifth row
-			sheet.DeleteRow(5, 4)
+            'Deletes four rows starting from the fifth row.
+            sheet.DeleteRow(5, 4)
 
-			'Delete 2 columns from the second column
-			sheet.DeleteColumn(2, 2)
+            'Deletes two columns starting from the second column.
+            sheet.DeleteColumn(2, 2)
 
-			'Save the document
-			Dim output As String = "DeleteMultipleRowsAndColumns.xlsx"
-			workbook.SaveToFile(output, ExcelVersion.Version2013)
-
-			'Launch the file
-			ExcelDocViewer(output)
+            'Specifies the name of the resulting Excel file.
+            Dim output As String = "DeleteMultipleRowsAndColumns.xlsx"
+            'Saves the modified workbook to a file with the specified name and Excel version.
+            workbook.SaveToFile(output, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

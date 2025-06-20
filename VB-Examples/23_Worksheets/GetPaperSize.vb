@@ -11,27 +11,38 @@ Namespace GetPaperSize
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            ' Create a new instance of the Workbook class
+            Dim workbook As New Workbook()
 
-			'Load the document from disk
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample2.xlsx")
+            ' Load the workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\WorksheetSample2.xlsx")
 
-			Dim sb As New StringBuilder()
-			For Each sheet As Worksheet In workbook.Worksheets
-				Dim width As Double = sheet.PageSetup.PageWidth
-				Dim height As Double = sheet.PageSetup.PageHeight
-				sb.AppendLine(sheet.Name)
-				sb.AppendLine("Width: " & width & vbTab & "Height: " & height)
-				sb.AppendLine()
-			Next sheet
+            ' Create a StringBuilder object to store the result
+            Dim stringBuilder As New StringBuilder()
 
-			'Save to Text file
-			Dim output As String = "GetPaperSize.txt"
-			File.WriteAllText(output, sb.ToString())
+            ' Iterate through each worksheet in the workbook
+            For Each sheet As Worksheet In workbook.Worksheets
 
-			'Launch the file
-			ExcelDocViewer(output)
+                ' Get the page width and height from the PageSetup object of the worksheet
+                Dim width As Double = sheet.PageSetup.PageWidth
+                Dim height As Double = sheet.PageSetup.PageHeight
+
+                ' Append the worksheet name, width, and height to the StringBuilder
+                stringBuilder.AppendLine(sheet.Name)
+                stringBuilder.AppendLine("Width: " & width & vbTab & "Height: " & height)
+                stringBuilder.AppendLine()
+            Next sheet
+
+            ' Specify the output file name
+            Dim output As String = "GetPaperSize.txt"
+
+            ' Write the content of the StringBuilder to the output file
+            File.WriteAllText(output, stringBuilder.ToString())
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+            'Launch the file
+            ExcelDocViewer(output)
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try

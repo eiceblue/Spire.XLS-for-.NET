@@ -12,25 +12,28 @@ Namespace MergeCells
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook.
-			Dim workbook As New Workbook()
+            'Creates a new instance of the Workbook class.
+            Dim workbook As New Workbook()
 
-			'Load the file from disk.
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
+            'Loads an Excel file from the specified path.
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
 
-			'Merge the seventh column in Excel file.
-			workbook.Worksheets(0).Columns(6).Merge()
+            'Merges the cells in the seventh column of the first worksheet.
+            workbook.Worksheets(0).Columns(6).Merge()
 
-			'Merge the particular range in Excel file.
-			workbook.Worksheets(0).Range("A14:D14").Merge()
+            'Merges the cells in the range "A14:D14" of the first worksheet.
+            workbook.Worksheets(0).Range("A14:D14").Merge()
 
-			Dim result As String = "Result-MergeCells.xlsx"
+            'Specifies the name of the output file.
+            Dim result As String = "Result-MergeCells.xlsx"
 
-			'Save to file.
-			workbook.SaveToFile(result, ExcelVersion.Version2013)
+            'Saves the workbook to the specified file in Excel 2013 format.
+            workbook.SaveToFile(result, ExcelVersion.Version2013)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
 
-			'Launch the MS Excel file.
-			ExcelDocViewer(result)
+            'Launch the MS Excel file.
+            ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)

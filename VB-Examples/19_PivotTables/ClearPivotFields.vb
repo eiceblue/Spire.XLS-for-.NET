@@ -11,28 +11,35 @@ Namespace ClearPivotFields
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			'Create a workbook
-			Dim workbook As New Workbook()
+            'Create a new instance of Workbook
+            Dim workbook As New Workbook()
 
-			'Load an excel file including pivot table
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTableExample.xlsx")
-			'Get the sheet in which the pivot table is located
-			Dim sheet As Worksheet = workbook.Worksheets("PivotTable")
+            'Load the workbook from the specified file path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\PivotTableExample.xlsx")
 
-			Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
+            'Get the worksheet named "PivotTable" from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets("PivotTable")
 
-			'Clear all the data fields
-			pt.DataFields.Clear()
+            'Cast the first PivotTable in the worksheet to XlsPivotTable data type
+            Dim pt As XlsPivotTable = TryCast(sheet.PivotTables(0), XlsPivotTable)
 
-			pt.CalculateData()
+            'Clear all data fields in the PivotTable
+            pt.DataFields.Clear()
 
-			Dim result As String = "ClearPivotFields_result.xlsx"
+            'Calculate the data in the PivotTable
+            pt.CalculateData()
 
-			'Save to file
-			workbook.SaveToFile(result, ExcelVersion.Version2010)
+            'Specify the filename for the resulting workbook that will be saved
+            Dim result As String = "ClearPivotFields_result.xlsx"
 
-			'View the document
-			FileViewer(result)
+            'Save the workbook to the specified file path in Excel 2010 format
+            workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer(result)
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)

@@ -10,32 +10,47 @@ Namespace CreateBubbleChart
 		End Sub
 
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-			Dim workbook As New Workbook()
-			workbook.LoadFromFile("..\..\..\..\..\..\Data\CreateBubbleChart.xlsx")
-			Dim sheet As Worksheet = workbook.Worksheets(0)
+            ' Create a new Workbook object
+            Dim workbook As New Workbook()
 
-			Dim chart As Chart = sheet.Charts.Add(ExcelChartType.Bubble)
+            ' Load the Excel file "CreateBubbleChart.xlsx" from the specified path
+            workbook.LoadFromFile("..\..\..\..\..\..\Data\CreateBubbleChart.xlsx")
 
-			'Chart title
-			chart.ChartTitle = "Bubble"
-			chart.ChartTitleArea.IsBold = True
-			chart.ChartTitleArea.Size = 12
+            ' Get the first worksheet from the workbook
+            Dim sheet As Worksheet = workbook.Worksheets(0)
 
-			chart.DataRange = sheet.Range("A1:C5")
-			chart.SeriesDataFromRange = False
+            ' Add a Bubble chart to the worksheet
+            Dim chart As Chart = sheet.Charts.Add(ExcelChartType.Bubble)
 
-			chart.Series(0).Bubbles = sheet.Range("C2:C5")
+            ' Set the chart title to "Bubble"
+            chart.ChartTitle = "Bubble"
 
-			'Set position of chart
-			chart.LeftColumn = 7
-			chart.TopRow = 6
-			chart.RightColumn = 16
-			chart.BottomRow = 29
+            ' Configure the chart title area formatting
+            chart.ChartTitleArea.IsBold = True
+            chart.ChartTitleArea.Size = 12
 
-			workbook.SaveToFile("CreateBubbleChart.xlsx", ExcelVersion.Version2010)
+            ' Set the data range for the chart
+            chart.DataRange = sheet.Range("A1:C5")
 
-			'View the document
-			FileViewer("CreateBubbleChart.xlsx")
+            ' Set the series data to be manually specified
+            chart.SeriesDataFromRange = False
+
+            ' Set the bubbles data for the first series of the chart
+            chart.Series(0).Bubbles = sheet.Range("C2:C5")
+
+            ' Set the position of the chart within the worksheet
+            chart.LeftColumn = 7
+            chart.TopRow = 6
+            chart.RightColumn = 16
+            chart.BottomRow = 29
+
+            ' Save the modified workbook to "CreateBubbleChart.xlsx" using Excel 2010 format
+            workbook.SaveToFile("CreateBubbleChart.xlsx", ExcelVersion.Version2010)
+            ' Release the resources used by the workbook
+            workbook.Dispose()
+
+            'View the document
+            FileViewer("CreateBubbleChart.xlsx")
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)
