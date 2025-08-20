@@ -1,0 +1,64 @@
+using System;
+using System.Data.OleDb;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+using Spire.Xls;
+using Spire.Xls.Core.Spreadsheet;
+
+namespace SetExcelPageOrderType
+{
+	public partial class Form1 : Form
+	{
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+		private void btnRun_Click(object sender, System.EventArgs e)
+		{
+            // Create a new workbook
+            Workbook workbook = new Workbook();
+
+            // Load an existing workbook from a file
+            workbook.LoadFromFile(@"..\..\..\..\..\..\Data\Template_Xls_4.xlsx");
+
+            // Get the first worksheet in the workbook
+            Worksheet sheet = workbook.Worksheets[0];
+
+            // Get the reference of the PageSetup of the worksheet
+            PageSetup pageSetup = sheet.PageSetup;
+
+            // Set the order type of the pages to "Over then down"
+            pageSetup.Order = OrderType.OverThenDown;
+
+            // Specify the output file name for the result
+            string result = "Result-SetExcelPageOrderType.xlsx";
+
+            // Save the modified workbook to the specified file using Excel 2013 format
+            workbook.SaveToFile(result, ExcelVersion.Version2013);
+
+            // Dispose of the workbook object to release resources
+            workbook.Dispose();
+
+            //Launch the MS Excel file.
+            ExcelDocViewer(result);
+		}
+
+        private void ExcelDocViewer(string fileName)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(fileName);
+            }
+            catch { }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+	}
+}
