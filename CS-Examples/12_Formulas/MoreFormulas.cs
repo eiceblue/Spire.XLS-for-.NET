@@ -1,10 +1,5 @@
 ﻿using Spire.Xls;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MoreFormulas
@@ -37,24 +32,23 @@ namespace MoreFormulas
             sheet.Range["A9"].Text = "=ENCODEURL(\"https://www.e-iceblue.com\")";
             sheet.Range["A10"].Text = "=ISFORMULA(A1)";
             sheet.Range["A11"].Text = "=BITXOR(12, 58)";
-            // SPIREXLS-5395
-            sheet.Range["A12"].Text= "=BAHTTEXT(1234)";
-            //SPIREXLS-5393
-            sheet.Range["A13"].Text = "=TEXTBEFORE(\"Red riding hood’s, red hood\", \"hood\")";
-            //SPIREXLS - 5394
-            sheet.Range["A14"].Text = "=TEXTSPLIT(A13,\" \", \".\", TRUE)";
-            //SPIREXLS-5397
-            sheet.Range["A15"].Text = "=TEXTAFTER(\"Red riding hood’s, red hood\", \"hood\")";
-            //,SPIREXLS-5396
-            sheet.Range["A16"].Text = "= ARRAYTOTEXT(A1：B4，0)";
-            //SPIREXLS-5471
-            sheet.Range["A17"].Text = "=ARABIC(\"mcmxii\")";
-            //SPIREXLS-5478
-            sheet.Range["A18"].Text = "=BASE(15,2,10)";
-            //SPIREXLS-5479
-            sheet.Range["A19"].Text = "=COMBINA(3,10)";
-            //SPIREXLS-5480
-            sheet.Range["A20"].Text = "=XOR(3>12,2<9,4>6)";
+
+            sheet.Range["A12"].Text = "=MUNIT(3)";
+            sheet.Range["A13"].Text = "=FLOOR.PRECISE(3.2)";
+            sheet.Range["A14"].Text = "=CSC(2)";
+            sheet.Range["A15"].Text = "=IMCSCH(\"4+3i\")";
+            sheet.Range["A16"].Text = "=IMCOSH(\"4+3i\")";
+            sheet.Range["A17"].Text = "=IMSINH(\"4+3i\")";
+            sheet.Range["A18"].Text = "=IMSECH(\"4+3i\")";
+            FillData(sheet);
+            sheet.Range["A19"].Text = "=RANK.AVG(11,H1:H5,1)";
+            sheet.Range["A20"].Text = "=RANK.EQ(18,H1:H5,1)";
+            sheet.Range["A21"].Text = "=PERCENTILE.INC(H1:H5,0.3)";
+            sheet.Range["A22"].Text = "=PERCENTILE.EXC(H1:H5,0.3)";
+            sheet.Range["A23"].Text = "=BINOM.DIST(6, 10, 0.5, FALSE)";
+            sheet.Range["A24"].Text = "=BINOM.INV(20, 0.5, 0.9)";
+
+
             // Write formulas
             sheet.Range["B1"].Formula = "=CEILING.MATH(-2.78, 5, -1)";
             sheet.Range["B2"].Formula = "=BITOR(23,10)";
@@ -67,15 +61,22 @@ namespace MoreFormulas
             sheet.Range["B9"].Formula = "=ENCODEURL(\"https://www.e-iceblue.com\")";
             sheet.Range["B10"].Formula = "=ISFORMULA(A1)";
             sheet.Range["B11"].Formula = "=BITXOR(12, 58)";
-            sheet.Range["B12"].Formula = "=BAHTTEXT(1234)";
-            sheet.Range["B13"].Formula = "=TEXTBEFORE(\"Red riding hood’s, red hood\", \"hood\")";
-            sheet.Range["B14"].Formula = "=TEXTSPLIT(A13,\" \", \".\", TRUE)";
-            sheet.Range["B15"].Formula = "=TEXTAFTER(\"Red riding hood’s, red hood\", \"hood\")";
-            sheet.Range["B16"].Formula = "=ARRAYTOTEXT(A1：B4，0)";
-            sheet.Range["B17"].Formula = "=ARABIC(\"mcmxii\")";
-            sheet.Range["B18"].Formula = "=BASE(15,2,10)";
-            sheet.Range["B19"].Formula = "=COMBINA(3,10)";
-            sheet.Range["B20"].Formula = "=XOR(3>12,2<9,4>6)";
+
+            sheet.Range["B12"].Formula = "=MUNIT(3)";
+            sheet.Range["B13"].Formula = "=FLOOR.PRECISE(3.2)";
+            sheet.Range["B14"].Formula = "=CSC(2)";
+            sheet.Range["B15"].Formula = "=IMCSCH(\"4+3i\")";
+            sheet.Range["B16"].Formula = "=IMCOSH(\"4+3i\")";
+            sheet.Range["B17"].Formula = "=IMSINH(\"4+3i\")";
+            sheet.Range["B18"].Formula = "=IMSECH(\"4+3i\")";
+            sheet.Range["B19"].Formula = "=RANK.AVG(11,H1:H5,1)";
+            sheet.Range["B20"].Formula = "=RANK.EQ(18,H1:H5,1)";
+            sheet.Range["B21"].Formula = "=PERCENTILE.INC(H1:H5,0.3)";
+            sheet.Range["B22"].Formula = "=PERCENTILE.EXC(H1:H5,0.3)";
+            sheet.Range["B23"].Formula = "=BINOM.DIST(6, 10, 0.5, FALSE)";
+            sheet.Range["B24"].Formula = "=BINOM.INV(20, 0.5, 0.9)";
+
+
             // Calculate all value
             workbook.CalculateAllValue();
 
@@ -91,10 +92,15 @@ namespace MoreFormulas
 
             // View the document
             FileViewer(result);
-
-            this.Close();
         }
-
+        void FillData(Worksheet worksheet)
+        {
+            worksheet.Range["H1"].NumberValue = 20;
+            worksheet.Range["H2"].NumberValue = 11;
+            worksheet.Range["H3"].NumberValue = 18;
+            worksheet.Range["H4"].NumberValue = 22;
+            worksheet.Range["H5"].NumberValue = 6;
+        }
         private void FileViewer(string fileName)
         {
             try

@@ -287,6 +287,32 @@ namespace WriteFormulas
             sheet.Range[currentRow, 1].Text = currentFormula;
             sheet.Range[currentRow++, 2].Formula = currentFormula;
 
+            currentFormula = "=TRIMMEAN(B3:G3, 0.5)";
+            sheet.Range[currentRow, 1].NumberFormat = "@";
+            sheet.Range[currentRow, 1].Text = currentFormula;
+            sheet.Range[currentRow++, 2].Formula = currentFormula;
+
+            currentFormula = "=ERF.PRECISE(1)";
+            sheet.Range[currentRow, 1].NumberFormat = "@";
+            sheet.Range[currentRow, 1].Text = currentFormula;
+            sheet.Range[currentRow++, 2].Formula = currentFormula;
+
+            currentFormula = "=ERFC.PRECISE(5)";
+            sheet.Range[currentRow, 1].NumberFormat = "@";
+            sheet.Range[currentRow, 1].Text = currentFormula;
+            sheet.Range[currentRow++, 2].Formula = currentFormula;
+
+            currentFormula = "=PERMUTATIONA(C4,C4)";
+            sheet.Range[currentRow, 1].NumberFormat = "@";
+            sheet.Range[currentRow, 1].Text = currentFormula;
+            sheet.Range[currentRow++, 2].Formula = currentFormula;
+
+            currentFormula = "=SHEETS()";
+            sheet.Range[currentRow, 1].NumberFormat = "@";
+            sheet.Range[currentRow, 1].Text = currentFormula;
+            sheet.Range[currentRow++, 2].Formula = currentFormula;
+
+
             // Specify the file name for the resulting Excel file
             String result = "WriteFormulas_result.xlsx";
 

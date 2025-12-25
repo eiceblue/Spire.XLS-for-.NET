@@ -2498,3 +2498,269 @@ Console.WriteLine("Worksheet '" + sheet.Name + "' is password protected: " + isP
 //Set zoom factor to 75%
 sheet.Zoom = 75;
 Console.WriteLine("Zoom factor for sheet '" + sheet.Name + "' set to 75%.");
+
+# spire.xls csharp data export
+## export data while preserving data types
+
+// Get the first worksheet
+Worksheet sheet = workbook.Worksheets[0];
+
+// Export DataTable with data type preservation
+ExportTableOptions options = new ExportTableOptions();
+options.ExportColumnNames = true;
+options.KeepDataFormat = false;
+options.KeepDataType = true;
+options.RenameStrategy = RenameStrategy.Digit;
+
+// Export data to data table
+DataTable table = sheet.ExportDataTable(1, 1, sheet.LastDataRow, sheet.LastDataColumn, options);
+
+
+# Remove Duplicated Rows in Excel
+## Remove duplicate rows from an Excel worksheet using Spire.XLS
+// Remove duplicated rows in the worksheet
+sheet.RemoveDuplicates();
+
+// Remove the duplicate rows within the specified range
+// sheet.RemoveDuplicates(int startRow, int startColumn, int endRow, int endColumn);
+// Remove the duplicated rows based on specific columns and headers
+// sheet.RemoveDuplicates(int startRow, int startColumn, int endRow, int endColumn, boolean hasHeaders, int[] columnOffsets)
+
+
+# Markdown to XLSX Conversion
+## Convert Markdown files to Excel XLSX format using Spire.Xls library
+// Create a new Workbook instance
+Workbook workbook = new Workbook();
+
+// Load content from a Markdown file into the workbook
+workbook.LoadFromMarkdown(markdownFilePath);
+
+// Save the workbook to an Excel file
+workbook.SaveToFile(outputFileName, ExcelVersion.Version2016);
+
+// Release the resources used by the workbook object
+workbook.Dispose();
+
+
+# Excel Shape Hyperlink
+## Add hyperlink to shapes in Excel worksheet
+// Get the reference to the first sheet in the workbook
+Worksheet sheet = workbook.Worksheets[0];
+
+// Get all the shapes in the sheet
+PrstGeomShapeCollection prstGeomShapeType = sheet.PrstGeomShapes;
+
+// Set the hyperlink for each shape
+for (int i = 0; i < prstGeomShapeType.Count; i++)
+{
+    // Get the shape
+    XlsPrstGeomShape shape = (XlsPrstGeomShape)prstGeomShapeType[i];
+
+    // Set the hyperlink address
+    shape.HyLink.Address = "https://www.e-iceblue.com/Download/download-excel-for-net-now.html";
+}
+
+
+# spire.xls csharp pivot table
+## create pivot table group by value
+// Get the reference to the first sheet in the workbook
+Worksheet pivotSheet = workbook.Worksheets[0];
+
+// Cast the first PivotTable in the PivotTables collection to an XlsPivotTable object.
+XlsPivotTable pivot = (XlsPivotTable)pivotSheet.PivotTables[0];
+
+// Retrieve the PivotField named "number" from the PivotTable and cast it to a PivotField object.
+PivotField dateBaseField = pivot.PivotFields["number"] as PivotField;
+
+// Create a group for the PivotField, starting at 3000, ending at 3800, with an interval of 1.
+dateBaseField.CreateGroup(3000, 3800, 1);
+
+// Recalculate the data in the PivotTable to reflect the changes made.
+pivot.CalculateData();
+
+# spire.xls csharp pivot table slicer
+## create and configure slicers from pivot table
+
+// Get pivot table collection
+Spire.Xls.Collections.PivotTablesCollection pivotTables = worksheet.PivotTables;
+
+//Add a PivotTable to the worksheet
+CellRange dataRange = worksheet.Range["A1:C9"];
+PivotCache cache = wb.PivotCaches.Add(dataRange);
+
+//Cell to put the pivot table
+Spire.Xls.PivotTable pt = worksheet.PivotTables.Add("TestPivotTable", worksheet.Range["A12"], cache);
+
+//Drag the fields to the row area.
+PivotField pf = pt.PivotFields["fruit"] as PivotField;
+pf.Axis = AxisTypes.Row;
+PivotField pf2 = pt.PivotFields["year"] as PivotField;
+pf2.Axis = AxisTypes.Column;
+
+//Drag the field to the data area.
+pt.DataFields.Add(pt.PivotFields["amount"], "SUM of Count", SubtotalTypes.Sum);
+
+//Set PivotTable style
+pt.BuiltInStyle = PivotBuiltInStyles.PivotStyleMedium10;
+
+pt.CalculateData();
+
+//Get slicer collection
+XlsSlicerCollection slicers = worksheet.Slicers;
+
+int index = slicers.Add(pt, "E12", 0);
+
+XlsSlicer xlsSlicer = slicers[index];
+xlsSlicer.Name = "xlsSlicer";
+xlsSlicer.Width = 100;
+xlsSlicer.Height = 120;
+xlsSlicer.StyleType = SlicerStyleType.SlicerStyleLight2;
+xlsSlicer.PositionLocked = true;
+
+//Get SlicerCache object of current slicer
+XlsSlicerCache slicerCache = xlsSlicer.SlicerCache;
+slicerCache.CrossFilterType = SlicerCacheCrossFilterType.ShowItemsWithNoData;
+
+//Style setting
+XlsSlicerCacheItemCollection slicerCacheItems = xlsSlicer.SlicerCache.SlicerCacheItems;
+XlsSlicerCacheItem xlsSlicerCacheItem = slicerCacheItems[0];
+xlsSlicerCacheItem.Selected = false;
+
+XlsSlicerCollection slicers_2 = worksheet.Slicers;
+
+IPivotField r1 = pt.PivotFields["year"];
+int index_2 = slicers_2.Add(pt, "I12", r1);
+
+XlsSlicer xlsSlicer_2 = slicers[index_2];
+xlsSlicer_2.RowHeight = 40;
+xlsSlicer_2.StyleType = SlicerStyleType.SlicerStyleLight3;
+xlsSlicer_2.PositionLocked = false;
+
+//Get SlicerCache object of current slicer
+XlsSlicerCache slicerCache_2 = xlsSlicer_2.SlicerCache;
+slicerCache_2.CrossFilterType = SlicerCacheCrossFilterType.ShowItemsWithDataAtTop;
+
+//Style setting
+XlsSlicerCacheItemCollection slicerCacheItems_2 = xlsSlicer_2.SlicerCache.SlicerCacheItems;
+XlsSlicerCacheItem xlsSlicerCacheItem_2 = slicerCacheItems_2[1];
+xlsSlicerCacheItem_2.Selected = false;
+pt.CalculateData();
+
+# spire.xls csharp slicer
+## create slicers from table in excel
+// Get slicer collection
+XlsSlicerCollection slicers = worksheet.Slicers;
+
+//Create a table with the data from the specific cell range.
+IListObject table = worksheet.ListObjects.Create("Super Table", worksheet.Range["A1:C9"]);
+
+int count = 3;
+int index = 0;
+foreach (SlicerStyleType type in Enum.GetValues(typeof(SlicerStyleType)))
+{
+    count += 5;
+    String range = "E" + count;
+    index = slicers.Add(table, range.ToString(), 0);
+
+    //Style setting
+    XlsSlicer xlsSlicer = slicers[index];
+    xlsSlicer.Name = "slicers_" + count;
+    xlsSlicer.StyleType = type;
+}
+
+# spire.xls csharp slicer modification
+## modify Excel slicer properties including style, caption, and filtering behavior
+// Get the first worksheet in the workbook
+Worksheet worksheet = wb.Worksheets[0];
+
+// Get the slicer collection from the worksheet
+XlsSlicerCollection slicers = worksheet.Slicers;
+
+// Get the first slicer from the slicer collection
+XlsSlicer xlsSlicer = slicers[0];
+
+// Set the style of the slicer to a dark theme (style type 4)
+xlsSlicer.StyleType = SlicerStyleType.SlicerStyleDark4;
+
+// Change the caption (title) of the slicer
+xlsSlicer.Caption = "Modified Slicer";
+
+// Lock the position of the slicer to prevent it from being moved in the worksheet
+xlsSlicer.PositionLocked = true;
+
+// Get the collection of cache items associated with the slicer
+XlsSlicerCacheItemCollection slicerCacheItems = xlsSlicer.SlicerCache.SlicerCacheItems;
+
+// Get the first cache item in the collection
+XlsSlicerCacheItem xlsSlicerCacheItem = slicerCacheItems[0];
+
+// Deselect the cache item
+xlsSlicerCacheItem.Selected = false;
+
+// Get the display value of the cache item
+string displayValue = xlsSlicerCacheItem.DisplayValue;
+
+// Get the slicer cache associated with the slicer
+XlsSlicerCache slicerCache = xlsSlicer.SlicerCache;
+
+// Set the cross-filter type to show items even if they have no associated data
+slicerCache.CrossFilterType = SlicerCacheCrossFilterType.ShowItemsWithNoData;
+
+# Spire.XLS C# Slicer Information Reader
+## Read and extract information about slicers in an Excel file
+// Load Excel file and get worksheet
+Workbook wb = new Workbook();
+wb.LoadFromFile("SlicerTemplate.xlsx");
+Worksheet worksheet = wb.Worksheets[0];
+
+// Get slicer collection
+XlsSlicerCollection slicers = worksheet.Slicers;
+
+// Iterate through each slicer
+for (int i = 0; i < slicers.Count; i++)
+{
+    XlsSlicer xlsSlicer = slicers[i];
+    
+    // Get slicer properties
+    string slicerName = xlsSlicer.Name;
+    string slicerCaption = xlsSlicer.Caption;
+    int numberOfColumns = xlsSlicer.NumberOfColumns;
+    double columnWidth = xlsSlicer.ColumnWidth;
+    double rowHeight = xlsSlicer.RowHeight;
+    bool showCaption = xlsSlicer.ShowCaption;
+    bool positionLocked = xlsSlicer.PositionLocked;
+    double width = xlsSlicer.Width;
+    double height = xlsSlicer.Height;
+
+    // Get slicer cache
+    XlsSlicerCache slicerCache = xlsSlicer.SlicerCache;
+    
+    // Get slicer cache properties
+    string sourceName = slicerCache.SourceName;
+    bool isTabular = slicerCache.IsTabular;
+    string cacheName = slicerCache.Name;
+
+    // Get slicer cache items
+    XlsSlicerCacheItemCollection slicerCacheItems = slicerCache.SlicerCacheItems;
+    XlsSlicerCacheItem xlsSlicerCacheItem = slicerCacheItems[1];
+    
+    // Get slicer cache item properties
+    bool isSelected = xlsSlicerCacheItem.Selected;
+}
+
+// Clean up
+wb.Dispose();
+
+# spire.xls remove slicer
+## remove slicers from excel worksheet
+// Get the slicer collection from the worksheet
+XlsSlicerCollection slicers = worksheet.Slicers;
+
+// Example: Remove the first slicer in the collection 
+// slicers.RemoveAt(0);
+
+// Clear all slicers from the collection
+slicers.Clear();
+
+
+
