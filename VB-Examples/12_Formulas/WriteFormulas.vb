@@ -11,9 +11,8 @@ Namespace WriteFormulas
 			InitializeComponent()
 		End Sub
 		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-  
 			' Create a new workbook
-			Dim workbook As New Workbook()
+			Dim workbook As Workbook = New Workbook()
 
 			' Get the first worksheet
 			Dim sheet As Worksheet = workbook.Worksheets(0)
@@ -27,8 +26,8 @@ Namespace WriteFormulas
 			sheet.SetColumnWidth(3, 16)
 
 			' Add header and test data labels
-			sheet.Range(currentRow, 1).Value = "Examples of formulas :"
 			currentRow += 1
+			sheet.Range(currentRow, 1).Value = "Examples of formulas :"
 			currentRow += 1
 			sheet.Range(currentRow, 1).Value = "Test data:"
 
@@ -42,7 +41,6 @@ Namespace WriteFormulas
 			' test data
 			sheet.Range(currentRow, 2).NumberValue = 7.3
 			sheet.Range(currentRow, 3).NumberValue = 5
-
 			sheet.Range(currentRow, 4).NumberValue = 8.2
 			sheet.Range(currentRow, 5).NumberValue = 4
 			sheet.Range(currentRow, 6).NumberValue = 3
@@ -50,21 +48,20 @@ Namespace WriteFormulas
 
 			currentRow += 1
 			sheet.Range(currentRow, 1).Value = "Formulas"
-
 			sheet.Range(currentRow, 2).Value = "Results"
 			range = sheet.Range(currentRow, 1, currentRow, 2)
-			' range.Value = "Formulas";
 			range.Style.Font.IsBold = True
 			range.Style.KnownColor = ExcelColors.LightGreen1
 			range.Style.FillPattern = ExcelPatternType.Solid
 			range.Style.Borders(BordersLineType.EdgeBottom).LineStyle = LineStyleType.Medium
+
 			' str.
 			currentFormula = "=""hello"""
 			currentRow += 1
 			sheet.Range(currentRow, 1).NumberFormat = "@"
 			sheet.Range(currentRow, 1).Text = "=""hello"""
 			sheet.Range(currentRow, 2).Formula = currentFormula
-			sheet.Range(currentRow, 3).Formula = "=""" & New String(New Char() { ChrW(&H4f60), ChrW(&H597d) }) & """"
+			sheet.Range(currentRow, 3).Formula = "=""" & New String(New Char() {ChrW(&H4F60), ChrW(&H597D)}) & """"
 
 			' int.
 			currentFormula = "=300"
@@ -99,11 +96,9 @@ Namespace WriteFormulas
 			sheet.Range(currentRow, 1).Text = currentFormula
 			sheet.Range(currentRow, 2).Formula = currentFormula
 
-
 			' sheet reference
 			currentFormula = "=Sheet1!$B$3"
 			currentRow += 1
-			sheet.Range(currentRow, 1).NumberFormat = "@"
 			sheet.Range(currentRow, 1).NumberFormat = "@"
 			sheet.Range(currentRow, 1).Text = currentFormula
 			sheet.Range(currentRow, 2).Formula = currentFormula
@@ -122,7 +117,6 @@ Namespace WriteFormulas
 			sheet.Range(currentRow, 1).Text = currentFormula
 			sheet.Range(currentRow, 2).Formula = currentFormula
 
-
 			currentFormula = "=NOW()"
 			currentRow += 1
 			sheet.Range(currentRow, 1).NumberFormat = "@"
@@ -135,7 +129,6 @@ Namespace WriteFormulas
 			sheet.Range(currentRow, 1).NumberFormat = "@"
 			sheet.Range(currentRow, 1).Text = currentFormula
 			sheet.Range(currentRow, 2).Formula = currentFormula
-			currentRow += 1
 
 			currentFormula = "=MINUTE(12)"
 			sheet.Range(currentRow, 1).NumberFormat = "@"
@@ -329,20 +322,43 @@ Namespace WriteFormulas
 			sheet.Range(currentRow, 2).Formula = currentFormula
 			currentRow += 1
 
+			currentFormula = "=TRIMMEAN(B3:G3, 0.5)"
+			sheet.Range(currentRow, 1).NumberFormat = "@"
+			sheet.Range(currentRow, 1).Text = currentFormula
+			sheet.Range(currentRow, 2).Formula = currentFormula
+			currentRow += 1
+
+			currentFormula = "=ERF.PRECISE(1)"
+			sheet.Range(currentRow, 1).NumberFormat = "@"
+			sheet.Range(currentRow, 1).Text = currentFormula
+			sheet.Range(currentRow, 2).Formula = currentFormula
+			currentRow += 1
+
+			currentFormula = "=ERFC.PRECISE(5)"
+			sheet.Range(currentRow, 1).NumberFormat = "@"
+			sheet.Range(currentRow, 1).Text = currentFormula
+			sheet.Range(currentRow, 2).Formula = currentFormula
+			currentRow += 1
+
+			currentFormula = "=PERMUTATIONA(C4,C4)"
+			sheet.Range(currentRow, 1).NumberFormat = "@"
+			sheet.Range(currentRow, 1).Text = currentFormula
+			sheet.Range(currentRow, 2).Formula = currentFormula
+			currentRow += 1
+
+			currentFormula = "=SHEETS()"
+			sheet.Range(currentRow, 1).NumberFormat = "@"
+			sheet.Range(currentRow, 1).Text = currentFormula
+			sheet.Range(currentRow, 2).Formula = currentFormula
+			currentRow += 1
+
 			' Specify the file name for the resulting Excel file
 			Dim result As String = "WriteFormulas_result.xlsx"
 
 			' Save the workbook to the specified file in Excel 2013 format
 			workbook.SaveToFile(result, ExcelVersion.Version2013)
 
-			' Dispose of the workbook object to release resources
-			workbook.Dispose()
-
-			' Launch the file
 			ExcelDocViewer(result)
-
-
-
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try
