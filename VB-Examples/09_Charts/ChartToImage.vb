@@ -1,6 +1,6 @@
-Imports System.Data.OleDb
-Imports System.Collections
-Imports System.ComponentModel
+Imports System
+Imports System.Drawing
+Imports System.Windows.Forms
 Imports System.Drawing.Imaging
 Imports Spire.Xls
 
@@ -10,32 +10,42 @@ Namespace ChartToImage
 		Public Sub New()
 			InitializeComponent()
 		End Sub
-		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-            ' Create a new Workbook object
-            Dim workbook As New Workbook()
+		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As System.EventArgs)
+			' Create a workbook
+			Dim workbook As New Workbook()
 
-            ' Load the Excel file "ChartToImage.xlsx" from the specified path
-            workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartToImage.xlsx")
+			'Load file from disk
+			workbook.LoadFromFile("..\..\..\..\..\..\Data\ChartToImage.xlsx")
 
-            ' Save the chart from the first worksheet of the workbook as an image and assign it to the 'image' variable
-            Dim image As Image = workbook.SaveChartAsImage(workbook.Worksheets(0), 0)
+			'Save chart as image
+			Dim image As Image= workbook.SaveChartAsImage(workbook.Worksheets(0), 0)
+			image.Save("Output.png",ImageFormat.Png)
 
-            ' Save the image to a file named "Output.png" in PNG format
-            image.Save("Output.png", ImageFormat.Png)
-            ' Release the resources used by the workbook
-            workbook.Dispose()
+			'////////////////Use the following code for netstandard dlls/////////////////////////
+'			
+'            Stream image = workbook.SaveChartAsImage(workbook.Worksheets[0], 0);
+'            string filename = String.Format("ChartToImage.png");
+'            FileStream fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
+'            image.CopyTo(fileStream, 100);
+'            fileStream.Flush();
+'            fileStream.Close();
+'            image.Close();
+'			
 
-            'Launch the file
-            ExcelDocViewer("Output.png")
+			' Dispose of the workbook object to release resources
+			workbook.Dispose()
+
+			'Launch the file
+			ExcelDocViewer("Output.png")
 		End Sub
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try
-				Process.Start(fileName)
+				System.Diagnostics.Process.Start(fileName)
 			Catch
 			End Try
 		End Sub
 
-		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
+		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs)
 			Close()
 		End Sub
 	End Class

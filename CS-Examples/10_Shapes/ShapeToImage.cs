@@ -31,7 +31,11 @@ namespace ShapeToImage
             Image img = shape.SaveToImage();
             img.Save("ShapeToImage.png", ImageFormat.Png);
 
-
+			//////////////////Use the following code for netstandard dlls/////////////////////////
+            /* 
+            shape.SaveToImage("ShapeToImage.png");
+			*/
+            
             // Dispose of the workbook object to release resources
             workbook.Dispose();
 

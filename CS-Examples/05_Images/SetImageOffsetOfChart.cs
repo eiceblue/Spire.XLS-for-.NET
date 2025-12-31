@@ -46,6 +46,12 @@ namespace SetImageOffsetOfChart
 
             // Add a picture as the background.
             chart1.ChartArea.Fill.CustomPicture(Image.FromFile(@"..\..\..\..\..\..\Data\Background.png"), "None");
+            //////////////////Use the following code for netstandard dlls/////////////////////////
+            /*
+            Stream image = File.OpenRead(@"..\..\..\..\..\..\Data\Background.png");
+            chart1.ChartArea.Fill.CustomPicture(image, "None");
+            */
+            
             chart1.ChartArea.Fill.Tile = false;
 
             // Set the image offset.

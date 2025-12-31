@@ -33,9 +33,20 @@ namespace GroupShapeToImage
             {
                 String imageFile = string.Format("Image-{0}.png", i);
                 images[i].Save(imageFile, ImageFormat.Png);
-                // Launch image
-                FileViewer(imageFile);
             }
+            
+            //////////////////Use the following code for netstandard dlls/////////////////////////
+            /*
+            List<SkiaSharp.SKBitmap> images = worksheet.SaveShapesToImage(saveShapeTypeOption);
+            for (int i = 0; i < images.Count; i++)
+            { 
+                SkiaSharp.SKImage image = SkiaSharp.SKImage.FromBitmap(images[i]);
+                String imageFile = string.Format("Image-{0}.png", i);
+                FileStream fileStream = new FileStream(imageFile, FileMode.Create, FileAccess.Write);
+                image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100).SaveTo(fileStream);
+            }
+            */
+            
             workbook.Dispose();
         }
         private void btnClose_Click(object sender, EventArgs e)

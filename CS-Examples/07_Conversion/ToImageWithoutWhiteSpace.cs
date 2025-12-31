@@ -37,10 +37,21 @@ namespace ToImageWithoutWhiteSpace
 
             // Convert to image
             Image image = sheet.ToImage(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn);
-
+            			
             //Save the result file
             string result = "result.png";
             image.Save(result);
+
+			//////////////////Use the following code for netstandard dlls/////////////////////////
+			/*
+			Stream image = sheet.ToImage(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn);
+            string filename = String.Format("result.png");
+            FileStream fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
+            image.CopyTo(fileStream, 100);
+            fileStream.Flush();
+            fileStream.Close();
+            image.Close();
+			*/
 
             // Dispose of the workbook object to release resources
             workbook.Dispose();

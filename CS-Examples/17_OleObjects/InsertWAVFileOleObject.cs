@@ -31,6 +31,16 @@ namespace InsertWavFileOLEObject
             // Add an OLE object
             IOleObject oleObject = sheet.OleObjects.Add(@"..\..\..\..\..\..\Data\WAVFileSample.wav", Image.FromFile(@"..\..\..\..\..\..\Data\SpireXls.png"), OleLinkType.Embed);
 
+            //////////////////Use the following code for netstandard dlls/////////////////////////
+            /*
+            FileStream fs = new FileStream(@"..\..\..\..\..\..\Data\SpireXls.png", FileMode.Open, FileAccess.Read, FileShare.Read);
+            byte[] bytes = new byte[fs.Length];
+            fs.Read(bytes, 0, bytes.Length);
+            fs.Close();
+            Stream ImgFile = new MemoryStream(bytes);
+            IOleObject oleObject = sheet.OleObjects.Add(@"..\..\..\..\..\..\Data\WAVFileSample.wav", ImgFile, OleLinkType.Embed);
+            */
+             
             // Set the location for the OLE object
             oleObject.Location = sheet.Range["B4"];
 

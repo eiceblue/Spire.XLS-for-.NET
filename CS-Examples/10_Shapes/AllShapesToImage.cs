@@ -37,8 +37,21 @@ namespace AllShapesToImage
                 string imageFileName = "Image_" + index + ".png";
                 img.Save(imageFileName, ImageFormat.Png);
                 index++;
-                OutputViewer(imageFileName);
             }
+            //////////////////Use the following code for netstandard dlls/////////////////////////
+            /*
+            List<SkiaSharp.SKBitmap> images = worksheet.SaveShapesToImage(shapelist);
+            int index = 0;
+            foreach (SkiaSharp.SKBitmap img in images)
+            {      
+                SkiaSharp.SKImage image = SkiaSharp.SKImage.FromBitmap(img);
+                string filename = "Image_" + index + ".png";
+                FileStream fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
+                image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100).SaveTo(fileStream);
+                index++;
+            }
+            */
+            
             // Dispose of the workbook object to release resources
             workbook.Dispose();
         }

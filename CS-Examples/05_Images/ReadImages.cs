@@ -43,7 +43,15 @@ namespace ReadImages
 				frm1.Controls.Add(pic1);
 				frm1.ShowDialog();
 			}
-
+			
+			//////////////////Use the following code for netstandard dlls/////////////////////////
+            /*
+            SkiaSharp.SKImage image = SkiaSharp.SKImage.FromBitmap(pic.Picture);
+            FileStream fileStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write);
+            image.Encode(SkiaSharp.SKEncodedImageFormat.Jpeg, 100).SaveTo(fileStream);
+            fileStream.Flush();
+            */
+            
             // Dispose of the workbook object to release resources
             workbook.Dispose();
         }

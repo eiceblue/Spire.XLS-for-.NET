@@ -1,6 +1,9 @@
 ﻿Imports Spire.Xls
 Imports Spire.Xls.Core.Spreadsheet.Shapes
+Imports System
+Imports System.Drawing
 Imports System.Drawing.Imaging
+Imports System.Windows.Forms
 
 Namespace ShapeToImage
 	Partial Public Class Form1
@@ -8,37 +11,43 @@ Namespace ShapeToImage
 		Public Sub New()
 			InitializeComponent()
 		End Sub
-		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-            ' Create a new Workbook object
-            Dim workbook As New Workbook()
+		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs)
+			'Create a workbook
+			Dim workbook As New Workbook()
 
-            ' Load an existing Excel file into the workbook
-            workbook.LoadFromFile("..\..\..\..\..\..\Data\ShapeToImage.xlsx")
+			'Load the Excel document from disk
+			workbook.LoadFromFile("..\..\..\..\..\..\Data\ShapeToImage.xlsx")
 
-            ' Get the first worksheet from the workbook
-            Dim sheet1 As Worksheet = workbook.Worksheets(0)
+			'Get the first worksheet
+			Dim sheet1 As Worksheet = workbook.Worksheets(0)
 
-            ' Get the first PrstGeomShape in the worksheet and cast it to XlsShape type
-            Dim shape As XlsShape = TryCast(sheet1.PrstGeomShapes(0), XlsShape)
+			'Get the first shape from the first worksheet
+			Dim shape As XlsShape = TryCast(sheet1.PrstGeomShapes(0), XlsShape)
 
-            ' Save the shape as an image
-            Dim img As Image = shape.SaveToImage()
+			'Save the shape to a image
+			Dim img As Image = shape.SaveToImage()
+			img.Save("ShapeToImage.png", ImageFormat.Png)
 
-            ' Save the image to a file named "ShapeToImage.png" in PNG format
-            img.Save("ShapeToImage.png", ImageFormat.Png)
-            ' Release the resources used by the workbook
-            workbook.Dispose()
-            FileViewer("ShapeToImage.png")
+			'////////////////Use the following code for netstandard dlls/////////////////////////
+'             
+'            shape.SaveToImage("ShapeToImage.png");
+'			
+
+			' Dispose of the workbook object to release resources
+			workbook.Dispose()
+
+			' Launch the file
+			FileViewer("ShapeToImage.png")
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)
 			Try
-				Process.Start(fileName)
+				System.Diagnostics.Process.Start(fileName)
 			Catch
 			End Try
 		End Sub
 
-		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
+		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs)
 			Close()
 		End Sub
 	End Class

@@ -37,6 +37,16 @@ namespace GetEmbeddedImages
 
                 // Save the image as a PNG file with a unique name based on the index
                 image.Save("result-" + i + ".png", System.Drawing.Imaging.ImageFormat.Png);
+				
+				//////////////////Use the following code for netstandard dlls///////////////////////// 
+				/*               
+                Stream img = sheet.ToImage(0,0,0,0);
+                FileStream fileStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write);
+                img.CopyTo(fileStream, 100);
+                fileStream.Flush();
+                fileStream.Close();
+                img.Close();
+                */
             }
         }
 

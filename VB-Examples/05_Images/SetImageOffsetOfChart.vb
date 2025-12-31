@@ -1,6 +1,10 @@
+Imports System
 Imports System.Data.OleDb
+Imports System.Drawing
 Imports System.Collections
 Imports System.ComponentModel
+Imports System.Windows.Forms
+Imports System.Data
 Imports Spire.Xls
 Imports Spire.Xls.Core.Spreadsheet
 Imports Spire.Xls.Core
@@ -13,69 +17,68 @@ Namespace SetImageOffsetOfChart
 			InitializeComponent()
 		End Sub
 
-		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-            'Instantiate a new Workbook object.
-            Dim workbook As New Workbook()
+		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As System.EventArgs)
+			' Create a workbook.
+			Dim workbook As New Workbook()
 
-            'Load an Excel document from the specified file.
-            workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
+			' Load the file from disk.
+			workbook.LoadFromFile("..\..\..\..\..\..\Data\Template_Xls_1.xlsx")
 
-            'Access the first worksheet in the workbook.
-            Dim sheet As Worksheet = workbook.Worksheets(0)
+			' Get the first worksheet.
+			Dim sheet As Worksheet = workbook.Worksheets(0)
 
-            'Add a new worksheet with the name "Contrast".
-            Dim sheet1 As Worksheet = workbook.Worksheets.Add("Contrast")
+			' Add a new worksheet named "Contrast".
+			Dim sheet1 As Worksheet = workbook.Worksheets.Add("Contrast")
 
-            'Add a clustered column chart to the "Contrast" worksheet.
-            Dim chart1 As Chart = sheet1.Charts.Add(ExcelChartType.ColumnClustered)
+			' Add chart1 and a background image to sheet1 for comparison.
+			Dim chart1 As Chart = sheet1.Charts.Add(ExcelChartType.ColumnClustered)
+			chart1.DataRange = sheet.Range("D1:E8")
+			chart1.SeriesDataFromRange = False
 
-            'Set the data range for the chart to cells D1 to E8 in the "sheet" worksheet.
-            chart1.DataRange = sheet.Range("D1:E8")
+			' Set the position of the chart.
+			chart1.LeftColumn = 1
+			chart1.TopRow = 11
+			chart1.RightColumn = 8
+			chart1.BottomRow = 33
 
-            'Specify that the series data for the chart is not automatically generated from the range.
-            chart1.SeriesDataFromRange = False
+			' Add a picture as the background.
+			chart1.ChartArea.Fill.CustomPicture(Image.FromFile("..\..\..\..\..\..\Data\Background.png"), "None")
+			'////////////////Use the following code for netstandard dlls/////////////////////////
+'            
+'            Stream image = File.OpenRead(@"..\..\..\..\..\..\Data\Background.png");
+'            chart1.ChartArea.Fill.CustomPicture(image, "None");
+'            
 
-            'Sets the starting column index of the chart.
-            chart1.LeftColumn = 1
-            'Sets the starting row index of the chart.
-            chart1.TopRow = 11
-            'Sets the ending column index of the chart.
-            chart1.RightColumn = 8
-            'Sets the ending row index of the chart.
-            chart1.BottomRow = 33
+			chart1.ChartArea.Fill.Tile = False
 
-            'Set the custom picture fill for the chart area using the specified image file and transparency setting.
-            chart1.ChartArea.Fill.CustomPicture(Image.FromFile("Background.png"), "None")
+			' Set the image offset.
+			chart1.ChartArea.Fill.PicStretch.Left = 20
+			chart1.ChartArea.Fill.PicStretch.Top = 20
+			chart1.ChartArea.Fill.PicStretch.Right = 5
+			chart1.ChartArea.Fill.PicStretch.Bottom = 5
 
-            'Disable tiling of the picture within the chart area.
-            chart1.ChartArea.Fill.Tile = False
+			' Specify the resulting file name.
+			Dim result As String = "Result-SetImageOffsetOfChart.xlsx"
 
-            'Set the picture stretch values for left, top, right, and bottom sides of the chart area.
-            chart1.ChartArea.Fill.PicStretch.Left = 20
-            chart1.ChartArea.Fill.PicStretch.Top = 20
-            chart1.ChartArea.Fill.PicStretch.Right = 5
-            chart1.ChartArea.Fill.PicStretch.Bottom = 5
+			' Save the modified workbook to a file using Excel 2013 format.
+			workbook.SaveToFile(result, ExcelVersion.Version2013)
 
-            'Specify the filename to save the modified workbook.
-            Dim result As String = "Result-SetImageOffsetOfChart.xlsx"
 
-            'Save the workbook to the specified file using Excel 2013 format.
-            workbook.SaveToFile(result, ExcelVersion.Version2013)
-            ' Release the resources used by the workbook
-            workbook.Dispose()
+			' Dispose of the workbook object to release resources
+			workbook.Dispose()
 
-            'Launch the MS Excel file.
-            ExcelDocViewer(result)
+			' Launch the MS Excel file.
+			ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try
-				Process.Start(fileName)
+				System.Diagnostics.Process.Start(fileName)
 			Catch
 			End Try
 		End Sub
 
-		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
+		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs)
 			Close()
 		End Sub
 	End Class

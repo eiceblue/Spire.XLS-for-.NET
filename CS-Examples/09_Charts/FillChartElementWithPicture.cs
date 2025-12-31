@@ -29,9 +29,29 @@ namespace FillChartElementWithPicture
             // A. Fill chart area with image
             chart.ChartArea.Fill.CustomPicture(Image.FromFile(@"..\..\..\..\..\..\Data\background.png"), "None");
             chart.PlotArea.Fill.Transparency = 0.9;
-
+            
+            //////////////////Use the following code for netstandard dlls/////////////////////////
+            /*
+            FileStream fs = new FileStream(@"..\..\..\..\..\..\Data\background.png", FileMode.Open, FileAccess.Read, FileShare.Read);
+            byte[] bytes = new byte[fs.Length];
+            fs.Read(bytes, 0, bytes.Length);
+            fs.Close();
+            Stream ImgFile1 = new MemoryStream(bytes);
+            chart.ChartArea.Fill.CustomPicture(ImgFile1, "None");
+			*/
+			
             //// B.Fill plot area with image
             //chart.PlotArea.Fill.CustomPicture(Image.FromFile(@"..\..\..\..\..\..\Data\background.png"), "None");
+
+            //////////////////Use the following code for netstandard dlls/////////////////////////
+            /*
+            FileStream fs = new FileStream(@"..\..\..\..\..\..\Data\background.png", FileMode.Open, FileAccess.Read, FileShare.Read);
+            byte[] bytes = new byte[fs.Length];
+            fs.Read(bytes, 0, bytes.Length);
+            fs.Close();
+            Stream ImgFile2 = new MemoryStream(bytes);
+            chart.PlotArea.Fill.CustomPicture(ImgFile2, "None");
+			*/
 
             //Save the document
             string output = "FillChartElementWithPicture.xlsx";

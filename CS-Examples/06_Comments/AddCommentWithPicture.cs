@@ -26,7 +26,7 @@ namespace AddCommentWithPicture
 
             // Add the comment
             ExcelComment comment = sheet.Range["C6"].AddComment();
-
+            
             // Load the image file
             Image image = Image.FromFile(@"..\..\..\..\..\..\Data\Logo.png");
 
@@ -36,6 +36,17 @@ namespace AddCommentWithPicture
             // Set the height and width of comment
             comment.Height = image.Height;
             comment.Width = image.Width;
+            
+            //////////////////Use the following code for netstandard dlls/////////////////////////
+            /*
+            //Load the image file
+            SkiaSharp.SKBitmap image = SkiaSharp.SKBitmap.Decode(@"..\..\..\..\..\..\Data\Logo.png");
+            comment.Fill.CustomPicture(@"..\..\..\..\..\..\Data\Logo.png");
+            //Set the height and width of comment
+            comment.Height = image.Height;
+            comment.Width = image.Width;
+            */
+            
             comment.Visible = true;
 
             // Specify the resulting file name.

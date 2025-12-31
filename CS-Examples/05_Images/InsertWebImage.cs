@@ -37,11 +37,8 @@ namespace InsertWebImage
             // Extract the image data into a memory stream.
             MemoryStream objImage = new System.IO.MemoryStream(webClient.DownloadData(URL));
 
-            // Create an Image object from the memory stream.
-            Image image = Image.FromStream(objImage);
-
             // Add the image to the worksheet at a specific location (row 3, column 2).
-            sheet.Pictures.Add(3, 2, image);
+            sheet.Pictures.Add(3, 2, objImage);
 
             // Specify the resulting file name.
             string result = "result.xlsx";

@@ -1,6 +1,9 @@
+Imports System
+Imports System.Windows.Forms
 Imports Spire.Xls
 Imports System.Text
 Imports System.IO
+Imports System.Drawing
 
 Namespace GetEmbeddedImages
 
@@ -10,7 +13,7 @@ Namespace GetEmbeddedImages
 			InitializeComponent()
 		End Sub
 
-	   Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
+	   Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs)
 			' Create a new Workbook instance
 			Dim wb As New Workbook()
 
@@ -30,10 +33,20 @@ Namespace GetEmbeddedImages
 
 				' Save the image as a PNG file with a unique name based on the index
 				image.Save("result-" & i & ".png", System.Drawing.Imaging.ImageFormat.Png)
+
+				'////////////////Use the following code for netstandard dlls///////////////////////// 
+'				               
+'                Stream img = sheet.ToImage(0,0,0,0);
+'                FileStream fileStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write);
+'                img.CopyTo(fileStream, 100);
+'                fileStream.Flush();
+'                fileStream.Close();
+'                img.Close();
+'                
 			Next i
 	   End Sub
 
-		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
+		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs)
 			Close()
 		End Sub
 

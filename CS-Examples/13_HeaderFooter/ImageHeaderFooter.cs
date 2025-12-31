@@ -30,6 +30,11 @@ namespace ImageHeaderFooter
             // Load an image from disk
             Image image = Image.FromFile(@"..\..\..\..\..\..\Data\Logo.png");
 
+			//////////////////Use the following code for netstandard dlls/////////////////////////
+			/*
+			SkiaSharp.SKBitmap image = SkiaSharp.SKBitmap.Decode((@"..\..\..\..\..\..\Data\Logo.png");
+			*/
+            
             // Set the image header
             sheet.PageSetup.LeftHeaderImage = image;
             sheet.PageSetup.LeftHeader = "&G";

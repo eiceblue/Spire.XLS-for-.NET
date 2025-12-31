@@ -43,7 +43,17 @@ namespace ToImageWithHighResolution
                 //Launch the Excel file
                 ExcelDocViewer(output);
             }
-
+            
+            //////////////////Use the following code for netstandard dlls/////////////////////////
+            /*
+            Stream image = worksheet.ToImage(1, 1, worksheet.LastRow, worksheet.LastColumn);
+            string filename = String.Format("ToImage.jpg");
+            FileStream fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
+            image.CopyTo(fileStream, 100);
+            fileStream.Flush();
+            fileStream.Close();
+            image.Close();
+			*/
             // Dispose of the workbook object to release resources
             workbook.Dispose();
 

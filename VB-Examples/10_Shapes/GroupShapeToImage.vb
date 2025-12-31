@@ -1,5 +1,9 @@
 ﻿Imports Spire.Xls
+Imports System
+Imports System.Collections.Generic
+Imports System.Drawing
 Imports System.Drawing.Imaging
+Imports System.Windows.Forms
 
 Namespace GroupShapeToImage
 	Partial Public Class Form1
@@ -8,50 +12,50 @@ Namespace GroupShapeToImage
 			InitializeComponent()
 		End Sub
 
-		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-            ' Create a new instance of Workbook class
-            Dim workbook As New Workbook()
+		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs)
+			' Create a workbook
+			Dim workbook As New Workbook()
 
-            ' Load the Excel file from the specified path
-            workbook.LoadFromFile("..\..\..\..\..\..\Data\GroupShapeToImage.xlsx")
+			' Load an excel file
+			workbook.LoadFromFile("..\..\..\..\..\..\Data\GroupShapeToImage.xlsx")
 
-            ' Get the first worksheet from the workbook
-            Dim worksheet As Worksheet = workbook.Worksheets(0)
+			' Get the first worksheet
+			Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-            ' Create an instance of SaveShapeTypeOption class to specify saving options
-            Dim saveShapeTypeOption As New SaveShapeTypeOption()
+			' Save to image
+			Dim saveShapeTypeOption As New SaveShapeTypeOption()
+			saveShapeTypeOption.SaveGroupShape = True
+			Dim images As List(Of Bitmap) = worksheet.SaveShapesToImage(saveShapeTypeOption)
+			For i As Integer = 0 To images.Count - 1
+				Dim imageFile As String = String.Format("Image-{0}.png", i)
+				images(i).Save(imageFile, ImageFormat.Png)
+			Next i
 
-            ' Set the option to save group shapes
-            saveShapeTypeOption.SaveGroupShape = True
+			'////////////////Use the following code for netstandard dlls/////////////////////////
+'            
+'            List<SkiaSharp.SKBitmap> images = worksheet.SaveShapesToImage(saveShapeTypeOption);
+'            for (int i = 0; i < images.Count; i++)
+'            { 
+'                SkiaSharp.SKImage image = SkiaSharp.SKImage.FromBitmap(images[i]);
+'                String imageFile = string.Format("Image-{0}.png", i);
+'                FileStream fileStream = new FileStream(imageFile, FileMode.Create, FileAccess.Write);
+'                image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100).SaveTo(fileStream);
+'            }
+'            
 
-            ' Save the group shapes in the worksheet as images and get a list of Bitmap objects
-            Dim images As List(Of Bitmap) = worksheet.SaveShapesToImage(saveShapeTypeOption)
-
-            ' Iterate through the list of images
-            For i As Integer = 0 To images.Count - 1
-
-                ' Generate a unique image file name
-                Dim imageFile As String = String.Format("Image-{0}.png", i)
-
-                ' Save the image as PNG file
-                images(i).Save(imageFile, ImageFormat.Png)
-
-            Next i
-
-            ' Dispose the workbook object to release resources
-            workbook.Dispose()
-        End Sub
-		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
+			workbook.Dispose()
+		End Sub
+		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs)
 			Close()
 		End Sub
 
-		Private Sub Form1_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+		Private Sub Form1_Load(ByVal sender As Object, ByVal e As EventArgs)
 
 		End Sub
 
 		Private Sub FileViewer(ByVal fileName As String)
 			Try
-				Process.Start(fileName)
+				System.Diagnostics.Process.Start(fileName)
 			Catch
 			End Try
 		End Sub

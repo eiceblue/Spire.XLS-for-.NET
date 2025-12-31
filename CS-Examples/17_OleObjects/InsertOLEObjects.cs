@@ -31,6 +31,12 @@ namespace InsertOLEObjects
             // Insert an OLE object
             string xlsFile = @"..\..\..\..\..\..\Data\InsertOLEObjects.xls";
             Image image = GenerateImage(xlsFile);
+            
+            //////////////////Use the following code for netstandard dlls/////////////////////////
+            /*  
+            Stream image = GenerateImage(xlsFile);
+            */
+            
             IOleObject oleObject = ws.OleObjects.Add(xlsFile, image, OleLinkType.Embed);
             oleObject.Location = ws.Range["B4"];
             oleObject.ObjectType = OleObjectType.ExcelWorksheet;

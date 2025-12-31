@@ -1,6 +1,11 @@
 ﻿Imports Spire.Xls
+Imports System
+Imports System.Collections.Generic
 Imports System.ComponentModel
+Imports System.Data
+Imports System.Drawing
 Imports System.Text
+Imports System.Windows.Forms
 
 Namespace ImageHeaderFooter
 	Partial Public Class Form1
@@ -9,49 +14,56 @@ Namespace ImageHeaderFooter
 			InitializeComponent()
 		End Sub
 
-		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-            ' Create a new Workbook object
-            Dim workbook As New Workbook()
+		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs)
+			' Create a new workbook
+			Dim workbook As New Workbook()
 
-            ' Load the Excel file from a specified path
-            workbook.LoadFromFile("..\..\..\..\..\..\Data\ImageHeaderFooter.xlsx")
+			' Load a Workbook from disk
+			workbook.LoadFromFile("..\..\..\..\..\..\Data\ImageHeaderFooter.xlsx")
 
-            ' Get the first worksheet from the workbook
-            Dim sheet As Worksheet = workbook.Worksheets(0)
+			' Get the first sheet
+			Dim sheet As Worksheet = workbook.Worksheets(0)
 
-            ' Create an Image object from a specified image file
-            Dim image As Image = image.FromFile("..\..\..\..\..\..\Data\Logo.png")
+			' Load an image from disk
+			Dim image As Image = Image.FromFile("..\..\..\..\..\..\Data\Logo.png")
 
-            ' Set the left header image and text for the page setup
-            sheet.PageSetup.LeftHeaderImage = image
-            sheet.PageSetup.LeftHeader = "&G"
+			'////////////////Use the following code for netstandard dlls/////////////////////////
+'			
+'			SkiaSharp.SKBitmap image = SkiaSharp.SKBitmap.Decode((@"..\..\..\..\..\..\Data\Logo.png");
+'			
 
-            ' Set the center footer image and text for the page setup
-            sheet.PageSetup.CenterFooterImage = image
-            sheet.PageSetup.CenterFooter = "&G"
+			' Set the image header
+			sheet.PageSetup.LeftHeaderImage = image
+			sheet.PageSetup.LeftHeader = "&G"
 
-            ' Set the view mode of the sheet to Layout
-            sheet.ViewMode = ViewMode.Layout
+			' Set the image footer
+			sheet.PageSetup.CenterFooterImage = image
+			sheet.PageSetup.CenterFooter = "&G"
 
-            ' Specify the output file name
-            Dim result As String = "Output_ImageHeaderFooter.xlsx"
+			' Set the view mode of the sheet
+			sheet.ViewMode = ViewMode.Layout
 
-            ' Save the modified workbook to a specified path with Excel 2010 format
-            workbook.SaveToFile(result, ExcelVersion.Version2010)
+			' Specify the file name for the resulting Excel file
+			Dim result As String ="Output_ImageHeaderFooter.xlsx"
 
-            ' Release the resources used by the workbook
-            workbook.Dispose()
-            ExcelDocViewer(result)
+			' Save the workbook to the specified file in Excel 2013 format
+			workbook.SaveToFile(result, ExcelVersion.Version2010)
+
+			' Dispose of the workbook object to release resources
+			workbook.Dispose()
+
+			' Launch the file
+			ExcelDocViewer(result)
 		End Sub
 
 		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try
-				Process.Start(fileName)
+				System.Diagnostics.Process.Start(fileName)
 			Catch
 			End Try
 		End Sub
 
-		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
+		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs)
 			Close()
 		End Sub
 	End Class

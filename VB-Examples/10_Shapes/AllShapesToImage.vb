@@ -1,5 +1,9 @@
 ﻿Imports Spire.Xls
+Imports System
+Imports System.Collections.Generic
+Imports System.Drawing
 Imports System.Drawing.Imaging
+Imports System.Windows.Forms
 
 Namespace AllShapesToImage
 	Partial Public Class Form1
@@ -8,54 +12,58 @@ Namespace AllShapesToImage
 			InitializeComponent()
 		End Sub
 
-		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-            ' Create a new workbook object
-            Dim workbook As New Workbook()
+		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs)
+			'Create a workbook
+			Dim workbook As New Workbook()
 
-            ' Load the Excel file from the specified path
-            workbook.LoadFromFile("..\..\..\..\..\..\Data\Shape.xlsx")
+			'Load an excel file
+			workbook.LoadFromFile("..\..\..\..\..\..\Data\Shape.xlsx")
 
-            ' Get the first worksheet from the workbook
-            Dim worksheet As Worksheet = workbook.Worksheets(0)
+			'Get the first worksheet
+			Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-            ' Create an instance of SaveShapeTypeOption to specify saving options
-            Dim shapelist As New SaveShapeTypeOption()
-            shapelist.SaveAll = True
+			' Save all shape to images
+			Dim shapelist As New SaveShapeTypeOption()
+			shapelist.SaveAll = True
+			Dim images As List(Of Bitmap) = worksheet.SaveShapesToImage(shapelist)
+			Dim index As Integer = 0
 
-            ' Save the shapes in the worksheet as images and store them in a list
-            Dim images As List(Of Bitmap) = worksheet.SaveShapesToImage(shapelist)
+			' Save all images
+			For Each img As Image In images
+				Dim imageFileName As String = "Image_" & index & ".png"
+				img.Save(imageFileName, ImageFormat.Png)
+				index += 1
+			Next img
+			'////////////////Use the following code for netstandard dlls/////////////////////////
+'            
+'            List<SkiaSharp.SKBitmap> images = worksheet.SaveShapesToImage(shapelist);
+'            int index = 0;
+'            foreach (SkiaSharp.SKBitmap img in images)
+'            {      
+'                SkiaSharp.SKImage image = SkiaSharp.SKImage.FromBitmap(img);
+'                string filename = "Image_" + index + ".png";
+'                FileStream fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
+'                image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100).SaveTo(fileStream);
+'                index++;
+'            }
+'            
 
-            ' Initialize the index variable for naming the image files
-            Dim index As Integer = 0
-
-            ' Iterate through each image in the list
-            For Each img As Image In images
-                ' Generate a unique file name for each image
-                Dim imageFileName As String = "Image_" & index & ".png"
-
-                ' Save the image as a PNG file
-                img.Save(imageFileName, ImageFormat.Png)
-
-                ' Increment the index for the next image
-                index += 1
-            Next img
-
-            ' Dispose the workbook object
-            workbook.Dispose()
-        End Sub
+			' Dispose of the workbook object to release resources
+			workbook.Dispose()
+		End Sub
 
 		Private Sub OutputViewer(ByVal filename As String)
 			Try
-				Process.Start(filename)
+				System.Diagnostics.Process.Start(filename)
 			Catch
 			End Try
 		End Sub
 
-		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
+		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs)
 			Close()
 		End Sub
 
-		Private Sub Form1_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+		Private Sub Form1_Load(ByVal sender As Object, ByVal e As EventArgs)
 
 		End Sub
 	End Class

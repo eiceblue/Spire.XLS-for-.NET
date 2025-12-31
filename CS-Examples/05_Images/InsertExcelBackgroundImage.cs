@@ -34,6 +34,12 @@ namespace InsertExcelBackgroundImage
             //Set the image to be background image of the worksheet.
             sheet.PageSetup.BackgoundImage = bm;
 
+			//////////////////Use the following code for netstandard dlls/////////////////////////
+			/*
+			SkiaSharp.SKBitmap bm = SkiaSharp.SKBitmap.Decode(@"..\..\..\..\..\..\Data\Background.png");
+            sheet.PageSetup.BackgoundImage = bm;
+			*/
+			
             // Specify the resulting file name.
             String result = "Result-InsertExcelBackgroundImage.xlsx";
 

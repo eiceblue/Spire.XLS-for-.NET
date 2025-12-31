@@ -34,12 +34,17 @@ namespace CopyPicture
             // Get the first picture from the first worksheet
             ExcelPicture sourcePicture = sheet1.Pictures[0];
 
-            // Get the image from the picture
-            Image image = sourcePicture.Picture;
-
             // Add the image into the added worksheet at cell (2, 2)
+            destinationSheet.Pictures.Add(2, 2, sourcePicture.Picture);
+            
+            //////////////////Use the following code for netstandard dlls/////////////////////////
+            /*
+            //Get the image
+            SkiaSharp.SKBitmap image = sourcePicture.Picture;
+            //Add the image into the added worksheet 
             destinationSheet.Pictures.Add(2, 2, image);
-
+            */
+			
             // Specify the output file name
             string outputFile = "Output.xlsx";
 

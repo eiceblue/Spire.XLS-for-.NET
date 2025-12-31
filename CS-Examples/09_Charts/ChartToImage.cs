@@ -23,7 +23,18 @@ namespace ChartToImage
             //Save chart as image
             Image image= workbook.SaveChartAsImage(workbook.Worksheets[0], 0);
             image.Save("Output.png",ImageFormat.Png);
-
+            
+            //////////////////Use the following code for netstandard dlls/////////////////////////
+			/*
+            Stream image = workbook.SaveChartAsImage(workbook.Worksheets[0], 0);
+            string filename = String.Format("ChartToImage.png");
+            FileStream fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
+            image.CopyTo(fileStream, 100);
+            fileStream.Flush();
+            fileStream.Close();
+            image.Close();
+			*/
+			
             // Dispose of the workbook object to release resources
             workbook.Dispose();
 

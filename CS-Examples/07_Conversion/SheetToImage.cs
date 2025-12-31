@@ -29,6 +29,17 @@ namespace SheetToImage
 
             // Save to image
             sheet.ToImage(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn).Save("SheetToImage.png");
+            
+            //////////////////Use the following code for netstandard dlls/////////////////////////
+            /*
+            Stream image = sheet.ToImage(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn);
+            string filename = String.Format("SheetToImage.png");
+            FileStream fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
+            image.CopyTo(fileStream, 100);
+            fileStream.Flush();
+            fileStream.Close();
+            image.Close();
+            */
 
             // Dispose of the workbook object to release resources
             workbook.Dispose();

@@ -1,5 +1,8 @@
+Imports System
+Imports System.Drawing
 Imports System.Drawing.Imaging
 Imports System.IO
+Imports System.Windows.Forms
 
 Imports Spire.Xls
 
@@ -11,78 +14,67 @@ Namespace ToImageWithHighResolution
 			InitializeComponent()
 		End Sub
 
-		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRun.Click
-            ' Create a new instance of the Workbook class.
-            Dim workbook As New Workbook()
+		Private Sub btnRun_Click(ByVal sender As Object, ByVal e As EventArgs)
+			'Create a workbook
+			Dim workbook As New Workbook()
 
-            ' Load the Excel file from the specified path.
-            workbook.LoadFromFile("..\..\..\..\..\..\Data\ConversionSample1.xlsx")
+			'Load the document from disk
+			workbook.LoadFromFile("..\..\..\..\..\..\Data\ConversionSample1.xlsx")
 
-            ' Get the first worksheet from the workbook.
-            Dim worksheet As Worksheet = workbook.Worksheets(0)
+			'Get the worksheet you want to convert
+			Dim worksheet As Worksheet = workbook.Worksheets(0)
 
-            ' Use a MemoryStream to temporarily store the EMF (Enhanced Metafile) image data.
-            Using ms As New MemoryStream()
-                ' Convert the worksheet to an EMF stream starting from row 1, column 1 and ending at the last row and last column.
-                worksheet.ToEMFStream(ms, 1, 1, worksheet.LastRow, worksheet.LastColumn)
+			'Convert the worksheet to EMF stream
+			Using ms As New MemoryStream()
+				worksheet.ToEMFStream(ms, 1, 1, worksheet.LastRow, worksheet.LastColumn)
 
-                ' Create an Image object from the stream.
-                Dim image As Image = image.FromStream(ms)
+				'Create an image from the EMF stream
+				Dim image As Image = Image.FromStream(ms)
+				Dim images As Bitmap = ResetResolution(TryCast(image, Metafile), 300)
 
-                ' Reset the resolution of the image to 300 DPI (dots per inch).
-                Dim images As Bitmap = ResetResolution(TryCast(image, Metafile), 300)
+				'Save the image in JPG file format
+				Dim output As String = "ToImage.jpg"
+				images.Save(output, ImageFormat.Jpeg)
 
-                ' Specify the output file name for the JPEG image.
-                Dim output As String = "ToImage.jpg"
+				'Launch the Excel file
+				ExcelDocViewer(output)
+			End Using
 
-                ' Save the image as a JPEG file.
-                images.Save(output, ImageFormat.Jpeg)
-            End Using
-            ' Release the resources used by the workbook
-            workbook.Dispose()
+			'////////////////Use the following code for netstandard dlls/////////////////////////
+'            
+'            Stream image = worksheet.ToImage(1, 1, worksheet.LastRow, worksheet.LastColumn);
+'            string filename = String.Format("ToImage.jpg");
+'            FileStream fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
+'            image.CopyTo(fileStream, 100);
+'            fileStream.Flush();
+'            fileStream.Close();
+'            image.Close();
+'			
+			' Dispose of the workbook object to release resources
+			workbook.Dispose()
 
-        End Sub
+		End Sub
 
-        ' Function: ResetResolution
-        ' Description: Resizes a Metafile to a specified resolution and returns a Bitmap object.
-        ' Parameters:
-        '   - mf: The input Metafile that needs to be resized.
-        '   - resolution: The desired resolution for the output Bitmap.
-        ' Returns: A Bitmap object with the resized image.
-        Private Function ResetResolution(ByVal mf As Metafile, ByVal resolution As Single) As Bitmap
-            ' Calculate the width of the resized image based on the original width and resolution ratio.
-            Dim width As Integer = CInt(Fix(mf.Width * resolution / mf.HorizontalResolution))
+		'A custom function to reset the image resolution
+		Private Shared Function ResetResolution(ByVal mf As Metafile, ByVal resolution As Single) As Bitmap
+			Dim width As Integer = CInt(Fix(mf.Width * resolution / mf.HorizontalResolution))
+			Dim height As Integer = CInt(Fix(mf.Height * resolution / mf.VerticalResolution))
+			Dim bmp As New Bitmap(width, height)
+			bmp.SetResolution(resolution, resolution)
+			Dim g As Graphics = Graphics.FromImage(bmp)
+			g.DrawImage(mf, 0, 0)
+			g.Dispose()
+			Return bmp
+		End Function
 
-            ' Calculate the height of the resized image based on the original height and resolution ratio.
-            Dim height As Integer = CInt(Fix(mf.Height * resolution / mf.VerticalResolution))
-
-            ' Create a new Bitmap with the calculated width and height.
-            Dim bmp As New Bitmap(width, height)
-
-            ' Set the resolution of the Bitmap object to match the desired resolution.
-            bmp.SetResolution(resolution, resolution)
-
-            ' Create a Graphics object from the Bitmap.
-            Dim g As Graphics = Graphics.FromImage(bmp)
-
-            ' Draw the original Metafile onto the Graphics object at position (0, 0).
-            g.DrawImage(mf, 0, 0)
-
-            ' Dispose the Graphics object since it is no longer needed.
-            g.Dispose()
-
-            ' Return the resized Bitmap object.
-            Return bmp
-        End Function
-
-        Private Sub ExcelDocViewer(ByVal fileName As String)
+		Private Sub ExcelDocViewer(ByVal fileName As String)
 			Try
-				Process.Start(fileName)
+				System.Diagnostics.Process.Start(fileName)
 			Catch
 			End Try
 		End Sub
 
-		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
+		Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs)
 			Close()
 		End Sub
 
