@@ -11320,5 +11320,502 @@ slicers.Clear();
 
 ---
 
+# 02_Data - CopyCellRangeOptions
+## Demonstrates copying cell ranges with options such as Transpose and All.
+```csharp
+Workbook workbook = new Workbook();
+Worksheet sheet = workbook.Worksheets[0];
+CopyRangeOptions options = CopyRangeOptions.Transpose | CopyRangeOptions.All;
+sheet["A1:C4"].Copy(sheet["D2:G3"], options);
+sheet["A1:B5"].Copy(sheet["D5"], options);
+```
+
+---
+
+# 02_Data - CreateScenario
+## Demonstrates creating multiple scenarios in an Excel worksheet with different value sets for specified cell ranges.
+```csharp
+// Create a workbook and get the first worksheet
+Workbook wb = new Workbook();
+Worksheet worksheet = wb.Worksheets[0];
+
+// Access the scenarios collection
+XlsScenarioCollection scenarios = worksheet.Scenarios;
+
+// Define different value lists for scenarios
+List<object> currentChangePercentage_Values = new List<object> { 0.23, 0.8, 1.1, 0.5, 0.35, 0.2 };
+List<object> increasedChangePercentage_Values = new List<object> { 0.45, 0.56, 0.9, 0.5, 0.58, 0.43 };
+List<object> decreasedChangePercentage_Values = new List<object> { 0.3, 0.2, 0.5, 0.3, 0.5, 0.23 };
+List<object> currentQuantity_Values = new List<object> { 1500, 3000, 5000, 4000, 500, 4000 };
+List<object> increasedQuantity_Values = new List<object> { 1000, 5000, 4500, 3900, 10000, 8900 };
+List<object> decreasedQuantity_Values = new List<object> { 1000, 2000, 3000, 3000, 300, 4000 };
+
+// Add scenarios with different names, cell ranges, and value lists
+scenarios.Add("Current % of Change", worksheet.Range["E2:E7"], currentChangePercentage_Values);
+scenarios.Add("Increased % of Change", worksheet.Range["E2:E7"], increasedChangePercentage_Values);
+scenarios.Add("Decreased % of Change", worksheet.Range["E2:E7"], decreasedChangePercentage_Values);
+scenarios.Add("Current Quantity", worksheet.Range["D2:D7"], currentQuantity_Values);
+scenarios.Add("Increased Quantity", worksheet.Range["D2:D7"], increasedQuantity_Values);
+scenarios.Add("Decreased Quantity", worksheet.Range["D2:D7"], decreasedQuantity_Values);
+```
+
+---
+
+# 02_Data - CreateSummary
+## Creates a summary of scenarios in an Excel worksheet by adding multiple scenario values to specified cell ranges and generating a summary report.
+```csharp
+Workbook wb = new Workbook();
+Worksheet worksheet = wb.Worksheets[0];
+
+XlsScenarioCollection scenarios = worksheet.Scenarios;
+
+// Initialize lists with different scenario values
+List<object> currentChangePercentage_Values = new List<object> { 0.23, 0.8, 1.1, 0.5, 0.35, 0.2 };
+List<object> increasedChangePercentage_Values = new List<object> { 0.45, 0.56, 0.9, 0.5, 0.58, 0.43 };
+List<object> decreasedChangePercentage_Values = new List<object> { 0.3, 0.2, 0.5, 0.3, 0.5, 0.23 };
+List<object> currentQuantity_Values = new List<object> { 1500, 3000, 5000, 4000, 500, 4000 };
+List<object> increasedQuantity_Values = new List<object> { 1000, 5000, 4500, 3900, 10000, 8900 };
+List<object> decreasedQuantity_Values = new List<object> { 1000, 2000, 3000, 3000, 300, 4000 };
+
+// Add scenarios to the worksheet for the same cell ranges
+scenarios.Add("Current % of Change", worksheet.Range["E2:E7"], currentChangePercentage_Values);
+scenarios.Add("Increased % of Change", worksheet.Range["E2:E7"], increasedChangePercentage_Values);
+scenarios.Add("Decreased % of Change", worksheet.Range["E2:E7"], decreasedChangePercentage_Values);
+scenarios.Add("Current Quantity", worksheet.Range["D2:D7"], currentQuantity_Values);
+scenarios.Add("Increased Quantity", worksheet.Range["D2:D7"], increasedQuantity_Values);
+scenarios.Add("Decreased Quantity", worksheet.Range["D2:D7"], decreasedQuantity_Values);
+
+// Generate summary report starting at cell E8
+worksheet.Scenarios.Summary(worksheet.Range["E8"]);
+```
+
+---
+
+# 02_Data - DeleteScenario
+## Demonstrates how to delete scenarios from an Excel worksheet by index and by name.
+```csharp
+// Create a workbook and get the first worksheet
+Workbook wb = new Workbook();
+Worksheet worksheet = wb.Worksheets[0];
+
+// Access the collection of scenarios in the worksheet
+XlsScenarioCollection scenarios = worksheet.Scenarios;
+
+// Delete the scenario at index 0
+scenarios.RemoveScenarioAt(0);
+
+// Delete the scenario by name "two"
+scenarios.RemoveScenarioByName("two");
+```
+
+---
+
+# 02_Data - EditScenario
+## Modify variable cells and values of scenarios in a worksheet using Spire.Xls.
+```csharp
+// Assume worksheet is already defined as a Spire.Xls.Worksheet object
+Spire.Xls.XlsScenarioCollection scenarios = worksheet.Scenarios;
+Spire.Xls.XlsScenario scenario1 = scenarios[0];
+Spire.Xls.XlsScenario scenario2 = scenarios[1];
+
+scenario1.SetVariableCells(worksheet.Range["A2:A7"], scenario2.Values);
+Spire.Xls.CellRange sourceCell = worksheet.Range["B2:B7"];
+scenario2.SetVariableCells(sourceCell, scenario2.Values);
+
+scenario1.Show();
+scenario2.Show();
+```
+
+---
+
+# 02_Data - InsertEmbedCheckBox
+## Insert an embedded check box into a specified cell range and set its check state.
+```csharp
+Workbook workbook = new Workbook();
+Worksheet sheet = workbook.Worksheets[0];
+XlsRange range = sheet.Range["A1"];
+range.InsertEmbedCheckBox();
+range.SetEmbedCheckBoxCheckState(true);
+```
+
+---
+
+# 02_Data - MergeScenario
+## Merge scenarios from the second worksheet into the first worksheet.
+```csharp
+workbook.Worksheets[0].Scenarios.Merge(workbook.Worksheets[1]);
+```
+
+---
+
+# 05_Images - InsertBackgoundImageStream
+## Set an image stream as the background of a worksheet
+```csharp
+Workbook workbook = new Workbook();
+Worksheet sheet = workbook.Worksheets[0];
+Stream image = File.OpenRead(@"..\..\..\..\..\..\Data\Background.emf");
+sheet.PageSetup.BackgoundImageStream = image;
+```
+
+---
+
+# 07_Conversion - SpecificCellsToHtml
+## Convert specific cell range to HTML string representation from a worksheet.
+```csharp
+// Get the first worksheet in Excel file
+Worksheet sheet = workbook.Worksheets[0];
+
+// Get the specific cell range A1:E7 from the worksheet
+CellRange cell = sheet.Range["A1:E7"];
+
+// Extract the HTML representation of the selected cell range
+string html = cell.HtmlString;
+```
+
+---
+
+# 07_Conversion - ToJson
+## Converts an Excel file to JSON format.
+```csharp
+//Create a workbook
+Workbook workbook = new Workbook();
+//Load the document from disk
+workbook.LoadFromFile(@"..\..\..\..\..\..\Data\SampleB_2.xlsx");
+// Specify the output file name for the EXCEL result
+string result = "ToJson_out.json";
+//Save to json file
+workbook.SaveToFile(result, FileFormat.Json);
+// Dispose of the workbook object to release resources
+workbook.Dispose();
+```
+
+---
+
+# 07_Conversion - ToMarkdownExportOptions
+## Demonstrates converting an Excel workbook to Markdown format with configurable export options (save images in relative path and save hyperlinks as refs)
+
+```csharp
+// Create a new workbook
+Workbook workbook = new Workbook();
+
+// Load the document from disk
+workbook.LoadFromFile(@"..\..\..\..\..\..\Data\ToMarkdownExportOptions.xlsx");
+
+// Create export options for Markdown format
+MarkdownOptions options = new MarkdownOptions();
+
+// Set whether to save images with relative paths
+options.SavePicInRelativePath = true;
+
+// Set whether to save hyperlinks as Markdown reference format
+options.SaveHyperlinkAsRef = true;
+
+// Save the workbook as Markdown with the specified options
+string result = "ToMarkdownExportOptions_out.md";
+workbook.SaveToMarkdown(result, options);
+
+// Dispose of the workbook object to release resources
+workbook.Dispose();
+```
+
+---
+
+# 07_Conversion - ToPDFUA
+## Converts an Excel file to PDF/UA (PDF/UA-1 conformance) using Spire.XLS.
+```csharp
+Workbook workbook = new Workbook();
+workbook.LoadFromFile("input.xlsx");
+workbook.ConverterSetting.PdfConformanceLevel = Spire.Xls.Pdf.PdfConformanceLevel.Pdf_UA1;
+workbook.SaveToFile("output.pdf", FileFormat.PDF);
+workbook.Dispose();
+```
+
+---
+
+# 12_Formulas - BYROWAndBYCOLFunctions
+## Demonstrates using BYROW and BYCOL functions with LAMBDA to calculate row averages, column averages, and nested scenarios.
+```csharp
+// Create a new workbook
+Workbook workbook = new Workbook();
+// Get the first sheet
+Worksheet sheet = workbook.Worksheets[0];
+
+// Calculate average score for each row using BYROW function
+sheet.Range["G2"].Formula = "=BYROW(B2:F2, LAMBDA(row, AVERAGE(row)))";
+sheet.Range["G3"].Formula = "=BYROW(B3:F3, LAMBDA(row, AVERAGE(row)))";
+sheet.Range["G4"].Formula = "=BYROW(B4:F4, LAMBDA(row, AVERAGE(row)))";
+sheet.Range["G5"].Formula = "=BYROW(B5:F5, LAMBDA(row, AVERAGE(row)))";
+sheet.Range["G6"].Formula = "=BYROW(B6:F6, LAMBDA(row, AVERAGE(row)))";
+sheet.Range["G7"].Formula = "=BYROW(B7:F7, LAMBDA(row, AVERAGE(row)))";
+
+// Calculate average for each column using BYCOL function
+sheet.Range["B8"].Formula = "=BYCOL(B2:B7, LAMBDA(col, AVERAGE(col)))";
+sheet.Range["C8"].Formula = "=BYCOL(C2:C7, LAMBDA(col, AVERAGE(col)))";
+sheet.Range["D8"].Formula = "=BYCOL(D2:D7, LAMBDA(col, AVERAGE(col)))";
+sheet.Range["E8"].Formula = "=BYCOL(E2:E7, LAMBDA(col, AVERAGE(col)))";
+sheet.Range["F8"].Formula = "=BYCOL(F2:F7, LAMBDA(col, AVERAGE(col)))";
+sheet.Range["G8"].Formula = "=BYCOL(G2:G7, LAMBDA(col, AVERAGE(col)))";
+
+// Comprehensive Statistics section
+sheet.Range["I1"].Value = "Comprehensive Statistics";
+sheet.Range["I3"].Value = "Highest Average";
+sheet.Range["J3"].Formula = "=MAX(BYROW(G2:G7, LAMBDA(row, row)))";
+sheet.Range["I4"].Value = "Lowest Average";
+sheet.Range["J4"].Formula = "=MIN(BYROW(G2:G7, LAMBDA(row, row)))";
+sheet.Range["I5"].Value = "Overall Subject Average";
+sheet.Range["J5"].Formula = "=BYCOL(B2:F7, LAMBDA(col, AVERAGE(col)))";
+
+// Nested scenario: BYROW with BYCOL
+sheet.Range["I7"].Formula = "=BYROW(B2:E7, LAMBDA(row, SUM(BYCOL(row, LAMBDA(col, col*2)))))";
+
+// Recalculate all formulas
+sheet.CalculateAllValue();
+```
+
+---
+
+# 12_Formulas - ExportEquations
+## Export equations from a worksheet to MathML and LaTeX formats
+```csharp
+Worksheet sheet = workbook.Worksheets[0];
+string mathML = sheet.Equations[0].ExportMathML();
+string LaTex = sheet.Equations[0].ExportLaTex();
+sheet.Range["B9"].Value = "mathML:";
+sheet.Range["B10"].Value = mathML;
+sheet.Range["B12"].Value = "LaTeX:";
+sheet.Range["B13"].Value = LaTex;
+```
+
+---
+
+# 12_Formulas - LETAndMAPFunctions
+## Demonstrates using LET and MAP functions in Excel formulas with Spire.Xls
+```csharp
+// Create a new workbook
+Workbook workbook = new Workbook();
+
+// Get the first sheet from the workbook
+Worksheet sheet = workbook.Worksheets[0];
+
+// Set number values for cells
+sheet.Range["A2"].NumberValue = 1;
+sheet.Range["A3"].NumberValue = 2;
+sheet.Range["A4"].NumberValue = 3;
+sheet.Range["B2"].NumberValue = 11;
+sheet.Range["B3"].NumberValue = 12;
+sheet.Range["B4"].NumberValue = 13;
+
+// Use the LET function
+sheet.Range["C1"].Text = "out";
+sheet.Range["C2"].Formula = "=LET(x, 5, y, 10, x + y)";
+sheet.Range["C3"].Formula = "=LET(a, 1, b, 2, c, 3, d, 4, a+b+c+d)";
+sheet.Range["C4"].Formula = "=LET(outer, LET(inner, 5, inner*2), outer+10)";
+
+// Use the MAP function
+sheet.Range["C2"].Formula = "=MAP(A2:A4, LAMBDA(x, x*2))";
+sheet.Range["D2"].Formula = "=MAP(A2:A4,LAMBDA(x,x*10+1))";
+sheet.Range["A8"].Formula = "=MAP(A2:B4,C2:D4,LAMBDA(x,y,SUM(x,y)))";
+
+// Recalculate all formulas to ensure values are up to date
+sheet.CalculateAllValue();
+```
+
+---
+
+# 12_Formulas - PDURATIONFunction
+## Demonstrates the use of the PDURATION function to calculate the number of periods required for an investment to reach a target future value.
+
+```csharp
+//Create workbook
+Workbook workbook = new Workbook();
+Worksheet sheet = workbook.Worksheets[0];
+
+//Set headers
+sheet.Range["A1"].Text = "Financial Calculation";
+sheet.Range["A2"].Text = "Annual Interest Rate";
+sheet.Range["A3"].Text = "Present Value (PV)";
+sheet.Range["A4"].Text = "Future Value (FV)";
+sheet.Range["A5"].Text = "Required Periods (Years)";
+
+//Set input values
+sheet.Range["B2"].Text = "2.5%";
+sheet.Range["B3"].Text = "2000";
+sheet.Range["B4"].Text = "2200";
+
+//Apply PDURATION formula (2.5% rate, PV=2000, FV=2200)
+sheet.Range["B5"].Formula = "=PDURATION(2.5%,2000,2200)";
+
+//Format cells
+sheet.Range["B2"].Style.NumberFormat = "0.00%";
+sheet.Range["B3:B4"].Style.NumberFormat = "#,##0";
+sheet.Range["B5"].Style.NumberFormat = "0.00";
+
+//Auto fit columns
+sheet.AllocatedRange.AutoFitColumns();
+```
+
+---
+
+# 12_Formulas - XMATCHFunction
+## Demonstrates how to use the XMATCH function in a worksheet formula.
+```csharp
+// Create a new workbook
+Workbook workbook = new Workbook();
+
+// Get the first worksheet
+Worksheet sheet = workbook.Worksheets[0];
+
+// Set the formula for cell C4 to use XMATCH function
+sheet.Range["C4"].Formula = "=XMATCH(\"Lili\", A2:A5)";
+
+// Calculate all cells
+workbook.CalculateAllValue();
+```
+
+---
+
+# 24_Workbook - ChangeVBAMacroProject
+## Demonstrates how to modify VBA macro project properties (password, name, description, help file, conditional compilation, lock project view) and modify a VBA module (name, source code, type) using Spire.XLS.
+
+```csharp
+// Create a workbook
+Workbook wb = new Workbook();
+
+// Get the VBA project
+IVbaProject vbaProject = wb.VbaProject;
+
+// Modify VBA project properties
+vbaProject.Password = "1234";
+vbaProject.Name = "modify";
+vbaProject.Description = "Description";
+vbaProject.HelpFileName = "image1.png";
+vbaProject.ConditionalCompilation = "DEBUG = 2";
+vbaProject.LockProjectView = true;
+
+// Get the first worksheet (assuming it exists)
+Worksheet ws = wb.Worksheets[0];
+
+// Get the module associated with the worksheet and modify it
+IVbaModule mod = vbaProject.Modules.GetWorksheetModule(ws);
+mod.Name = "IVbaModule";
+mod.SourceCode = "Dim lRow As Long";
+mod.Type = VbaModuleType.Module;
+```
+
+---
+
+# 24_Workbook - CreateExcelWithVBAMacro
+## Creates an Excel workbook with a VBA macro that populates sample data and formats cells.
+```csharp
+// Create a workbook
+Workbook workbook = new Workbook();
+
+// Add VBA project to the document
+IVbaProject vbaProject = workbook.VbaProject;
+vbaProject.Name = "SampleVBAMacro";
+
+// Set code page to 936 (Simplified Chinese support)
+vbaProject.CodePage = 936;
+
+// Add a new VBA module to the project
+IVbaModule vbaModule = vbaProject.Modules.Add("SampleModule", VbaModuleType.Module);
+vbaModule.SourceCode = @"
+    Sub ExampleMacro()
+         ' Declare variables
+        Dim ws As Worksheet
+        Dim i As Integer
+        ' Set reference to the active worksheet
+        Set ws = ActiveSheet 
+         ' Clear worksheet contents (optional)
+        ws.Cells.Clear
+        ' Populate sample data
+        With ws
+            ' Write header row
+            .Range(""A1: C1"").Value = Array(""No."", ""Project Name"", ""Amount"")
+            ' Loop to populate 10 rows of data
+            For i = 1 To 10
+                .Cells(i + 1, 1).Value = i           ' Serial number column
+                .Cells(i + 1, 2).Value = ""Project "" & i   ' Project name column
+                .Cells(i + 1, 3).Value = i * 100     ' Amount column (sample calculation)
+            Next i
+             ' Auto-fit column widths
+            .Columns(""A:C"").AutoFit
+            ' Format header row
+            With.Range(""A1:C1"")
+                .Font.Bold = True
+                .Interior.Color = RGB(200, 220, 255) 
+            End With
+            ' Format amount column as currency
+            .Range(""C2:C11"").NumberFormat = ""$#,##0.00""
+        End With
+        ' Display completion message
+        MsgBox ""Data population complete!"", vbInformation, ""Operation Prompt""
+    End Sub";
+
+// Save the workbook as Excel 97-2003 format (required for macro support)
+workbook.SaveToFile("CreateExcelWithVbaMacro_out.xls", FileFormat.Version97to2003);
+```
+
+---
+
+# 24_Workbook - ExtractVBAProjectInfo
+## Extract VBA project information from an Excel file and save it to a text file, then clear the VBA modules and save a new workbook without macros.
+```csharp
+// Create a workbook
+Workbook wb = new Workbook();
+
+// Load the file from disk
+wb.LoadFromFile(@"..\..\..\..\..\..\Data\ExcelWithVbaMacroProject.xls");
+
+// Get the first worksheet
+Worksheet ws = wb.Worksheets[0];
+IVbaProject vbaProject = wb.VbaProject;
+
+// Build the VBA project information string
+string text = "IsProtected：" + vbaProject.IsProtected + "\n";
+text += "Name：" + vbaProject.Name + "\n";
+text += "Description：" + vbaProject.Description + "\n";
+text += "LockProjectView：" + vbaProject.LockProjectView + "\n";
+text += "CodePage：" + vbaProject.CodePage + "\n";
+
+// Loop through all VBA modules (including standard modules and worksheet modules)
+foreach (IVbaModule module in vbaProject.Modules)
+{
+    text += "\n--- Module ---\n";
+    text += "Name：" + module.Name + "\n";
+    text += "Type：" + module.Type.ToString() + "\n";
+    text += "SourceCode：\n" + (string.IsNullOrEmpty(module.SourceCode) ? "(No SourceCode)" : module.SourceCode) + "\n";
+}
+
+File.WriteAllText("ExtracrVBAMacroProjectInfo.txt", text.ToString());
+
+// Clear all VBA modules from the project
+vbaProject.Modules.Clear();
+
+// Save the modified workbook (without macros) to a new file
+String result = "ExtracrVBAMacroProjectInfo.xls";
+wb.SaveToFile(result);
+```
+
+---
+
+# 24_Workbook - RemoveVBAMacroProject
+## Removes a specified VBA module from a workbook's VBA project.
+```csharp
+// Create a workbook
+Workbook wb = new Workbook();
+
+// Get the VBA project from the workbook
+IVbaProject vbaProject = wb.VbaProject;
+
+// Remove a specific module by its name
+vbaProject.Modules.Remove("SampleModule");
+
+// Alternatively, remove a module at the specified index
+// vbaProject.Modules.RemoveAt(0);
+```
+
+---
+
 
 
