@@ -11818,4 +11818,34 @@ vbaProject.Modules.Remove("SampleModule");
 ---
 
 
+# SkipHeaderLengthCheck - SkipHeaderLengthCheck
+## Disables header/footer length validation and exports a worksheet with an overlong header to PDF.
+```csharp
+private void btnRun_Click(object sender, EventArgs e)
+{
+    // Initialize a new Workbook instance
+    Workbook workbook = new Workbook();
+
+    // Get the first worksheet in the workbook
+    Worksheet worksheet = workbook.Worksheets[0];
+
+    // Disable the validation for header/footer length to bypass limit checks
+    workbook.ConverterSetting.ValidateHeaderFooterLength = false;
+
+    // Define a very long string to intentionally exceed the default header length limit
+    string fullLine = "══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
+
+    // Set the long string as the left header content
+    worksheet.PageSetup.LeftHeader = fullLine;
+
+    // Export the worksheet to a PDF file
+    worksheet.SaveToPdf("SkipHeaderLengthCheck.pdf");
+
+    // Dispose of the workbook to release resources
+    workbook.Dispose();
+}
+```
+
+---
+
 
